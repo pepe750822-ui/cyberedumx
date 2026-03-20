@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio IPN/UNAM</title>
+    <style>
+        /* Estilos anteriores se mantienen igual */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --dark-color: #34495e;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Panel de materias */
+        .subjects-panel {
+            flex: 0 0 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .subjects-panel h2 {
+            color: var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        .subject-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .subject-item:hover {
+            background-color: #eef5ff;
+            transform: translateX(5px);
+        }
+
+        .subject-item.active {
+            background-color: #e3f2fd;
+            border-left-color: var(--secondary-color);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .subject-name {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .subject-stats {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Panel de contenido */
+        .content-panel {
+            flex: 1;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            min-height: 80vh;
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        .subject-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .subject-progress {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Subíndices */
+        .subindices-container {
+            margin-bottom: 30px;
+        }
+
+        .subindex-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subindex-header:hover {
+            background-color: #eef5ff;
+        }
+
+        .subindex-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .subindex-toggle {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .questions-container {
+            display: none;
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .questions-container.active {
+            display: block;
+        }
+
+        /* Preguntas */
+        .question-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background-color: #eef5ff;
+            border-color: #d1e3ff;
+        }
+
+        .option.selected {
+            border-color: var(--secondary-color);
+            background-color: #e3f2fd;
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background-color: #e8f8ef;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background-color: #fdeaea;
+        }
+
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: #e0e0e0;
+            border-radius: 50%;
+            margin-right: 15px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-letter {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .option.correct .option-letter {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .option.incorrect .option-letter {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 1rem;
+        }
+
+        /* Retroalimentación */
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .feedback.active {
+            display: block;
+        }
+
+        .feedback.correct {
+            background-color: #e8f8ef;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .feedback.incorrect {
+            background-color: #fdeaea;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .feedback-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feedback-text {
+            font-size: 0.95rem;
+        }
+
+        /* Pie de página */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .subjects-panel {
+                position: static;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .subject-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        /* Botón de reinicio */
+        .reset-button {
+            background-color: var(--warning-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .reset-button:hover {
+            background-color: #e67e22;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">IPN</div>
+            <div class="logo">UNAM</div>
+        </div>
+        <h1>Guía de Preparación para el Examen de Educación Media Superior</h1>
+        <p class="subtitle">Material de estudio organizado por materias y subíndices con preguntas de práctica y retroalimentación</p>
+    </header>
+
+    <div class="container">
+        <!-- Panel de materias -->
+        <div class="subjects-panel">
+            <h2>Materias</h2>
+            <div id="subjects-list">
+                <!-- Las materias se cargarán dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Panel de contenido -->
+        <div class="content-panel">
+            <div class="subject-header">
+                <h2 class="subject-title" id="current-subject">Selecciona una materia</h2>
+                <div class="subject-progress" id="progress">0/0 preguntas</div>
+            </div>
+
+            <div id="subindices-container">
+                <p>Selecciona una materia del panel izquierdo para comenzar a estudiar.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>Guía de estudio para el examen de ingreso a Educación Media Superior (IPN/UNAM)</p>
+            <p>© 2023 - Material educativo para fines de preparación académica</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Inicio</a>
+                <a href="#" class="footer-link">Método de estudio</a>
+                <a href="#" class="footer-link">Recursos adicionales</a>
+                <a href="#" class="footer-link">Acerca de</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Base de datos de materias y preguntas (5 preguntas por subíndice con respuestas randomizadas)
+        const studyData = {
+            "Habilidad Verbal": {
+                description: "Evalúa la comprensión de textos y vocabulario",
+                subindices: {
+                    "1.1 Reconocer información explícita": [
+                        {
+                            question: "En un texto sobre el cambio climático, ¿qué causa explícita se menciona para el aumento de temperaturas?",
+                            options: [
+                                "b) Lluvias",
+                                "a) Emisiones de CO2",
+                                "d) Nubes",
+                                "c) Vientos"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es 'Emisiones de CO2'. En textos sobre cambio climático, las emisiones de dióxido de carbono se mencionan explícitamente como la principal causa antropogénica del calentamiento global."
+                        },
+                        {
+                            question: "¿Qué animal se describe explícitamente como endémico de México en un texto sobre biodiversidad?",
+                            options: [
+                                "c) Canguro",
+                                "a) Jaguar",
+                                "d) Panda",
+                                "b) Elefante"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es 'Jaguar'. En textos sobre biodiversidad mexicana, el jaguar es frecuentemente mencionado como una especie endémica o representativa de México."
+                        },
+                        {
+                            question: "En un relato histórico, ¿qué año se indica explícitamente para la independencia de México?",
+                            options: [
+                                "b) 1492",
+                                "d) 2000",
+                                "a) 1810",
+                                "c) 1917"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es '1810'. La Independencia de México comenzó el 16 de septiembre de 1810, fecha que se menciona explícitamente en textos históricos."
+                        },
+                        {
+                            question: "¿Qué elemento químico se nombra explícitamente en un texto sobre fotosíntesis?",
+                            options: [
+                                "d) Nitrógeno",
+                                "c) Hidrógeno",
+                                "b) Oxígeno",
+                                "a) Clorofila"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Clorofila'. La clorofila es el pigmento principal en la fotosíntesis y se menciona explícitamente en textos sobre este proceso."
+                        },
+                        {
+                            question: "En un artículo sobre salud, ¿qué vitamina se menciona explícitamente para la visión?",
+                            options: [
+                                "c) Vitamina D",
+                                "b) Vitamina C",
+                                "d) Vitamina K",
+                                "a) Vitamina A"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Vitamina A'. Esta vitamina es esencial para la salud visual y se menciona explícitamente en textos sobre nutrición y visión."
+                        }
+                    ],
+                    "1.2 Inferir hechos": [
+                        {
+                            question: "En un texto sobre evolución, se menciona variación y supervivencia; ¿qué se infiere sobre Darwin?",
+                            options: [
+                                "d) Ninguno",
+                                "a) Selección natural",
+                                "c) Lamarckismo",
+                                "b) Creacionismo"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es 'Selección natural'. La mención de variación y supervivencia nos permite inferir que se habla de la teoría de la selección natural de Darwin."
+                        },
+                        {
+                            question: "Un texto describe contaminación y enfermedades; ¿qué se infiere sobre salud pública?",
+                            options: [
+                                "c) Solo animales",
+                                "b) No afecta",
+                                "a) Necesidad de prevención",
+                                "d) Mejora"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es 'Necesidad de prevención'. La relación entre contaminación y enfermedades nos permite inferir la necesidad de medidas preventivas en salud pública."
+                        },
+                        {
+                            question: "En un relato de migración, se habla de pobreza en origen; ¿qué se infiere sobre causas?",
+                            options: [
+                                "c) Política",
+                                "b) Clima",
+                                "a) Económicas",
+                                "d) Cultural"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es 'Económicas'. La mención de pobreza como contexto permite inferir que las causas de la migración son principalmente económicas."
+                        },
+                        {
+                            question: "Texto sobre fotosíntesis menciona luz y clorofila; ¿qué se infiere sobre plantas?",
+                            options: [
+                                "d) Parásitas",
+                                "c) Carnívoras",
+                                "b) Heterótrofas",
+                                "a) Autótrofas"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Autótrofas'. La mención de luz y clorofila permite inferir que las plantas son organismos autótrofos que producen su propio alimento."
+                        },
+                        {
+                            question: "En historia, se describe colonización y resistencia; ¿qué se infiere sobre impacto?",
+                            options: [
+                                "d) Ninguno",
+                                "b) Paz total",
+                                "c) Destrucción completa",
+                                "a) Cultural mixto"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Cultural mixto'. La descripción de colonización y resistencia permite inferir un impacto cultural mixto con elementos de imposición y adaptación."
+                        }
+                    ]
+                }
+            },
+            "Habilidad Matemática": {
+                description: "Sección sobre razonamiento lógico matemático",
+                subindices: {
+                    "1. Sucesiones numéricas": [
+                        {
+                            question: "Siguiente en la sucesión: 1, 2, 4, 8:",
+                            options: [
+                                "b) 12",
+                                "d) 6",
+                                "c) 10",
+                                "a) 16"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es '16'. Es una progresión geométrica donde cada término se duplica: 1×2=2, 2×2=4, 4×2=8, 8×2=16."
+                        },
+                        {
+                            question: "Siguiente en la sucesión: 3, 6, 9, 12:",
+                            options: [
+                                "d) 24",
+                                "c) 21",
+                                "b) 18",
+                                "a) 15"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es '15'. Es una progresión aritmética con diferencia constante de 3: 3+3=6, 6+3=9, 9+3=12, 12+3=15."
+                        },
+                        {
+                            question: "Siguiente en la sucesión: 5, 10, 20, 40:",
+                            options: [
+                                "d) 70",
+                                "c) 50",
+                                "b) 60",
+                                "a) 80"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es '80'. Cada término se duplica: 5×2=10, 10×2=20, 20×2=40, 40×2=80."
+                        },
+                        {
+                            question: "Siguiente en la sucesión: 1, 4, 9, 16:",
+                            options: [
+                                "d) 22",
+                                "a) 25",
+                                "c) 18",
+                                "b) 20"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es '25'. Son cuadrados perfectos: 1²=1, 2²=4, 3²=9, 4²=16, 5²=25."
+                        },
+                        {
+                            question: "Siguiente en la sucesión: 2, 4, 6, 8:",
+                            options: [
+                                "b) 12",
+                                "c) 14",
+                                "a) 10",
+                                "d) 16"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es '10'. Es una progresión aritmética de números pares con diferencia 2: 2+2=4, 4+2=6, 6+2=8, 8+2=10."
+                        }
+                    ],
+                    "2. Series espaciales": [
+                        {
+                            question: "Serie de figuras: cuadrado rotado 90°, agregada línea. ¿Siguiente figura?",
+                            options: [
+                                "c) Sin línea",
+                                "b) Igual",
+                                "a) Rotado más",
+                                "d) Ninguno"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es 'Rotado más'. El patrón muestra una rotación de 90° en cada paso y la adición de una línea."
+                        },
+                        {
+                            question: "Serie de triángulos aumentando lados: triángulo, cuadrado, ¿siguiente?",
+                            options: [
+                                "d) Línea",
+                                "c) Círculo",
+                                "b) Cuadrado",
+                                "a) Pentágono"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Pentágono'. El patrón muestra figuras con un lado más en cada paso: triángulo (3), cuadrado (4), pentágono (5)."
+                        },
+                        {
+                            question: "Flechas girando clockwise: derecha, abajo, izquierda, ¿siguiente?",
+                            options: [
+                                "d) Diagonal",
+                                "c) Derecha",
+                                "b) Abajo",
+                                "a) Arriba"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Arriba'. Las flechas giran 90° en sentido horario cada vez."
+                        },
+                        {
+                            question: "Figuras reflejadas: ¿siguiente reflexión?",
+                            options: [
+                                "d) Rotado",
+                                "a) Espejo horizontal",
+                                "c) Ninguno",
+                                "b) Vertical"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es 'Espejo horizontal'. El patrón alterna entre reflexiones horizontales y verticales."
+                        },
+                        {
+                            question: "Círculos con puntos añadiendo: 1, 2, 3, 4 puntos, ¿siguiente?",
+                            options: [
+                                "d) 6 puntos",
+                                "c) 3 puntos",
+                                "b) 4 puntos",
+                                "a) 5 puntos"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es '5 puntos'. El patrón muestra un incremento de un punto en cada figura."
+                        }
+                    ]
+                }
+            },
+            "Ciencias I (Biología)": {
+                description: "Enfocado en vida, evolución, energía, salud, reproducción y genética",
+                subindices: {
+                    "1.1 Características comunes de los seres vivos": [
+                        {
+                            question: "¿Cuál es una característica común de todos los seres vivos?",
+                            options: [
+                                "d) Fotosíntesis",
+                                "c) Nadar",
+                                "b) Volar",
+                                "a) Reproducción"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Reproducción'. Todos los seres vivos tienen la capacidad de reproducirse, mientras que las otras opciones son características de grupos específicos."
+                        },
+                        {
+                            question: "¿Qué incluye la homeostasis?",
+                            options: [
+                                "c) No regular",
+                                "b) Cambiar externo",
+                                "d) Ninguno",
+                                "a) Mantener equilibrio interno"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Mantener equilibrio interno'. La homeostasis es la capacidad de los seres vivos de mantener constantes sus condiciones internas."
+                        },
+                        {
+                            question: "¿Respuesta a estímulos es?",
+                            options: [
+                                "d) Ninguno",
+                                "c) Solo plantas",
+                                "b) Solo animales",
+                                "a) Universal"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Universal'. Todos los seres vivos responden a estímulos del medio ambiente, aunque de diferentes maneras."
+                        },
+                        {
+                            question: "¿Metabolismo es?",
+                            options: [
+                                "d) Tamaño",
+                                "c) Color",
+                                "b) Movimiento",
+                                "a) Procesos químicos"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Procesos químicos'. El metabolismo incluye todos los procesos químicos que ocurren en un organismo para mantener la vida."
+                        },
+                        {
+                            question: "¿Crecimiento es característica?",
+                            options: [
+                                "d) Solo plantas",
+                                "c) Solo humanos",
+                                "b) No",
+                                "a) Si"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Si'. El crecimiento es una característica universal de los seres vivos."
+                        }
+                    ],
+                    "1.2 Aportaciones de Darwin para explicar la evolución": [
+                        {
+                            question: "¿Cuál es la principal aportación de Darwin a la biología?",
+                            options: [
+                                "b) Herencia adquirida",
+                                "d) Ninguno",
+                                "c) Creación",
+                                "a) Selección natural"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Selección natural'. Charles Darwin propuso la teoría de la selección natural como mecanismo principal de la evolución."
+                        },
+                        {
+                            question: "¿Libro de Darwin?",
+                            options: [
+                                "d) Ninguno",
+                                "c) Física",
+                                "b) Biblia",
+                                "a) Origen de las especies"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Origen de las especies'. Esta es la obra principal de Darwin donde presenta su teoría de la evolución."
+                        },
+                        {
+                            question: "¿Variación es aportación?",
+                            options: [
+                                "d) Ninguno",
+                                "c) Lamarck",
+                                "b) No",
+                                "a) Sí"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Sí'. Darwin destacó la variación entre individuos como base para la selección natural."
+                        },
+                        {
+                            question: "¿Lucha por supervivencia?",
+                            options: [
+                                "d) Ninguno",
+                                "a) Darwin",
+                                "c) Ambos",
+                                "b) Malthus"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es 'Ambos'. Darwin se inspiró en las ideas de Malthus sobre la lucha por la existencia."
+                        },
+                        {
+                            question: "¿Galápagos influyeron?",
+                            options: [
+                                "d) Ninguno",
+                                "c) Solo Inglaterra",
+                                "b) No",
+                                "a) Sí"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Sí'. Las observaciones de Darwin en las Islas Galápagos fueron cruciales para desarrollar su teoría."
+                        }
+                    ]
+                }
+            },
+            "Ciencias II (Física)": {
+                description: "Enfoque en movimiento, fuerzas, materia y estructura interna",
+                subindices: {
+                    "1.1 Conceptos de velocidad y rapidez": [
+                        {
+                            question: "La rapidez es:",
+                            options: [
+                                "d) Fuerza",
+                                "c) Aceleración",
+                                "b) Escalar",
+                                "a) Vectorial"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es 'Escalar'. La rapidez es una magnitud escalar que solo tiene magnitud, mientras que la velocidad es vectorial (tiene magnitud y dirección)."
+                        },
+                        {
+                            question: "Velocidad incluye:",
+                            options: [
+                                "d) Masa",
+                                "c) Tiempo solo",
+                                "b) Solo distancia",
+                                "a) Dirección"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Dirección'. La velocidad es una magnitud vectorial que incluye dirección y sentido, además de magnitud."
+                        },
+                        {
+                            question: "Unidad de velocidad:",
+                            options: [
+                                "d) J",
+                                "c) N",
+                                "b) kg",
+                                "a) m/s"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'm/s'. La velocidad se mide en metros por segundo en el Sistema Internacional."
+                        },
+                        {
+                            question: "Rapidez media:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Ambos",
+                                "b) Desplazamiento/tiempo",
+                                "a) Distancia/total tiempo"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Distancia/total tiempo'. La rapidez media considera la distancia total recorrida, no el desplazamiento."
+                        },
+                        {
+                            question: "Ejemplo de velocidad:",
+                            options: [
+                                "d) 60 s",
+                                "c) 60 km",
+                                "b) 60 km/h",
+                                "a) 60 km/h norte"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es '60 km/h norte'. Esta expresión incluye magnitud (60 km/h) y dirección (norte), por lo que es velocidad."
+                        }
+                    ],
+                    "1.2 Tipos de movimientos de los objetos en gráficas de posición-tiempo": [
+                        {
+                            question: "Gráfica posición-tiempo recta horizontal indica:",
+                            options: [
+                                "d) Circular",
+                                "c) MRUA",
+                                "b) MRU",
+                                "a) Reposo"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Reposo'. Una línea horizontal en una gráfica posición-tiempo indica que la posición no cambia con el tiempo, es decir, reposo."
+                        },
+                        {
+                            question: "Línea recta inclinada positiva en gráfica posición-tiempo indica:",
+                            options: [
+                                "d) Acelera",
+                                "c) Retrocede",
+                                "b) Reposo",
+                                "a) MRU hacia adelante"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'MRU hacia adelante'. Una línea recta inclinada positiva indica movimiento rectilíneo uniforme con velocidad constante positiva."
+                        },
+                        {
+                            question: "Curva parabólica hacia arriba en gráfica posición-tiempo indica:",
+                            options: [
+                                "d) Negativo",
+                                "c) Reposo",
+                                "b) MRU",
+                                "a) MRUA acelerado positivo"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'MRUA acelerado positivo'. Una parábola hacia arriba indica movimiento rectilíneo uniformemente acelerado con aceleración positiva."
+                        },
+                        {
+                            question: "Línea recta inclinada negativa indica:",
+                            options: [
+                                "d) Circular",
+                                "c) Reposo",
+                                "b) Acelerado",
+                                "a) MRU hacia atrás"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'MRU hacia atrás'. Una línea recta con pendiente negativa indica movimiento rectilíneo uniforme con velocidad constante negativa."
+                        },
+                        {
+                            question: "Curva parabólica hacia abajo indica:",
+                            options: [
+                                "d) Reposo",
+                                "c) Constante",
+                                "b) Acelerado",
+                                "a) MRUA decelerado"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'MRUA decelerado'. Una parábola hacia abajo indica movimiento rectilíneo uniformemente acelerado con aceleración negativa (deceleración)."
+                        }
+                    ]
+                }
+            },
+            "Geografía": {
+                description: "Combina componentes naturales, sociales y económicos del espacio",
+                subindices: {
+                    "1.1 Componentes naturales, sociales y económicos": [
+                        {
+                            question: "¿Cuál es un componente natural del espacio geográfico?",
+                            options: [
+                                "d) Fábricas",
+                                "c) Carreteras",
+                                "b) Ciudades",
+                                "a) Ríos, montañas, climas"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Ríos, montañas, climas'. Los componentes naturales son los elementos físicos del paisaje, no creados por el ser humano."
+                        },
+                        {
+                            question: "Componente social:",
+                            options: [
+                                "d) Ríos",
+                                "c) Bosques",
+                                "b) Minerales",
+                                "a) Población, culturas"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Población, culturas'. Los componentes sociales se refieren a las características humanas y culturales."
+                        },
+                        {
+                            question: "Componente económico:",
+                            options: [
+                                "d) Vegetación",
+                                "c) Relieve",
+                                "b) Clima",
+                                "a) Agricultura, industria"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Agricultura, industria'. Los componentes económicos incluyen actividades productivas y de intercambio."
+                        },
+                        {
+                            question: "Espacio geográfico:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Solo humano",
+                                "b) Solo natural",
+                                "a) Interacción natural-social-económico"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Interacción natural-social-económico'. El espacio geográfico es el resultado de la interacción de estos tres componentes."
+                        },
+                        {
+                            question: "Ejemplo México:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Solo turismo",
+                                "b) Solo selvas",
+                                "a) Selvas (natural), indígenas (social), turismo (económico)"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Selvas (natural), indígenas (social), turismo (económico)'. México presenta ejemplos claros de los tres componentes geográficos."
+                        }
+                    ],
+                    "1.2 Categorías de análisis del espacio geográfico": [
+                        {
+                            question: "¿Qué es una región en geografía?",
+                            options: [
+                                "d) Ninguno",
+                                "c) Todo planeta",
+                                "b) Punto específico",
+                                "a) Área con características comunes"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Área con características comunes'. Una región es un área geográfica con características homogéneas que la distinguen de áreas vecinas."
+                        },
+                        {
+                            question: "El paisaje geográfico se refiere a:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Subterráneo",
+                                "b) Solo natural",
+                                "a) Vista perceptible (natural/cultural)"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Vista perceptible (natural/cultural)'. El paisaje es la parte visible y tangible del espacio geográfico."
+                        },
+                        {
+                            question: "El territorio se define como:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Paisaje",
+                                "b) Natural puro",
+                                "a) Espacio controlado políticamente"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Espacio controlado políticamente'. El territorio implica apropiación, control y delimitación por parte de un grupo social o estado."
+                        },
+                        {
+                            question: "Ejemplo de región natural en México:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Frontera",
+                                "b) CDMX",
+                                "a) Desierto Sonora"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Desierto Sonora'. Es una región natural definida por características climáticas y de vegetación específicas."
+                        },
+                        {
+                            question: "El lugar en geografía se refiere a:",
+                            options: [
+                                "d) Ninguno",
+                                "c) Abstracto",
+                                "b) Grande",
+                                "a) Espacio con significado personal/social"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Espacio con significado personal/social'. El lugar implica identificación emocional, cultural o histórica con un espacio específico."
+                        }
+                    ]
+                }
+            },
+            "Historia": {
+                description: "Estudio del pasado humano, culturas y civilizaciones",
+                subindices: {
+                    "1.1 Culturas prehispánicas de México": [
+                        {
+                            question: "¿Cuál fue la civilización prehispánica que construyó Teotihuacán?",
+                            options: [
+                                "d) Tolteca",
+                                "c) Maya",
+                                "b) Azteca",
+                                "a) Teotihuacana"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Teotihuacana'. La cultura teotihuacana fue la que construyó y habitó la ciudad de Teotihuacán entre los siglos I y VIII d.C."
+                        },
+                        {
+                            question: "Los aztecas fundaron su capital en:",
+                            options: [
+                                "d) Monte Albán",
+                                "c) Chichén Itzá",
+                                "b) Palenque",
+                                "a) Tenochtitlán"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Tenochtitlán'. Los aztecas fundaron su capital en Tenochtitlán en 1325 d.C., en lo que hoy es la Ciudad de México."
+                        },
+                        {
+                            question: "¿Qué civilización desarrolló un sistema de escritura jeroglífica en Mesoamérica?",
+                            options: [
+                                "d) Olmeca",
+                                "c) Zapoteca",
+                                "b) Teotihuacana",
+                                "a) Maya"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Maya'. Los mayas desarrollaron un complejo sistema de escritura jeroglífica que ha sido parcialmente descifrado."
+                        },
+                        {
+                            question: "Los olmecas son conocidos como:",
+                            options: [
+                                "d) Última cultura",
+                                "c) Cultura del norte",
+                                "b) Cultura del desierto",
+                                "a) Cultura madre"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Cultura madre'. Los olmecas (1200-400 a.C.) son considerados la cultura madre de Mesoamérica por influir en las civilizaciones posteriores."
+                        },
+                        {
+                            question: "La cultura zapoteca se desarrolló principalmente en:",
+                            options: [
+                                "d) Yucatán",
+                                "c) Centro de México",
+                                "b) Norte de México",
+                                "a) Oaxaca"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Oaxaca'. La cultura zapoteca se desarrolló en el valle de Oaxaca, con Monte Albán como su centro principal."
+                        }
+                    ],
+                    "1.2 Conquista y colonización de México": [
+                        {
+                            question: "¿En qué año llegó Hernán Cortés a las costas de México?",
+                            options: [
+                                "d) 1540",
+                                "c) 1521",
+                                "b) 1519",
+                                "a) 1492"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es '1519'. Hernán Cortés llegó a las costas de México en 1519, iniciando el proceso de conquista del Imperio Azteca."
+                        },
+                        {
+                            question: "La caída de Tenochtitlán ocurrió en:",
+                            options: [
+                                "d) 1535",
+                                "c) 1521",
+                                "b) 1520",
+                                "a) 1519"
+                            ],
+                            correctAnswer: 2,
+                            feedback: "La respuesta correcta es '1521'. Tenochtitlán, capital azteca, cayó el 13 de agosto de 1521 después de un sitio de varios meses."
+                        },
+                        {
+                            question: "El primer virrey de la Nueva España fue:",
+                            options: [
+                                "d) Hernán Cortés",
+                                "c) Nuño de Guzmán",
+                                "b) Antonio de Mendoza",
+                                "a) Cristóbal Colón"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es 'Antonio de Mendoza'. Fue el primer virrey de la Nueva España, gobernando de 1535 a 1550."
+                        },
+                        {
+                            question: "El sistema de encomienda consistía en:",
+                            options: [
+                                "d) Educación indígena",
+                                "c) Evangelización",
+                                "b) Tributo indígena",
+                                "a) Trabajo indígena a cambio de protección"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Trabajo indígena a cambio de protección'. Los encomenderos recibían indígenas para trabajar a cambio de protección y evangelización."
+                        },
+                        {
+                            question: "La evangelización en la Nueva España fue principalmente realizada por:",
+                            options: [
+                                "d) Jesuitas",
+                                "c) Agustinos",
+                                "b) Dominicos",
+                                "a) Franciscanos"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Franciscanos'. Fueron la primera orden religiosa en llegar a la Nueva España y tuvieron un papel fundamental en la evangelización."
+                        }
+                    ]
+                }
+            },
+            "Ciencias III (Química)": {
+                description: "Estudio de la materia, sus propiedades y transformaciones",
+                subindices: {
+                    "1.1 Estructura atómica": [
+                        {
+                            question: "¿Qué partícula subatómica tiene carga positiva?",
+                            options: [
+                                "d) Neutrón",
+                                "c) Electrón",
+                                "b) Protón",
+                                "a) Núcleo"
+                            ],
+                            correctAnswer: 1,
+                            feedback: "La respuesta correcta es 'Protón'. Los protones tienen carga positiva y se encuentran en el núcleo atómico."
+                        },
+                        {
+                            question: "El número atómico de un elemento indica:",
+                            options: [
+                                "d) Masa total",
+                                "c) Neutrones",
+                                "b) Electrones",
+                                "a) Protones"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Protones'. El número atómico (Z) indica el número de protones en el núcleo, que define el elemento."
+                        },
+                        {
+                            question: "Los isótopos de un elemento difieren en:",
+                            options: [
+                                "d) Electrones",
+                                "c) Protones",
+                                "b) Masa atómica",
+                                "a) Número de neutrones"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Número de neutrones'. Los isótopos son átomos del mismo elemento con diferente número de neutrones."
+                        },
+                        {
+                            question: "La masa atómica se mide en:",
+                            options: [
+                                "d) Newtons",
+                                "c) Julios",
+                                "b) Gramos",
+                                "a) Unidades de masa atómica"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Unidades de masa atómica'. La masa atómica se expresa en uma (unidades de masa atómica), donde 1 uma = 1/12 de la masa del carbono-12."
+                        },
+                        {
+                            question: "El modelo atómico actual se conoce como:",
+                            options: [
+                                "d) Modelo planetario",
+                                "c) Modelo de Dalton",
+                                "b) Modelo de Bohr",
+                                "a) Modelo de nube electrónica"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Modelo de nube electrónica'. El modelo actual describe los electrones como una nube de probabilidad alrededor del núcleo."
+                        }
+                    ],
+                    "1.2 Tabla periódica y propiedades periódicas": [
+                        {
+                            question: "Los elementos en la tabla periódica están ordenados por:",
+                            options: [
+                                "d) Densidad",
+                                "c) Masa atómica",
+                                "b) Radio atómico",
+                                "a) Número atómico"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Número atómico'. Los elementos están ordenados en orden creciente de número atómico (número de protones)."
+                        },
+                        {
+                            question: "Los metales se caracterizan por:",
+                            options: [
+                                "d) Ser aislantes",
+                                "c) Ser quebradizos",
+                                "b) Ser malos conductores",
+                                "a) Ser buenos conductores"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Ser buenos conductores'. Los metales son buenos conductores de calor y electricidad."
+                        },
+                        {
+                            question: "Los elementos del grupo 18 se llaman:",
+                            options: [
+                                "d) Halógenos",
+                                "c) Metales alcalinos",
+                                "b) Metales alcalinotérreos",
+                                "a) Gases nobles"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Gases nobles'. Son elementos químicamente inertes con su capa de valencia completa."
+                        },
+                        {
+                            question: "La electronegatividad en la tabla periódica aumenta:",
+                            options: [
+                                "d) De izquierda a derecha y de abajo hacia arriba",
+                                "c) De derecha a izquierda",
+                                "b) De arriba hacia abajo",
+                                "a) De izquierda a derecha"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'De izquierda a derecha y de abajo hacia arriba'. La electronegatividad aumenta hacia la derecha y hacia arriba en la tabla periódica."
+                        },
+                        {
+                            question: "Los elementos del grupo 1 se llaman:",
+                            options: [
+                                "d) Gases nobles",
+                                "c) Halógenos",
+                                "b) Metales alcalinotérreos",
+                                "a) Metales alcalinos"
+                            ],
+                            correctAnswer: 3,
+                            feedback: "La respuesta correcta es 'Metales alcalinos'. Son metales muy reactivos que forman iones con carga +1."
+                        }
+                    ]
+                }
+            }
+        };
+
+        // Estado de la aplicación
+        let currentSubject = null;
+        let currentSubindex = null;
+        let userAnswers = {};
+        let openedSubindices = {};
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubjects();
+            setupEventListeners();
+        });
+
+        // Cargar la lista de materias
+        function loadSubjects() {
+            const subjectsList = document.getElementById('subjects-list');
+            subjectsList.innerHTML = '';
+            
+            Object.keys(studyData).forEach((subjectName, index) => {
+                const subject = studyData[subjectName];
+                const totalQuestions = countQuestionsInSubject(subject);
+                
+                const subjectItem = document.createElement('div');
+                subjectItem.className = 'subject-item';
+                if (index === 0) {
+                    subjectItem.classList.add('active');
+                    currentSubject = subjectName;
+                }
+                
+                subjectItem.innerHTML = `
+                    <div class="subject-name">${subjectName}</div>
+                    <div class="subject-stats">
+                        <span>${Object.keys(subject.subindices).length} subíndices</span>
+                        <span>${totalQuestions} preguntas</span>
+                    </div>
+                `;
+                
+                subjectItem.addEventListener('click', () => {
+                    // Remover clase activa de todos los items
+                    document.querySelectorAll('.subject-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Añadir clase activa al item clickeado
+                    subjectItem.classList.add('active');
+                    
+                    // Cargar la materia seleccionada
+                    loadSubject(subjectName);
+                });
+                
+                subjectsList.appendChild(subjectItem);
+            });
+            
+            // Cargar la primera materia por defecto
+            if (Object.keys(studyData).length > 0) {
+                loadSubject(Object.keys(studyData)[0]);
+            }
+        }
+
+        // Contar preguntas en una materia
+        function countQuestionsInSubject(subject) {
+            let total = 0;
+            Object.values(subject.subindices).forEach(subindex => {
+                total += subindex.length;
+            });
+            return total;
+        }
+
+        // Cargar una materia específica
+        function loadSubject(subjectName) {
+            currentSubject = subjectName;
+            currentSubindex = null;
+            userAnswers = {};
+            
+            const subject = studyData[subjectName];
+            document.getElementById('current-subject').textContent = subjectName;
+            
+            // Actualizar progreso
+            updateProgress();
+            
+            // Cargar subíndices
+            loadSubindices(subjectName);
+        }
+
+        // Cargar los subíndices de una materia
+        function loadSubindices(subjectName) {
+            const container = document.getElementById('subindices-container');
+            const subject = studyData[subjectName];
+            
+            container.innerHTML = `
+                <p class="subject-description">${subject.description}</p>
+                <button class="reset-button" id="reset-subject">Reiniciar respuestas</button>
+                <div class="subindices-container" id="subindices-list"></div>
+            `;
+            
+            // Añadir evento al botón de reinicio
+            document.getElementById('reset-subject').addEventListener('click', () => {
+                resetSubjectAnswers(subjectName);
+            });
+            
+            const subindicesList = document.getElementById('subindices-list');
+            
+            Object.keys(subject.subindices).forEach((subindexName, index) => {
+                currentSubindex = subindexName;
+                const subindex = subject.subindices[subindexName];
+                
+                const subindexElement = document.createElement('div');
+                subindexElement.className = 'subindex-item';
+                
+                subindexElement.innerHTML = `
+                    <div class="subindex-header" data-subindex="${subindexName}">
+                        <div class="subindex-title">${subindexName}</div>
+                        <div class="subindex-toggle">+</div>
+                    </div>
+                    <div class="questions-container" id="questions-${index}">
+                        <!-- Las preguntas se cargarán aquí -->
+                    </div>
+                `;
+                
+                subindicesList.appendChild(subindexElement);
+                
+                // Añadir evento para expandir/contraer subíndice
+                const header = subindexElement.querySelector('.subindex-header');
+                header.addEventListener('click', () => {
+                    toggleSubindex(subindexName, index);
+                });
+                
+                // Inicializar preguntas si el subíndice estaba abierto antes
+                if (openedSubindices[subindexName]) {
+                    loadQuestions(subindexName, index);
+                    const questionsContainer = document.getElementById(`questions-${index}`);
+                    questionsContainer.classList.add('active');
+                    subindexElement.querySelector('.subindex-toggle').textContent = '−';
+                }
+            });
+        }
+
+        // Alternar la visualización de un subíndice
+        function toggleSubindex(subindexName, index) {
+            const questionsContainer = document.getElementById(`questions-${index}`);
+            const toggleButton = document.querySelector(`[data-subindex="${subindexName}"] .subindex-toggle`);
+            
+            if (questionsContainer.classList.contains('active')) {
+                questionsContainer.classList.remove('active');
+                toggleButton.textContent = '+';
+                openedSubindices[subindexName] = false;
+            } else {
+                // Cargar preguntas si no están cargadas
+                if (questionsContainer.innerHTML.trim() === '') {
+                    loadQuestions(subindexName, index);
+                }
+                
+                questionsContainer.classList.add('active');
+                toggleButton.textContent = '−';
+                openedSubindices[subindexName] = true;
+            }
+        }
+
+        // Cargar preguntas de un subíndice
+        function loadQuestions(subindexName, index) {
+            const questionsContainer = document.getElementById(`questions-${index}`);
+            const questions = studyData[currentSubject].subindices[subindexName];
+            
+            questionsContainer.innerHTML = '';
+            
+            questions.forEach((question, qIndex) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.id = `question-${index}-${qIndex}`;
+                
+                // Determinar si el usuario ya respondió esta pregunta
+                const questionId = `${currentSubject}-${subindexName}-${qIndex}`;
+                const userAnswer = userAnswers[questionId];
+                const isCorrect = userAnswer !== undefined && userAnswer === question.correctAnswer;
+                
+                questionCard.innerHTML = `
+                    <div class="question-text">${qIndex + 1}. ${question.question}</div>
+                    <div class="options-container" id="options-${index}-${qIndex}">
+                        ${question.options.map((option, optIndex) => `
+                            <div class="option ${userAnswer === optIndex ? (isCorrect ? 'correct' : 'incorrect selected') : ''} ${userAnswer !== undefined && optIndex === question.correctAnswer ? 'correct' : ''}" 
+                                 data-option="${optIndex}" data-question="${index}-${qIndex}">
+                                <div class="option-letter">${String.fromCharCode(97 + optIndex)}</div>
+                                <div class="option-text">${option}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${userAnswer !== undefined ? `
+                        <div class="feedback ${isCorrect ? 'correct' : 'incorrect'} active">
+                            <div class="feedback-title">
+                                ${isCorrect ? '✓ Correcto' : '✗ Incorrecto'}
+                            </div>
+                            <div class="feedback-text">${question.feedback}</div>
+                        </div>
+                    ` : ''}
+                `;
+                
+                questionsContainer.appendChild(questionCard);
+                
+                // Añadir eventos a las opciones si no se ha respondido
+                if (userAnswer === undefined) {
+                    const options = questionCard.querySelectorAll('.option');
+                    options.forEach(option => {
+                        option.addEventListener('click', function() {
+                            const questionId = this.getAttribute('data-question');
+                            const selectedOption = parseInt(this.getAttribute('data-option'));
+                            selectOption(questionId, selectedOption, question.correctAnswer);
+                        });
+                    });
+                }
+            });
+        }
+
+        // Seleccionar una opción de respuesta
+        function selectOption(questionId, selectedOption, correctAnswer) {
+            const [subindexIndex, questionIndex] = questionId.split('-').map(Number);
+            const questionCard = document.getElementById(`question-${subindexIndex}-${questionIndex}`);
+            const options = questionCard.querySelectorAll('.option');
+            const fullQuestionId = `${currentSubject}-${currentSubindex}-${questionIndex}`;
+            
+            // Marcar la respuesta del usuario
+            userAnswers[fullQuestionId] = selectedOption;
+            
+            // Actualizar la interfaz
+            options.forEach((option, index) => {
+                option.classList.remove('selected');
+                
+                if (index === selectedOption) {
+                    option.classList.add('selected');
+                    
+                    if (index === correctAnswer) {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('incorrect');
+                    }
+                }
+                
+                if (index === correctAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            // Mostrar retroalimentación
+            const feedback = questionCard.querySelector('.feedback') || document.createElement('div');
+            feedback.className = `feedback ${selectedOption === correctAnswer ? 'correct' : 'incorrect'} active`;
+            feedback.innerHTML = `
+                <div class="feedback-title">
+                    ${selectedOption === correctAnswer ? '✓ Correcto' : '✗ Incorrecto'}
+                </div>
+                <div class="feedback-text">${studyData[currentSubject].subindices[currentSubindex][questionIndex].feedback}</div>
+            `;
+            
+            if (!questionCard.querySelector('.feedback')) {
+                questionCard.appendChild(feedback);
+            }
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Actualizar el indicador de progreso
+        function updateProgress() {
+            if (!currentSubject) return;
+            
+            const subject = studyData[currentSubject];
+            let totalQuestions = 0;
+            let answeredQuestions = 0;
+            
+            Object.keys(subject.subindices).forEach(subindexName => {
+                const questions = subject.subindices[subindexName];
+                totalQuestions += questions.length;
+                
+                questions.forEach((_, index) => {
+                    const questionId = `${currentSubject}-${subindexName}-${index}`;
+                    if (userAnswers[questionId] !== undefined) {
+                        answeredQuestions++;
+                    }
+                });
+            });
+            
+            document.getElementById('progress').textContent = `${answeredQuestions}/${totalQuestions} preguntas`;
+        }
+
+        // Reiniciar respuestas de una materia
+        function resetSubjectAnswers(subjectName) {
+            // Eliminar solo las respuestas de esta materia
+            Object.keys(userAnswers).forEach(key => {
+                if (key.startsWith(subjectName)) {
+                    delete userAnswers[key];
+                }
+            });
+            
+            // Recargar la materia
+            loadSubject(subjectName);
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Event listeners ya están configurados en las funciones anteriores
+        }
+    </script>
+</body>
+</html>

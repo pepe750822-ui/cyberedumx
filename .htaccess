@@ -1,0 +1,127 @@
+# =====================================================
+# .htaccess para CyberEduMX.com - VERSIÓN CORREGIDA
+# =====================================================
+
+# Activar motor de reescritura
+RewriteEngine On
+RewriteBase /
+
+# =========== REDIRECCIONES PRINCIPALES ===========
+
+# 1. Redirigir HTTP a HTTPS (SSL obligatorio)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# 2. Redirigir www a non-www (mejor para SEO)
+RewriteCond %{HTTP_HOST} ^www\.cyberedumx\.com [NC]
+RewriteRule ^(.*)$ https://cyberedumx.com/$1 [R=301,L]
+
+# =========== REDIRECCIONES 301 PARA ELIMINAR DUPLICADOS ===========
+
+# 3. Redirigir ecoems2026.php a URL amigable (301 PERMANENTE)
+RewriteCond %{THE_REQUEST} /ecoems2026\.php[\s?] [NC]
+RewriteRule ^ecoems2026\.php$ /curso/ecoems-2026-estrategia-inteligente [R=301,L,NE]
+
+# 4. Redirigir ingles.html a URL amigable (301 PERMANENTE)
+RewriteCond %{THE_REQUEST} /ingles\.html[\s?] [NC]
+RewriteRule ^ingles\.html$ /curso/ingles [R=301,L,NE]
+
+# 5. Redirigir simulador_completo.php a URL amigable
+RewriteCond %{THE_REQUEST} /ecoems2026/simuladores/simulador_completo\.php[\s?] [NC]
+RewriteRule ^ecoems2026/simuladores/simulador_completo\.php$ /simulador-ecoems-completo [R=301,L,NE]
+
+# 6. Redirigir preguntas-frecuentes-ecoems.html a URL amigable
+RewriteCond %{THE_REQUEST} /preguntas-frecuentes-ecoems\.html[\s?] [NC]
+RewriteRule ^preguntas-frecuentes-ecoems\.html$ /preguntas-frecuentes-ecoems [R=301,L,NE]
+
+# =========== URLs AMIGABLES (REESCRITURA INTERNA) ===========
+
+# 7. URL amigable para ECOEMS 2026
+RewriteRule ^curso/ecoems-2026-estrategia-inteligente/?$ ecoems2026.php [L,NC]
+
+# 8. URL amigable para curso de inglés
+RewriteRule ^curso/ingles/?$ ingles.html [L,NC]
+
+# 9. URL amigable para simulador ECOEMS
+RewriteRule ^simulador-ecoems-completo/?$ ecoems2026/simuladores/simulador_completo.php [L,NC]
+
+# 10. URL amigable para preguntas frecuentes
+RewriteRule ^preguntas-frecuentes-ecoems/?$ preguntas-frecuentes-ecoems.html [L,NC]
+
+# 11. URL para página principal de cursos
+RewriteRule ^cursos/?$ index.html#cursos [L,NC,NE]
+
+# =========== URLs AMIGABLES PARA VIDEOS ECOEMS ===========
+
+# 10. URL para videos individuales (opcional)
+RewriteRule ^curso/ecoems-2026/video-([0-9]+)-([a-z0-9-]+)/?$ ecoems2026.php?id=$1 [L,NC,QSA]
+
+# 11. URL para filtrar por materia
+RewriteRule ^curso/ecoems-2026/(matematicas|biologia|fisica|quimica|historia|espanol|geografia|formacion-civica|habilidad-verbal|habilidad-matematica|estrategia|repaso)/?$ ecoems2026.php?materia=$1 [L,NC,QSA]
+
+# =========== SEGURIDAD ===========
+
+# 12. Proteger archivos sensibles
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|env|config)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# 13. No listar directorios
+Options -Indexes
+
+# 14. Proteger contra hotlinking (opcional)
+# RewriteCond %{HTTP_REFERER} !^$
+# RewriteCond %{HTTP_REFERER} !^https://cyberedumx\.com/.*$ [NC]
+# RewriteRule \.(jpg|jpeg|png|gif|webp|pdf)$ - [F,NC]
+
+# =========== OPTIMIZACIÓN DE VELOCIDAD ===========
+
+# 15. Compresión GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml
+    AddOutputFilterByType DEFLATE text/css text/javascript application/javascript
+    AddOutputFilterByType DEFLATE application/json application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# 16. Cache en navegador
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# =========== REDIRECCIÓN DE ERRORES ===========
+
+# 17. Páginas de error personalizadas
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+ErrorDocument 403 /403.html
+
+# =========== CONFIGURACIONES ADICIONALES ===========
+
+# 18. Forzar UTF-8
+AddDefaultCharset utf-8
+
+# 19. Headers de seguridad
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header unset Server
+    Header unset X-Powered-By
+</IfModule>
+
+# 20. Deshabilitar firma del servidor
+ServerSignature Off

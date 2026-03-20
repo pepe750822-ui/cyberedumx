@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilidad Verbal - 10 PREGUNTAS VISIBLES | CyberEduMX</title>
+    <link rel="stylesheet" href="../cyber-style.css">
+    <link rel="stylesheet" href="../questions-style-fixed.css"> <!-- Nuevo CSS corregido -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos adicionales específicos para esta página */
+        .materia-page {
+            margin-top: 100px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .header-completo {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(45deg, rgba(0, 243, 255, 0.1), rgba(157, 0, 255, 0.1));
+            border-radius: 15px;
+            border: 2px solid var(--color-habilidad-verbal);
+        }
+        
+        .titulo-principal {
+            font-family: var(--font-tech);
+            font-size: 2.5rem;
+            color: var(--color-habilidad-verbal);
+            margin-bottom: 10px;
+        }
+        
+        .subtitulo {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            margin-bottom: 20px;
+        }
+        
+        .indicador-10-preguntas {
+            display: inline-block;
+            background: var(--color-habilidad-verbal);
+            color: #000;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-family: var(--font-tech);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        .stats-bar-fixed {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid var(--color-habilidad-verbal);
+        }
+        
+        .stat-item-fixed {
+            text-align: center;
+        }
+        
+        .stat-number-fixed {
+            font-family: var(--font-tech);
+            font-size: 2.5rem;
+            color: var(--color-habilidad-verbal);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label-fixed {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Navegación mejorada */
+        .subindices-nav-fixed {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        
+        .btn-subindice-fixed {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--color-habilidad-verbal);
+            color: var(--color-habilidad-verbal);
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-family: var(--font-tech);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            text-align: center;
+            flex: 1;
+            min-width: 180px;
+        }
+        
+        .btn-subindice-fixed:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+        }
+        
+        .btn-subindice-fixed.active {
+            background: var(--color-habilidad-verbal);
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+        
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-action {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--color-habilidad-verbal);
+            color: var(--color-habilidad-verbal);
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-family: var(--font-tech);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+        }
+        
+        .btn-action:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .btn-action.primary {
+            background: var(--color-habilidad-verbal);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        /* Mensaje de bienvenida */
+        .welcome-message {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--color-habilidad-verbal);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            animation: fadeIn 1s;
+        }
+        
+        .welcome-message h3 {
+            color: var(--color-habilidad-verbal);
+            font-family: var(--font-tech);
+            margin-bottom: 15px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="cyber-header">
+        <div class="container">
+            <div class="cyber-brand">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-cyber">
+                        <span class="logo-text">CYBER</span>
+                        <span class="logo-glow">EDU</span>
+                        <span class="logo-year">2026</span>
+                    </div>
+                </a>
+                <div class="logo-subtitle">
+                    <span class="ecoems-tag">HABILIDAD VERBAL - TODAS LAS PREGUNTAS VISIBLES</span>
+                    <span class="status-tag active">
+                        <i class="fas fa-eye"></i> 10 PREGUNTAS/SUBÍNDICE
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container materia-page">
+        <!-- Encabezado principal -->
+        <div class="header-completo">
+            <h1 class="titulo-principal">
+                <i class="fas fa-language"></i> HABILIDAD VERBAL
+            </h1>
+            <p class="subtitulo">Sistema de práctica con 10 preguntas completas por cada subíndice</p>
+            <div class="indicador-10-preguntas">
+                <i class="fas fa-list-ol"></i> 10 PREGUNTAS COMPLETAS
+            </div>
+        </div>
+        
+        <!-- Mensaje de bienvenida -->
+        <div class="welcome-message">
+            <h3><i class="fas fa-info-circle"></i> ¡TODAS LAS PREGUNTAS VISIBLES!</h3>
+            <p>Ahora puedes ver las <strong>10 preguntas completas de cada subíndice</strong> en una sola página.<br>
+            Desplázate hacia abajo para ver todas las preguntas y respóndelas en cualquier orden.</p>
+        </div>
+        
+        <!-- Estadísticas en tiempo real -->
+        <div class="stats-bar-fixed">
+            <div class="stat-item-fixed">
+                <span class="stat-number-fixed stat-resueltas">0</span>
+                <span class="stat-label-fixed">Preguntas Resueltas</span>
+            </div>
+            <div class="stat-item-fixed">
+                <span class="stat-number-fixed stat-correctas">0</span>
+                <span class="stat-label-fixed">Respuestas Correctas</span>
+            </div>
+            <div class="stat-item-fixed">
+                <span class="stat-number-fixed stat-eficiencia">0%</span>
+                <span class="stat-label-fixed">Eficiencia</span>
+            </div>
+            <div class="stat-item-fixed">
+                <span class="stat-number-fixed" id="preguntas-restantes">10</span>
+                <span class="stat-label-fixed">Preguntas Restantes</span>
+            </div>
+        </div>
+        
+        <!-- Navegación entre subíndices -->
+        <div class="subindices-nav-fixed">
+            <button class="btn-subindice-fixed active" data-subindice="1.1" onclick="cargarSubindice('1.1')">
+                <i class="fas fa-1"></i> 1.1 Información Explícita
+            </button>
+            <button class="btn-subindice-fixed" data-subindice="1.2" onclick="cargarSubindice('1.2')">
+                <i class="fas fa-2"></i> 1.2 Inferir Hechos
+            </button>
+            <button class="btn-subindice-fixed" data-subindice="1.3" onclick="cargarSubindice('1.3')">
+                <i class="fas fa-3"></i> 1.3 Identificar Resumen
+            </button>
+            <button class="btn-subindice-fixed" data-subindice="1.4" onclick="cargarSubindice('1.4')">
+                <i class="fas fa-4"></i> 1.4 Cuadro Sinóptico
+            </button>
+            <button class="btn-subindice-fixed" data-subindice="1.5" onclick="cargarSubindice('1.5')">
+                <i class="fas fa-5"></i> 1.5 Conclusión
+            </button>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div class="action-buttons">
+            <button class="btn-action" onclick="mostrarTodasExplicaciones()">
+                <i class="fas fa-book-open"></i> Mostrar Todas las Explicaciones
+            </button>
+            <button class="btn-action" onclick="ocultarTodasExplicaciones()">
+                <i class="fas fa-eye-slash"></i> Ocultar Explicaciones
+            </button>
+            <button class="btn-action primary" onclick="reiniciarSubindiceActual()">
+                <i class="fas fa-redo"></i> Reiniciar Subíndice Actual
+            </button>
+            <button class="btn-action" onclick="marcarTodasComoCorrectas()">
+                <i class="fas fa-check-double"></i> Ver Respuestas Correctas
+            </button>
+        </div>
+        
+        <!-- CONTENEDOR DE LAS 10 PREGUNTAS -->
+        <div id="questions-container">
+            <!-- Las 10 preguntas se cargarán aquí -->
+            <div class="loading-message">
+                <div class="cyber-loader-large">
+                    <div class="loader-circle"></div>
+                    <p>Cargando las 10 preguntas del subíndice 1.1...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mensaje final -->
+        <div class="completion-message-global" id="completion-message" style="display: none;">
+            <div class="completion-content-global">
+                <h3><i class="fas fa-trophy"></i> ¡SUBÍNDICE COMPLETADO!</h3>
+                <p>Has respondido las 10 preguntas de este subíndice.</p>
+                <button class="btn-action primary" onclick="siguienteSubindice()">
+                    <i class="fas fa-arrow-right"></i> Ir al Siguiente Subíndice
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navegación principal -->
+        <div class="main-navigation-fixed">
+            <a href="../index.html" class="btn-action">
+                <i class="fas fa-arrow-left"></i> Volver al Dashboard
+            </a>
+            <button class="btn-action" onclick="imprimirSubindice()">
+                <i class="fas fa-print"></i> Imprimir Preguntas
+            </button>
+            <a href="2-habilidad-matematica.html" class="btn-action primary">
+                Siguiente Materia <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../questions-system-fixed.js"></script>
+    <script>
+        // Variables globales
+        let currentSubindice = '1.1';
+        
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar primer subíndice
+            cargarSubindice('1.1');
+            
+            // Efecto de escritura
+            typeWriterEffect();
+            
+            // Configurar intervalo para actualizar estadísticas
+            setInterval(actualizarEstadisticas, 1000);
+        });
+        
+        function cargarSubindice(subindiceId) {
+            currentSubindice = subindiceId;
+            
+            // Actualizar botones activos
+            document.querySelectorAll('.btn-subindice-fixed').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-subindice') === subindiceId) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Mostrar mensaje de carga
+            const container = document.getElementById('questions-container');
+            container.innerHTML = `
+                <div class="loading-message">
+                    <div class="cyber-loader-large">
+                        <div class="loader-circle"></div>
+                        <p>Cargando las 10 preguntas del subíndice ${subindiceId}...</p>
+                    </div>
+                </div>
+            `;
+            
+            // Cargar preguntas después de un breve delay (simular carga)
+            setTimeout(() => {
+                QuestionSystemFixed.renderAllQuestions(subindiceId, container);
+                
+                // Ocultar mensaje de completado global
+                document.getElementById('completion-message').style.display = 'none';
+                
+                // Actualizar título de página
+                document.title = `Habilidad Verbal - ${subindiceId} | CyberEduMX`;
+                
+                // Scroll al inicio
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 500);
+        }
+        
+        function typeWriterEffect() {
+            const title = document.querySelector('.titulo-principal');
+            const originalText = title.innerHTML;
+            title.innerHTML = '';
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.innerHTML += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 30);
+                }
+            }
+            
+            setTimeout(typeWriter, 300);
+        }
+        
+        function actualizarEstadisticas() {
+            const totalPreguntas = 10;
+            const respondidas = document.querySelectorAll('.pregunta-container.answered').length;
+            const correctas = document.querySelectorAll('.opcion-correcta[data-correcta="true"]').length;
+            
+            // Actualizar contadores
+            document.querySelector('.stat-resueltas').textContent = respondidas;
+            document.querySelector('.stat-correctas').textContent = correctas;
+            document.getElementById('preguntas-restantes').textContent = totalPreguntas - respondidas;
+            
+            // Calcular eficiencia
+            if (respondidas > 0) {
+                const eficiencia = Math.round((correctas / respondidas) * 100);
+                document.querySelector('.stat-eficiencia').textContent = `${eficiencia}%`;
+                
+                // Color según eficiencia
+                const elem = document.querySelector('.stat-eficiencia');
+                if (eficiencia >= 80) elem.style.color = '#00ff9d';
+                else if (eficiencia >= 60) elem.style.color = '#ffd700';
+                else elem.style.color = '#ff003c';
+            }
+            
+            // Mostrar mensaje de completado si se respondieron todas
+            if (respondidas === totalPreguntas) {
+                document.getElementById('completion-message').style.display = 'block';
+                document.getElementById('completion-message').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function mostrarTodasExplicaciones() {
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'block';
+            });
+            alert('Se mostraron todas las explicaciones.');
+        }
+        
+        function ocultarTodasExplicaciones() {
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+        }
+        
+        function reiniciarSubindiceActual() {
+            if (confirm('¿Reiniciar todas las respuestas de este subíndice?')) {
+                QuestionSystemFixed.resetSubindice();
+                actualizarEstadisticas();
+            }
+        }
+        
+        function marcarTodasComoCorrectas() {
+            if (confirm('¿Mostrar todas las respuestas correctas?')) {
+                document.querySelectorAll('.opcion[data-correcta="true"]').forEach(opcion => {
+                    if (!opcion.closest('.pregunta-container').classList.contains('answered')) {
+                        opcion.click();
+                    }
+                });
+            }
+        }
+        
+        function siguienteSubindice() {
+            const subindices = ['1.1', '1.2', '1.3', '1.4', '1.5'];
+            const currentIndex = subindices.indexOf(currentSubindice);
+            
+            if (currentIndex < subindices.length - 1) {
+                cargarSubindice(subindices[currentIndex + 1]);
+            } else {
+                alert('¡Felicidades! Has completado todos los subíndices.');
+            }
+        }
+        
+        function imprimirSubindice() {
+            // Guardar el estado actual
+            const originalDisplay = document.querySelectorAll('.feedback').forEach(f => {
+                f.dataset.originalDisplay = f.style.display;
+                f.style.display = 'block';
+            });
+            
+            // Imprimir
+            window.print();
+            
+            // Restaurar estado
+            document.querySelectorAll('.feedback').forEach(f => {
+                f.style.display = f.dataset.originalDisplay || 'none';
+            });
+        }
+        
+        // Agregar estilos para loader
+        const loaderStyle = document.createElement('style');
+        loaderStyle.textContent = `
+            .loading-message {
+                text-align: center;
+                padding: 60px 20px;
+            }
+            
+            .cyber-loader-large {
+                display: inline-block;
+                text-align: center;
+            }
+            
+            .loader-circle {
+                width: 60px;
+                height: 60px;
+                border: 5px solid rgba(0, 243, 255, 0.3);
+                border-top: 5px solid var(--color-habilidad-verbal);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 20px;
+            }
+            
+            .cyber-loader-large p {
+                color: var(--color-habilidad-verbal);
+                font-family: var(--font-tech);
+                font-size: 1.1rem;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            
+            .completion-message-global {
+                background: linear-gradient(45deg, rgba(0, 243, 255, 0.1), rgba(157, 0, 255, 0.1));
+                border: 2px solid var(--color-habilidad-verbal);
+                border-radius: 15px;
+                padding: 40px;
+                text-align: center;
+                margin: 40px 0;
+                animation: fadeIn 0.5s;
+            }
+            
+            .completion-content-global h3 {
+                color: var(--color-habilidad-verbal);
+                font-family: var(--font-tech);
+                font-size: 1.8rem;
+                margin-bottom: 20px;
+            }
+            
+            .main-navigation-fixed {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 40px;
+                padding-top: 30px;
+                border-top: 1px solid rgba(0, 243, 255, 0.2);
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            @media (max-width: 768px) {
+                .main-navigation-fixed {
+                    flex-direction: column;
+                }
+                
+                .btn-action, .btn-subindice-fixed {
+                    min-width: 100%;
+                }
+            }
+        `;
+        document.head.appendChild(loaderStyle);
+    </script>
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es-MX" data-config="cyberedumx-ecoems-2026-materia">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habilidad Verbal - ECOEMS 2026 | CyberEdu MX</title>
+    
+    <!-- MISMO CSS QUE INDEX (TODO INCLUIDO) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== VARIABLES Y ESTILOS BASE ===== */
+        :root {
+            --cyber-blue: #00f3ff;
+            --cyber-green: #00ff9d;
+            --cyber-red: #ff003c;
+            --cyber-purple: #9d00ff;
+            --cyber-pink: #ff00ff;
+            --cyber-orange: #ff6b00;
+            --cyber-yellow: #ffd700;
+            
+            --bg-dark: #0a0a16;
+            --panel-bg: rgba(15, 20, 40, 0.85);
+            --card-bg: rgba(20, 25, 45, 0.9);
+            --border-thin: 1px solid rgba(0, 243, 255, 0.3);
+            
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            color: #fff;
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ===== EFECTOS CYBERPUNK ===== */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff9d, transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 9998;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        
+        /* ===== HEADER ===== */
+        .cyber-header {
+            background: rgba(10, 10, 22, 0.95);
+            border-bottom: 2px solid var(--cyber-blue);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .cyber-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-cyber {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 900;
+        }
+        
+        .logo-text {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .logo-glow {
+            color: var(--cyber-blue);
+            text-shadow: 0 0 15px var(--cyber-blue);
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-year {
+            color: var(--cyber-green);
+            font-size: 1.5rem;
+            margin-left: 5px;
+        }
+        
+        .logo-subtitle {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .ecoems-tag {
+            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-purple));
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: var(--font-heading);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .status-tag {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid var(--cyber-green);
+            color: var(--cyber-green);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+        }
+        
+        .cyber-nav {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .nav-link {
+            color: #a0a0ff;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--cyber-blue);
+            border-color: var(--cyber-blue);
+            background: rgba(0, 243, 255, 0.1);
+        }
+        
+        /* ===== CONTENIDO DE MATERIA ===== */
+        .materia-page {
+            padding: 40px 0;
+        }
+        
+        .materia-header-page {
+            background: linear-gradient(45deg, rgba(0, 243, 255, 0.1), rgba(0, 255, 157, 0.1));
+            border: 1px solid var(--cyber-blue);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .materia-header-page h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--cyber-blue);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+        
+        .materia-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--cyber-green);
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #a0a0ff;
+        }
+        
+        /* ===== SUBÍNDICES ===== */
+        .subindices-container {
+            margin: 30px 0;
+        }
+        
+        .subindice-card {
+            background: var(--card-bg);
+            border: 1px solid var(--cyber-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .subindice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 243, 255, 0.1);
+        }
+        
+        .subindice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+        }
+        
+        .subindice-title {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--cyber-blue);
+        }
+        
+        .subindice-number {
+            background: rgba(0, 243, 255, 0.2);
+            border: 1px solid var(--cyber-blue);
+            color: var(--cyber-blue);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-family: var(--font-heading);
+            font-weight: bold;
+        }
+        
+        .video-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            color: #a0a0ff;
+        }
+        
+        .btn-watch {
+            background: linear-gradient(45deg, var(--cyber-blue), var(--cyber-purple));
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        
+        .btn-watch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+        }
+        
+        /* ===== PREGUNTAS DE PRÁCTICA ===== */
+        .preguntas-container {
+            margin: 40px 0;
+        }
+        
+        .pregunta-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .pregunta-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .opciones {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .opcion {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .opcion:hover {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: var(--cyber-blue);
+        }
+        
+        .opcion.correcta {
+            background: rgba(0, 255, 157, 0.2);
+            border-color: var(--cyber-green);
+        }
+        
+        .opcion.incorrecta {
+            background: rgba(255, 0, 60, 0.2);
+            border-color: var(--cyber-red);
+        }
+        
+        .btn-verificar {
+            background: var(--cyber-blue);
+            color: #000;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-verificar:hover {
+            background: var(--cyber-green);
+            transform: translateY(-2px);
+        }
+        
+        .explicacion {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 243, 255, 0.1);
+            border-left: 3px solid var(--cyber-blue);
+            border-radius: 5px;
+            display: none;
+        }
+        
+        /* ===== BOTÓN REGRESAR ===== */
+        .btn-regresar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--cyber-blue);
+            color: var(--cyber-blue);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-regresar:hover {
+            background: rgba(0, 243, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== FOOTER ===== */
+        .cyber-footer {
+            background: rgba(10, 10, 22, 0.95);
+            border-top: 2px solid var(--cyber-purple);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: var(--cyber-blue);
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #a0a0ff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--cyber-blue);
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .logo-cyber {
+                font-size: 1.8rem;
+            }
+            
+            .materia-header-page h1 {
+                font-size: 2rem;
+            }
+            
+            .materia-stats {
+                gap: 15px;
+            }
+            
+            .subindice-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .materia-header-page {
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efectos visuales -->
+    <div class="cyber-grid"></div>
+    <div class="scan-line"></div>
+    
+    <!-- Header -->
+    <header class="cyber-header">
+        <div class="container">
+            <div class="cyber-brand">
+                <a href="index.html" style="text-decoration: none; display: inline-block;">
+                    <div class="logo-cyber">
+                        <span class="logo-text">CYBER</span>
+                        <span class="logo-glow">EDU</span>
+                        <span class="logo-year">2026</span>
+                    </div>
+                </a>
+                <div class="logo-subtitle">
+                    <span class="ecoems-tag">HABILIDAD VERBAL</span>
+                    <span class="status-tag active">
+                        <i class="fas fa-book"></i> MATERIA ACTIVA
+                    </span>
+                </div>
+            </div>
+            
+            <nav class="cyber-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="index.html#materias" class="nav-link">
+                    <i class="fas fa-book"></i> Todas las Materias
+                </a>
+                <a href="#subindices" class="nav-link active">
+                    <i class="fas fa-list-ol"></i> Subíndices
+                </a>
+                <a href="#practica" class="nav-link">
+                    <i class="fas fa-question-circle"></i> Práctica
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Contenido de la Materia -->
+    <main class="container">
+        <section class="materia-page">
+            <!-- Encabezado de la Materia -->
+            <div class="materia-header-page">
+                <h1><i class="fas fa-language"></i> HABILIDAD VERBAL</h1>
+                <p style="color: #a0a0ff; max-width: 800px; margin: 0 auto 20px;">
+                    Desarrollo de competencias para comprender, analizar y producir textos de manera crítica y efectiva
+                </p>
+                
+                <div class="materia-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Subíndices</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">50</div>
+                        <div class="stat-label">Preguntas</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">9.4%</div>
+                        <div class="stat-label">Del examen</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Videos Anime</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Subíndices -->
+            <div class="subindices-container" id="subindices">
+                <h2 style="color: var(--cyber-blue); margin-bottom: 20px; font-family: var(--font-heading);">
+                    <i class="fas fa-list-ol"></i> SUBÍNDICES - HABILIDAD VERBAL
+                </h2>
+                
+                <!-- Subíndice 1.1 -->
+                <div class="subindice-card">
+                    <div class="subindice-header">
+                        <div class="subindice-title">1.1 - Reconocer información explícita</div>
+                        <div class="subindice-number">Video 1</div>
+                    </div>
+                    
+                    <p>Identificar datos, hechos o ideas que se presentan de manera directa en el texto.</p>
+                    
+                    <div class="video-info">
+                        <i class="fas fa-video" style="color: var(--cyber-blue);"></i>
+                        <span>Video anime disponible - Duración: 12 min</span>
+                    </div>
+                    
+                    <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="btn-watch" target="_blank">
+                        <i class="fas fa-play"></i> Ver Video Anime
+                    </a>
+                </div>
+                
+                <!-- Subíndice 1.2 -->
+                <div class="subindice-card">
+                    <div class="subindice-header">
+                        <div class="subindice-title">1.2 - Inferir hechos</div>
+                        <div class="subindice-number">Video 2</div>
+                    </div>
+                    
+                    <p>Deducir información que no está explícita en el texto a partir de pistas contextuales.</p>
+                    
+                    <div class="video-info">
+                        <i class="fas fa-video" style="color: var(--cyber-blue);"></i>
+                        <span>Video anime disponible - Duración: 15 min</span>
+                    </div>
+                    
+                    <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="btn-watch" target="_blank">
+                        <i class="fas fa-play"></i> Ver Video Anime
+                    </a>
+                </div>
+                
+                <!-- Subíndice 1.3 -->
+                <div class="subindice-card">
+                    <div class="subindice-header">
+                        <div class="subindice-title">1.3 - Identificar resumen</div>
+                        <div class="subindice-number">Video 3</div>
+                    </div>
+                    
+                    <p>Reconocer la síntesis de las ideas principales de un texto.</p>
+                    
+                    <div class="video-info">
+                        <i class="fas fa-video" style="color: var(--cyber-blue);"></i>
+                        <span>Video anime disponible - Duración: 18 min</span>
+                    </div>
+                    
+                    <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="btn-watch" target="_blank">
+                        <i class="fas fa-play"></i> Ver Video Anime
+                    </a>
+                </div>
+                
+                <!-- Subíndice 1.4 -->
+                <div class="subindice-card">
+                    <div class="subindice-header">
+                        <div class="subindice-title">1.4 - Completar cuadro sinóptico</div>
+                        <div class="subindice-number">Video 4</div>
+                    </div>
+                    
+                    <p>Relacionar conceptos e ideas en una estructura jerárquica.</p>
+                    
+                    <div class="video-info">
+                        <i class="fas fa-video" style="color: var(--cyber-blue);"></i>
+                        <span>Video anime disponible - Duración: 14 min</span>
+                    </div>
+                    
+                    <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="btn-watch" target="_blank">
+                        <i class="fas fa-play"></i> Ver Video Anime
+                    </a>
+                </div>
+                
+                <!-- Subíndice 1.5 -->
+                <div class="subindice-card">
+                    <div class="subindice-header">
+                        <div class="subindice-title">1.5 - Identificar conclusión</div>
+                        <div class="subindice-number">Video 5</div>
+                    </div>
+                    
+                    <p>Reconocer la idea final derivada de la argumentación del texto.</p>
+                    
+                    <div class="video-info">
+                        <i class="fas fa-video" style="color: var(--cyber-blue);"></i>
+                        <span>Video anime disponible - Duración: 16 min</span>
+                    </div>
+                    
+                    <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="btn-watch" target="_blank">
+                        <i class="fas fa-play"></i> Ver Video Anime
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Preguntas de Práctica -->
+            <div class="preguntas-container" id="practica">
+                <h2 style="color: var(--cyber-green); margin-bottom: 20px; font-family: var(--font-heading);">
+                    <i class="fas fa-question-circle"></i> PRÁCTICA - 10 PREGUNTAS POR SUBÍNDICE
+                </h2>
+                
+                <!-- Pregunta 1 -->
+                <div class="pregunta-card">
+                    <div class="pregunta-text">
+                        <strong>Pregunta 1/10:</strong> En el siguiente texto, identifica la información explícita: 
+                        "El calentamiento global es causado principalmente por la emisión de gases de efecto invernadero, 
+                        como el dióxido de carbono, resultante de la quema de combustibles fósiles."
+                    </div>
+                    
+                    <div class="opciones">
+                        <div class="opcion" data-correcta="true">
+                            A) El calentamiento global es causado por gases de efecto invernadero
+                        </div>
+                        <div class="opcion" data-correcta="false">
+                            B) La energía solar es la principal causa
+                        </div>
+                        <div class="opcion" data-correcta="false">
+                            C) Los árboles producen estos gases
+                        </div>
+                        <div class="opcion" data-correcta="false">
+                            D) Solo afecta a los países industrializados
+                        </div>
+                    </div>
+                    
+                    <button class="btn-verificar" onclick="verificarRespuesta(this)">Verificar Respuesta</button>
+                    
+                    <div class="explicacion">
+                        <strong>Explicación:</strong> La información explícita es aquella que se presenta directamente 
+                        en el texto. En este caso, el texto dice claramente que el calentamiento global es causado 
+                        por gases de efecto invernadero como el dióxido de carbono.
+                    </div>
+                </div>
+                
+                <!-- Pregunta 2 -->
+                <div class="pregunta-card">
+                    <div class="pregunta-text">
+                        <strong>Pregunta 2/10:</strong> ¿Qué se puede inferir del siguiente texto? 
+                        "María revisó su bolso por tercera vez, suspiró profundamente y comenzó a caminar 
+                        rápidamente hacia su casa."
+                    </div>
+                    
+                    <div class="opciones">
+                        <div class="opcion" data-correcta="false">
+                            A) María encontró lo que buscaba
+                        </div>
+                        <div class="opcion" data-correcta="true">
+                            B) María perdió algo importante
+                        </div>
+                        <div class="opcion" data-correcta="false">
+                            C) María está haciendo ejercicio
+                        </div>
+                        <div class="opcion" data-correcta="false">
+                            D) María está feliz
+                        </div>
+                    </div>
+                    
+                    <button class="btn-verificar" onclick="verificarRespuesta(this)">Verificar Respuesta</button>
+                    
+                    <div class="explicacion">
+                        <strong>Explicación:</strong> Se infiere que María perdió algo importante porque revisa 
+                        su bolso varias veces (preocupación), suspira (frustración) y camina rápido hacia su 
+                        casa (urgencia por encontrarlo).
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botón Regresar -->
+            <a href="index.html" class="btn-regresar">
+                <i class="fas fa-arrow-left"></i> Volver al Dashboard Principal
+            </a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="cyber-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>CYBEREDU MX & BIORETO ACADEMY</h3>
+                    <p><strong>Instructor:</strong> Lic. José Luis González Pérez</p>
+                    <p><strong>Especialista en:</strong> Educación con Inteligencia Artificial</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>CONTACTO DIRECTO</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://wa.me/5523269241" target="_blank">
+                                <i class="fab fa-whatsapp"></i> WhatsApp: 55 2326 9241
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:JoseLuisGlez@cyberedumx.com">
+                                <i class="fas fa-envelope"></i> Email: JoseLuisGlez@cyberedumx.com
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>CURSOS OFICIALES</h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" target="_blank">
+                                <i class="fas fa-tv"></i> 91 Videos Anime
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.udemy.com/course/ecoems2026conia/?referralCode=B2F05026985A2564FAAC" target="_blank">
+                                <i class="fas fa-robot"></i> 128 Preguntas con IA
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                © 2025-2026 CyberEdu MX & BioReto Academy | Sistema de preparación ECOEMS 2026
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Función para verificar respuestas
+        function verificarRespuesta(button) {
+            const preguntaCard = button.closest('.pregunta-card');
+            const opciones = preguntaCard.querySelectorAll('.opcion');
+            const explicacion = preguntaCard.querySelector('.explicacion');
+            
+            let respuestaCorrectaSeleccionada = false;
+            
+            // Verificar cada opción
+            opciones.forEach(opcion => {
+                if (opcion.classList.contains('selected')) {
+                    const esCorrecta = opcion.getAttribute('data-correcta') === 'true';
+                    
+                    if (esCorrecta) {
+                        opcion.classList.add('correcta');
+                        respuestaCorrectaSeleccionada = true;
+                    } else {
+                        opcion.classList.add('incorrecta');
+                        // Mostrar la correcta
+                        const correcta = preguntaCard.querySelector('.opcion[data-correcta="true"]');
+                        if (correcta) correcta.classList.add('correcta');
+                    }
+                }
+                
+                // Deshabilitar clics adicionales
+                opcion.style.pointerEvents = 'none';
+            });
+            
+            // Mostrar explicación
+            if (explicacion) {
+                explicacion.style.display = 'block';
+            }
+            
+            // Deshabilitar botón
+            button.disabled = true;
+            button.textContent = respuestaCorrectaSeleccionada ? '✓ Correcto' : '✗ Incorrecto';
+            
+            // Guardar progreso
+            guardarProgreso(respuestaCorrectaSeleccionada ? 1 : 0);
+        }
+        
+        // Seleccionar opción
+        document.querySelectorAll('.opcion').forEach(opcion => {
+            opcion.addEventListener('click', function() {
+                const preguntaCard = this.closest('.pregunta-card');
+                
+                // Remover selección anterior en esta pregunta
+                preguntaCard.querySelectorAll('.opcion').forEach(o => {
+                    o.classList.remove('selected');
+                });
+                
+                // Seleccionar esta opción
+                this.classList.add('selected');
+            });
+        });
+        
+        // Guardar progreso en localStorage
+        function guardarProgreso(puntos) {
+            const progreso = JSON.parse(localStorage.getItem('habilidad_verbal_progreso')) || {
+                preguntasRespondidas: 0,
+                aciertos: 0,
+                fechaUltimaPractica: new Date().toISOString()
+            };
+            
+            progreso.preguntasRespondidas += 1;
+            progreso.aciertos += puntos;
+            progreso.fechaUltimaPractica = new Date().toISOString();
+            
+            localStorage.setItem('habilidad_verbal_progreso', JSON.stringify(progreso));
+            
+            // Actualizar también el progreso general
+            const progresoGeneral = JSON.parse(localStorage.getItem('cyberedumx_progreso')) || { materias: {} };
+            if (!progresoGeneral.materias.habilidad_verbal) {
+                progresoGeneral.materias.habilidad_verbal = { preguntas: 0 };
+            }
+            progresoGeneral.materias.habilidad_verbal.preguntas = 
+                Math.min((progresoGeneral.materias.habilidad_verbal.preguntas || 0) + puntos, 50);
+            
+            localStorage.setItem('cyberedumx_progreso', JSON.stringify(progresoGeneral));
+            
+            // Mostrar notificación
+            mostrarNotificacion(puntos ? '¡Respuesta correcta!' : 'Respuesta incorrecta. Sigue practicando.');
+        }
+        
+        // Sistema de notificaciones
+        function mostrarNotificacion(mensaje) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--panel-bg);
+                border: 1px solid var(--cyber-blue);
+                border-radius: 8px;
+                padding: 15px;
+                color: white;
+                z-index: 10000;
+                transform: translateX(400px);
+                opacity: 0;
+                transition: transform 0.3s, opacity 0.3s;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-info-circle" style="color: var(--cyber-blue);"></i>
+                    <span>${mensaje}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+                notification.style.opacity = '1';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Cargar progreso al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            const progreso = JSON.parse(localStorage.getItem('habilidad_verbal_progreso'));
+            if (progreso) {
+                console.log(`Progreso Habilidad Verbal: ${progreso.aciertos}/${progreso.preguntasRespondidas} aciertos`);
+            }
+            
+            // Navegación suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Actualizar navegación activa
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal INCADE - Plataforma de Capacitación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-orange: #FF6B35;
+            --orange-light: #FF8C5A;
+            --orange-dark: #E55A2B;
+            --gray-dark: #2D3748;
+            --gray-medium: #4A5568;
+            --gray-light: #718096;
+            --gray-bg: #F7FAFC;
+            --gray-border: #E2E8F0;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--gray-bg);
+            color: var(--gray-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--gray-dark) 0%, var(--gray-medium) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-img {
+            height: 60px;
+            width: auto;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-orange);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(45, 55, 72, 0.85), rgba(45, 55, 72, 0.9)), url('https://images.unsplash.com/photo-1543465077-db45d34b88a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-orange);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        
+        .btn:hover {
+            background: var(--orange-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--gray-dark);
+        }
+        
+        /* Sections */
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--gray-dark);
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary-orange);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--gray-light);
+            max-width: 700px;
+            margin: 2rem auto 0;
+            font-size: 1.1rem;
+        }
+        
+        /* Problem Solution Section */
+        .problem-solution {
+            background: var(--white);
+        }
+        
+        .ps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .ps-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--gray-medium);
+        }
+        
+        .ps-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .ps-card.problem {
+            border-top-color: var(--gray-light);
+        }
+        
+        .ps-card.solution {
+            border-top-color: var(--primary-orange);
+        }
+        
+        .ps-card-header {
+            padding: 25px;
+            background: var(--gray-bg);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--gray-border);
+        }
+        
+        .ps-card-header i {
+            font-size: 2rem;
+            color: var(--gray-medium);
+        }
+        
+        .problem .ps-card-header i {
+            color: var(--gray-light);
+        }
+        
+        .solution .ps-card-header i {
+            color: var(--primary-orange);
+        }
+        
+        .ps-card-header h3 {
+            font-size: 1.4rem;
+            color: var(--gray-dark);
+        }
+        
+        .ps-card-content {
+            padding: 30px;
+        }
+        
+        .ps-card-content ul {
+            list-style: none;
+        }
+        
+        .ps-card-content ul li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .ps-card-content ul li:before {
+            content: "▶";
+            color: var(--primary-orange);
+            position: absolute;
+            left: 0;
+            font-size: 1rem;
+        }
+        
+        .problem .ps-card-content ul li:before {
+            color: var(--gray-light);
+        }
+        
+        /* Features Section */
+        .features {
+            background: var(--gray-bg);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary-orange);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-orange);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gray-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--primary-orange);
+            font-size: 2rem;
+            border: 2px solid var(--primary-orange);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--gray-dark);
+        }
+        
+        .feature-card p {
+            color: var(--gray-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Areas Section */
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .area-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .area-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .area-card-header {
+            background: var(--gray-dark);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .area-card-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .area-card-content {
+            padding: 30px;
+        }
+        
+        .courses-list {
+            list-style: none;
+        }
+        
+        .courses-list li {
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            background: var(--gray-bg);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary-orange);
+        }
+        
+        .courses-list li:hover {
+            background: #e6eef5;
+            transform: translateX(5px);
+        }
+        
+        .course-badge {
+            background: var(--primary-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        /* Technology Section */
+        .technology {
+            background: var(--white);
+        }
+        
+        .tech-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .tech-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .tech-image img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tech-content {
+            flex: 1;
+        }
+        
+        .tech-content h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--gray-dark);
+        }
+        
+        .tech-content p {
+            margin-bottom: 30px;
+            color: var(--gray-light);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .tech-features {
+            list-style: none;
+        }
+        
+        .tech-features li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .tech-features li i {
+            color: var(--primary-orange);
+            font-size: 1.3rem;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .tech-features li div {
+            flex: 1;
+        }
+        
+        .tech-features li strong {
+            color: var(--gray-dark);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--gray-dark) 0%, var(--gray-medium) 100%);
+            color: white;
+            text-align: center;
+            padding: 6rem 0;
+        }
+        
+        .cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+        
+        .cta p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--gray-dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-orange);
+            border-radius: 2px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links li a:hover {
+            color: var(--primary-orange);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .tech-container {
+                flex-direction: column;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            section {
+                padding: 3rem 0;
+            }
+            
+            .hero {
+                padding: 4rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Logo oficial del INCADE desde la raíz -->
+                    <img src="logoincade.png" alt="Logo INCADE" class="logo-img">
+                    <div class="logo-text">
+                        <h1>INCADE Metro</h1>
+                        <p>Portal de Capacitación Integral</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#problem">Problemática</a></li>
+                        <li><a href="#solution">Solución</a></li>
+                        <li><a href="#features">Características</a></li>
+                        <li><a href="#areas">Áreas</a></li>
+                        <li><a href="#technology">Tecnología</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h2>Modernización de la Capacitación en el Sistema Metro</h2>
+            <p>Una plataforma integral que transforma la formación del personal mediante tecnología avanzada y contenidos multimedia especializados.</p>
+            <div>
+                <a href="#solution" class="btn">Conocer la Solución</a>
+                <a href="#technology" class="btn btn-outline">Ver Tecnología</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="problem-solution" id="problem">
+        <div class="container">
+            <div class="section-title">
+                <h2>Problemática y Solución</h2>
+                <p>Identificación de desafíos actuales y propuesta de solución tecnológica</p>
+            </div>
+            <div class="ps-grid">
+                <div class="ps-card problem">
+                    <div class="ps-card-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Problemática Actual</h3>
+                    </div>
+                    <div class="ps-card-content">
+                        <ul>
+                            <li>Materiales de capacitación dispersos y desactualizados</li>
+                            <li>Falta de estandarización en los contenidos formativos</li>
+                            <li>Dificultad para medir el progreso y comprensión del personal</li>
+                            <li>Limitaciones en la capacitación continua y especializada</li>
+                            <li>Alto costo de actualización de materiales formativos</li>
+                            <li>Falta de recursos multimedia para mejor comprensión</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="ps-card solution">
+                    <div class="ps-card-header">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Nuestra Solución</h3>
+                    </div>
+                    <div class="ps-card-content">
+                        <ul>
+                            <li>Portal unificado de capacitación con todos los materiales</li>
+                            <li>Contenidos estandarizados y actualizados constantemente</li>
+                            <li>Sistema de evaluación y seguimiento del progreso</li>
+                            <li>Capacitación continua con materiales especializados</li>
+                            <li>Generación automatizada de contenidos con NotebookLM</li>
+                            <li>Recursos multimedia para todos los estilos de aprendizaje</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Características Principales</h2>
+                <p>Funcionalidades diseñadas para optimizar la capacitación del personal</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Contenido Multimedia</h3>
+                    <p>Videos explicativos, podcasts y presentaciones interactivas para cada unidad de aprendizaje.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Rutas de Aprendizaje</h3>
+                    <p>Secuencias formativas personalizadas por área y nivel de experiencia del personal.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Seguimiento de Progreso</h3>
+                    <p>Dashboard con métricas de avance, comprensión y áreas de oportunidad para cada empleado.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Evaluaciones Automatizadas</h3>
+                    <p>Cuestionarios y evaluaciones generadas automáticamente para medir comprensión.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Acceso Multiplataforma</h3>
+                    <p>Plataforma responsive accesible desde computadoras, tablets y smartphones.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Actualización Continua</h3>
+                    <p>Contenidos en constante actualización según cambios en procedimientos y normativas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="areas" id="areas">
+        <div class="container">
+            <div class="section-title">
+                <h2>Áreas de Capacitación</h2>
+                <p>Estructura modular organizada por áreas operativas del Sistema Metro</p>
+            </div>
+            <div class="areas-grid">
+                <div class="area-card">
+                    <div class="area-card-header">
+                        <h3>Transportación</h3>
+                    </div>
+                    <div class="area-card-content">
+                        <ul class="courses-list">
+                            <li>
+                                <span>Formación de Conductores</span>
+                                <span class="course-badge">12 módulos</span>
+                            </li>
+                            <li>
+                                <span>Inspector Jefe de Estación</span>
+                                <span class="course-badge">15 módulos</span>
+                            </li>
+                            <li>
+                                <span>Regulador</span>
+                                <span class="course-badge">18 módulos</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="area-card">
+                    <div class="area-card-header">
+                        <h3>Taquilla</h3>
+                    </div>
+                    <div class="area-card-content">
+                        <ul class="courses-list">
+                            <li>
+                                <span>Atención al Usuario</span>
+                                <span class="course-badge">8 módulos</span>
+                            </li>
+                            <li>
+                                <span>Venta y Control de Boletos</span>
+                                <span class="course-badge">10 módulos</span>
+                            </li>
+                            <li>
+                                <span>Manejo de Efectivo</span>
+                                <span class="course-badge">6 módulos</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="area-card">
+                    <div class="area-card-header">
+                        <h3>Material Rodante</h3>
+                    </div>
+                    <div class="area-card-content">
+                        <ul class="courses-list">
+                            <li>
+                                <span>Mantenimiento Preventivo</span>
+                                <span class="course-badge">14 módulos</span>
+                            </li>
+                            <li>
+                                <span>Diagnóstico de Fallas</span>
+                                <span class="course-badge">12 módulos</span>
+                            </li>
+                            <li>
+                                <span>Seguridad en Talleres</span>
+                                <span class="course-badge">9 módulos</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="technology" id="technology">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tecnología Implementada</h2>
+                <p>Integración de herramientas avanzadas para la generación de contenidos</p>
+            </div>
+            <div class="tech-container">
+                <div class="tech-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tecnología de aprendizaje">
+                </div>
+                <div class="tech-content">
+                    <h3>NotebookLM - Generación Automatizada de Contenidos</h3>
+                    <p>Integramos NotebookLM de Google para transformar manuales de capacitación en recursos multimedia completos de forma automatizada.</p>
+                    
+                    <ul class="tech-features">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Videos Explicativos</strong>
+                                <p>Generación automática de videos de 5 minutos y resúmenes de 1 minuto por unidad</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Podcasts Educativos</strong>
+                                <p>Creación de contenido auditivo para aprendizaje en movimiento</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Evaluaciones Automatizadas</strong>
+                                <p>Generación de cuestionarios por unidad con diversos tipos de preguntas</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Materiales de Estudio</strong>
+                                <p>Creación de infografías, presentaciones, flashcards y mapas conceptuales</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <a href="#" class="btn">Ver Demostración</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <div class="container">
+            <h2>¿Listo para transformar la capacitación en el Metro?</h2>
+            <p>Implementemos juntos esta solución para mejorar la formación de todo el personal operativo.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn">Solicitar Demostración</a>
+                <a href="#" class="btn btn-outline">Documentación del Proyecto</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>INCADE Metro</h3>
+                    <p>Instituto de Capacitación y Desarrollo dedicado a la excelencia en la formación del personal del Sistema de Transporte Colectivo Metro.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#problem">Problemática</a></li>
+                        <li><a href="#solution">Solución</a></li>
+                        <li><a href="#features">Características</a></li>
+                        <li><a href="#areas">Áreas</a></li>
+                        <li><a href="#technology">Tecnología</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> incade@metro.df.gob.mx</li>
+                        <li><i class="fas fa-phone"></i> (55) 1234-5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Tecnológico 123, CDMX</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 INCADE - Sistema de Transporte Colectivo Metro. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

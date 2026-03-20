@@ -1,0 +1,161 @@
+<?php
+include 'config.php';
+
+// Obtener parámetros
+$materia = $_GET['materia'] ?? '';
+$year = $_GET['year'] ?? 2025;
+$limit = $_GET['limit'] ?? 5;
+
+// Consulta para obtener preguntas
+$sql = "SELECT p.*, m.nombre as materia_nombre 
+        FROM preguntas p 
+        JOIN materias m ON p.materia_id = m.id 
+        WHERE p.guia_year = ?";
+
+$params = [$year];
+$types = "i";
+
+if (!empty($materia)) {
+    $sql .= " AND m.nombre = ?";
+    $params[] = $materia;
+    $types .= "s";
+}
+
+$sql .= " ORDER BY RAND() LIMIT ?";
+$params[] = (int)$limit;
+$types .= "i";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$result = $stmt->get_result();
+$preguntas = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simulador ECOEMS 2026</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .filtros { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .pregunta { background: white; margin: 20px 0; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .opcion { margin: 8px 0; padding: 12px; cursor: pointer; border: 2px solid #e0e0e0; border-radius: 5px; transition: all 0.3s; }
+        .opcion:hover { background: #f0f8ff; border-color: #3498db; }
+        .correcta { background: #d4edda; border-color: #28a745; }
+        .incorrecta { background: #f8d7da; border-color: #dc3545; }
+        select, input, button { padding: 10px; margin: 5px; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: #3498db; color: white; border: none; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        .estadisticas { background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>🏫 Simulador ECOEMS 2026</h1>
+    
+    <div class="filtros">
+        <h3>Filtrar Preguntas:</h3>
+        <form method="GET">
+            <select name="materia">
+                <option value="">Todas las materias</option>
+                <option value="Habilidad Matemática">Habilidad Matemática</option>
+                <option value="Ciencias I (Biología)">Biología</option>
+                <option value="Español">Español</option>
+                <option value="Ciencias III (Química)">Química</option>
+                <option value="Historia">Historia</option>
+                <option value="Matemáticas">Matemáticas</option>
+                <option value="Habilidad verbal">Habilidad verbal</option>
+                <option value="Geografía">Geografía</option>
+                <option value="Ciencias II (Física)">Física</option>
+                <option value="Formación cívica y ética">Formación cívica y ética</option>
+            </select>
+            
+            <select name="year">
+                <option value="2025">Guía 2025</option>
+            </select>
+            
+            <input type="number" name="limit" value="5" min="1" max="20" placeholder="Número de preguntas">
+            
+            <button type="submit">🎯 Comenzar Simulación</button>
+        </form>
+    </div>
+
+    <div id="preguntasContainer">
+        <?php if (empty($preguntas)): ?>
+            <div class="estadisticas">
+                <p>No hay preguntas disponibles o hay un error de conexión.</p>
+                <p>Verifica que:</p>
+                <ul>
+                    <li>Las preguntas estén insertadas en la base de datos</li>
+                    <li>La configuración de la base de datos sea correcta</li>
+                    <li>Las materias y preguntas estén relacionadas correctamente</li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <div class="estadisticas">
+                <p><strong>📊 Simulación activa:</strong> <?= count($preguntas) ?> preguntas de 
+                <?= !empty($materia) ? $materia : 'todas las materias' ?></p>
+            </div>
+            
+            <?php foreach ($preguntas as $index => $pregunta): ?>
+            <div class="pregunta" id="pregunta-<?= $pregunta['id'] ?>">
+                <h3>Pregunta <?= $index + 1 ?>: <?= htmlspecialchars($pregunta['materia_nombre']) ?></h3>
+                <p><strong>📚 Tema:</strong> <?= htmlspecialchars($pregunta['tema']) ?></p>
+                <p><?= nl2br(htmlspecialchars($pregunta['pregunta_texto'])) ?></p>
+                
+                <div class="opcion" onclick="seleccionarRespuesta(<?= $pregunta['id'] ?>, 'A')">
+                    <strong>A)</strong> <?= htmlspecialchars($pregunta['opcion_a']) ?>
+                </div>
+                <div class="opcion" onclick="seleccionarRespuesta(<?= $pregunta['id'] ?>, 'B')">
+                    <strong>B)</strong> <?= htmlspecialchars($pregunta['opcion_b']) ?>
+                </div>
+                <div class="opcion" onclick="seleccionarRespuesta(<?= $pregunta['id'] ?>, 'C')">
+                    <strong>C)</strong> <?= htmlspecialchars($pregunta['opcion_c']) ?>
+                </div>
+                <div class="opcion" onclick="seleccionarRespuesta(<?= $pregunta['id'] ?>, 'D')">
+                    <strong>D)</strong> <?= htmlspecialchars($pregunta['opcion_d']) ?>
+                </div>
+                
+                <div id="resultado-<?= $pregunta['id'] ?>" style="margin-top: 15px; font-weight: bold;"></div>
+            </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+    <script>
+    async function seleccionarRespuesta(preguntaId, respuesta) {
+        const response = await fetch('verificar_respuesta.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                pregunta_id: preguntaId, 
+                respuesta_usuario: respuesta 
+            })
+        });
+
+        const resultado = await response.json();
+        const resultadoDiv = document.getElementById(`resultado-${preguntaId}`);
+        
+        if (resultado.es_correcta) {
+            resultadoDiv.innerHTML = '<p style="color: green;">✅ ¡Correcto!</p>';
+        } else {
+            resultadoDiv.innerHTML = `<p style="color: red;">❌ Incorrecto. La respuesta correcta es: ${resultado.respuesta_correcta}</p>`;
+        }
+
+        // Colorear opciones
+        const opciones = document.querySelectorAll(`#pregunta-${preguntaId} .opcion`);
+        opciones.forEach(opcion => {
+            opcion.classList.remove('correcta', 'incorrecta');
+            
+            if (opcion.textContent.includes(respuesta)) {
+                opcion.classList.add(resultado.es_correcta ? 'correcta' : 'incorrecta');
+            }
+            
+            if (opcion.textContent.includes(resultado.respuesta_correcta)) {
+                opcion.classList.add('correcta');
+            }
+        });
+    }
+    </script>
+</body>
+</html>

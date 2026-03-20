@@ -1,0 +1,564 @@
+{
+    "biologia": [
+        {
+            "q": "¿Cuál es la unidad básica de la vida?",
+            "options": [
+                "Átomo",
+                "Célula",
+                "Molécula",
+                "Tejido"
+            ],
+            "correct": 1,
+            "rationale": "La célula es considerada la unidad básica de la vida porque todos los seres vivos están compuestos por una o más células."
+        },
+        {
+            "q": "¿Qué orgánulo es conocido como la 'central energética' de la célula?",
+            "options": [
+                "Núcleo",
+                "Mitocondria",
+                "Cloroplasto",
+                "Ribosoma"
+            ],
+            "correct": 1,
+            "rationale": "Las mitocondrias son responsables de producir la mayor parte de la energía química que necesita la célula."
+        },
+        {
+            "q": "¿Qué tipo de células tienen un núcleo definido?",
+            "options": [
+                "Procariotas",
+                "Eucariotas",
+                "Ambas",
+                "Ninguna"
+            ],
+            "correct": 1,
+            "rationale": "Las células eucariotas tienen un núcleo definido, a diferencia de las procariotas que no lo tienen."
+        },
+        {
+            "q": "¿Qué proceso convierte la energía solar en energía química?",
+            "options": [
+                "Respiración celular",
+                "Fotosíntesis",
+                "Fermentación",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La fotosíntesis es el proceso mediante el cual las plantas convierten la energía solar en energía química."
+        },
+        {
+            "q": "¿Qué orgánulo contiene el material genético de la célula?",
+            "options": [
+                "Mitocondria",
+                "Núcleo",
+                "Retículo endoplásmico",
+                "Aparato de Golgi"
+            ],
+            "correct": 1,
+            "rationale": "El núcleo celular contiene el ADN, que es el material genético de la célula."
+        },
+        {
+            "q": "¿Qué orgánulo se encarga de la síntesis de proteínas?",
+            "options": [
+                "Mitocondria",
+                "Núcleo",
+                "Ribosoma",
+                "Lisosoma"
+            ],
+            "correct": 2,
+            "rationale": "Los ribosomas son los orgánulos donde se sintetizan las proteínas según las instrucciones del ARN mensajero."
+        },
+        {
+            "q": "¿Qué estructura celular regula el paso de sustancias?",
+            "options": [
+                "Núcleo",
+                "Membrana plasmática",
+                "Pared celular",
+                "Citoplasma"
+            ],
+            "correct": 1,
+            "rationale": "La membrana plasmática es una barrera selectiva que regula el paso de sustancias hacia el interior y exterior de la célula."
+        },
+        {
+            "q": "¿Qué orgánulo contiene enzimas digestivas?",
+            "options": [
+                "Ribosoma",
+                "Lisosoma",
+                "Mitocondria",
+                "Retículo endoplásmico"
+            ],
+            "correct": 1,
+            "rationale": "Los lisosomas son vesículas que contienen enzimas digestivas para descomponer macromoléculas."
+        },
+        {
+            "q": "¿Qué proceso permite a las plantas producir su propio alimento?",
+            "options": [
+                "Respiración celular",
+                "Fotosíntesis",
+                "Fermentación",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La fotosíntesis es el proceso mediante el cual las plantas producen su propio alimento utilizando energía solar."
+        },
+        {
+            "q": "¿Qué tipo de organismo es capaz de realizar la fotosíntesis?",
+            "options": [
+                "Autótrofo",
+                "Heterótrofo",
+                "Saprófito",
+                "Parásito"
+            ],
+            "correct": 0,
+            "rationale": "Los organismos autótrofos, como las plantas, son capaces de realizar la fotosíntesis para producir su propio alimento."
+        },
+        {
+            "q": "¿Qué orgánulo se encarga de la síntesis de proteínas?",
+            "options": [
+                "Mitocondria",
+                "Núcleo",
+                "Ribosoma",
+                "Lisosoma"
+            ],
+            "correct": 2,
+            "rationale": "Los ribosomas son los orgánulos donde se sintetizan las proteínas según las instrucciones del ARN mensajero."
+        },
+        {
+            "q": "¿Cuál es la función principal del aparato de Golgi?",
+            "options": [
+                "Producción de energía",
+                "Síntesis de proteínas",
+                "Modificación y empaquetado de proteínas",
+                "Digestión intracelular"
+            ],
+            "correct": 2,
+            "rationale": "El aparato de Golgi modifica, clasifica y empaqueta proteínas para su distribución dentro o fuera de la célula."
+        },
+        {
+            "q": "¿Qué proceso produce gametos con la mitad del material genético?",
+            "options": [
+                "Mitosis",
+                "Meiosis",
+                "Fotosíntesis",
+                "Respiración celular"
+            ],
+            "correct": 1,
+            "rationale": "La meiosis es el proceso de división celular que produce gametos con la mitad del material genético."
+        },
+        {
+            "q": "¿Qué científico propuso la teoría de la evolución por selección natural?",
+            "options": [
+                "Gregor Mendel",
+                "Charles Darwin",
+                "Louis Pasteur",
+                "Robert Hooke"
+            ],
+            "correct": 1,
+            "rationale": "Charles Darwin propuso la teoría de la evolución por selección natural en su libro 'El origen de las especies'."
+        },
+        {
+            "q": "¿Qué molécula almacena la información genética?",
+            "options": [
+                "ARN",
+                "ADN",
+                "Proteína",
+                "Lípido"
+            ],
+            "correct": 1,
+            "rationale": "El ADN (ácido desoxirribonucleico) es la molécula que almacena la información genética en los seres vivos."
+        },
+        {
+            "q": "¿Qué proceso ocurre en las mitocondrias?",
+            "options": [
+                "Fotosíntesis",
+                "Respiración celular",
+                "Síntesis de proteínas",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La respiración celular ocurre en las mitocondrias, donde se produce ATP a partir de nutrientes."
+        },
+        {
+            "q": "¿Qué es un gen?",
+            "options": [
+                "Un tipo de célula",
+                "Una proteína",
+                "Un segmento de ADN",
+                "Un orgánulo celular"
+            ],
+            "correct": 2,
+            "rationale": "Un gen es un segmento de ADN que contiene la información para sintetizar una proteína o ARN específico."
+        },
+        {
+            "q": "¿Qué proceso implica el movimiento de partículas de alta a baja concentración?",
+            "options": [
+                "Transporte activo",
+                "Difusión",
+                "Ósmosis",
+                "Fagocitosis"
+            ],
+            "correct": 1,
+            "rationale": "La difusión es el movimiento de partículas de una zona de alta concentración a una de baja concentración."
+        },
+        {
+            "q": "¿Qué orgánulo está presente en células vegetales pero no en animales?",
+            "options": [
+                "Mitocondria",
+                "Cloroplasto",
+                "Núcleo",
+                "Ribosoma"
+            ],
+            "correct": 1,
+            "rationale": "Los cloroplastos son orgánulos presentes en células vegetales donde ocurre la fotosíntesis."
+        },
+        {
+            "q": "¿Qué proceso celular consume oxígeno y produce dióxido de carbono?",
+            "options": [
+                "Fotosíntesis",
+                "Respiración celular",
+                "Fermentación",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La respiración celular aeróbica consume oxígeno y produce dióxido de carbono como producto de desecho."
+        },
+        {
+            "q": "¿Qué estructura celular proporciona soporte y protección en plantas?",
+            "options": [
+                "Membrana plasmática",
+                "Pared celular",
+                "Citoesqueleto",
+                "Núcleo"
+            ],
+            "correct": 1,
+            "rationale": "La pared celular es una estructura rígida que proporciona soporte y protección a las células vegetales."
+        },
+        {
+            "q": "¿Qué proceso implica el movimiento de agua a través de una membrana semipermeable?",
+            "options": [
+                "Difusión",
+                "Ósmosis",
+                "Transporte activo",
+                "Exocitosis"
+            ],
+            "correct": 1,
+            "rationale": "La ósmosis es el movimiento de agua a través de una membrana semipermeable desde una zona de alta concentración de agua a una de baja."
+        },
+        {
+            "q": "¿Qué orgánulo está involucrado en la división celular?",
+            "options": [
+                "Mitocondria",
+                "Centriolos",
+                "Retículo endoplásmico",
+                "Aparato de Golgi"
+            ],
+            "correct": 1,
+            "rationale": "Los centriolos participan en la formación del huso mitótico durante la división celular."
+        },
+        {
+            "q": "¿Qué tipo de transporte celular requiere energía?",
+            "options": [
+                "Difusión",
+                "Ósmosis",
+                "Transporte activo",
+                "Difusión facilitada"
+            ],
+            "correct": 2,
+            "rationale": "El transporte activo requiere energía (ATP) para mover sustancias contra su gradiente de concentración."
+        },
+        {
+            "q": "¿Qué orgánulo modifica y empaqueta proteínas para su exportación?",
+            "options": [
+                "Retículo endoplásmico rugoso",
+                "Aparato de Golgi",
+                "Mitocondria",
+                "Núcleo"
+            ],
+            "correct": 1,
+            "rationale": "El aparato de Golgi modifica, clasifica y empaqueta proteínas para su distribución dentro o fuera de la célula."
+        },
+        {
+            "q": "¿Qué proceso ocurre en las mitocondrias?",
+            "options": [
+                "Fotosíntesis",
+                "Respiración celular",
+                "Síntesis de proteínas",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La respiración celular ocurre en las mitocondrias, donde se produce ATP a partir de nutrientes."
+        },
+        {
+            "q": "¿Qué estructura celular regula el paso de sustancias?",
+            "options": [
+                "Núcleo",
+                "Membrana plasmática",
+                "Pared celular",
+                "Citoplasma"
+            ],
+            "correct": 1,
+            "rationale": "La membrana plasmática es una barrera selectiva que regula el paso de sustancias hacia el interior y exterior de la célula."
+        },
+        {
+            "q": "¿Qué orgánulo contiene enzimas digestivas?",
+            "options": [
+                "Ribosoma",
+                "Lisosoma",
+                "Mitocondria",
+                "Retículo endoplásmico"
+            ],
+            "correct": 1,
+            "rationale": "Los lisosomas son vesículas que contienen enzimas digestivas para descomponer macromoléculas."
+        },
+        {
+            "q": "¿Qué proceso permite a las plantas producir su propio alimento?",
+            "options": [
+                "Respiración celular",
+                "Fotosíntesis",
+                "Fermentación",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La fotosíntesis es el proceso mediante el cual las plantas producen su propio alimento utilizando energía solar."
+        },
+        {
+            "q": "¿Qué tipo de organismo es capaz de realizar la fotosíntesis?",
+            "options": [
+                "Autótrofo",
+                "Heterótrofo",
+                "Saprófito",
+                "Parásito"
+            ],
+            "correct": 0,
+            "rationale": "Los organismos autótrofos, como las plantas, son capaces de realizar la fotosíntesis para producir su propio alimento."
+        },
+        {
+            "q": "¿Qué es la homeostasis?",
+            "options": [
+                "La capacidad de reproducirse",
+                "La capacidad de crecer",
+                "La capacidad de mantener un ambiente interno estable",
+                "La capacidad de moverse"
+            ],
+            "correct": 2,
+            "rationale": "La homeostasis es la capacidad de los organismos para mantener un ambiente interno estable a pesar de los cambios externos."
+        },
+        {
+            "q": "¿Qué proceso produce variación genética en la reproducción sexual?",
+            "options": [
+                "Mitosis",
+                "Meiosis",
+                "Fotosíntesis",
+                "Respiración celular"
+            ],
+            "correct": 1,
+            "rationale": "La meiosis produce gametos con combinaciones genéticas únicas, lo que resulta en variación genética en la descendencia."
+        },
+        {
+            "q": "¿Qué orgánulo contiene el material genético de la célula?",
+            "options": [
+                "Mitocondria",
+                "Núcleo",
+                "Ribosoma",
+                "Aparato de Golgi"
+            ],
+            "correct": 1,
+            "rationale": "El núcleo contiene el ADN, que es el material genético de la célula."
+        },
+        {
+            "q": "¿Qué proceso implica el movimiento de partículas de alta a baja concentración?",
+            "options": [
+                "Transporte activo",
+                "Difusión",
+                "Ósmosis",
+                "Fagocitosis"
+            ],
+            "correct": 1,
+            "rationale": "La difusión es el movimiento de partículas de una zona de alta concentración a una de baja concentración."
+        },
+        {
+            "q": "¿Qué orgánulo está presente en células vegetales pero no en animales?",
+            "options": [
+                "Mitocondria",
+                "Cloroplasto",
+                "Núcleo",
+                "Ribosoma"
+            ],
+            "correct": 1,
+            "rationale": "Los cloroplastos son orgánulos presentes en células vegetales donde ocurre la fotosíntesis."
+        },
+        {
+            "q": "¿Qué proceso celular consume oxígeno y produce dióxido de carbono?",
+            "options": [
+                "Fotosíntesis",
+                "Respiración celular",
+                "Fermentación",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La respiración celular aeróbica consume oxígeno y produce dióxido de carbono como producto de desecho."
+        },
+        {
+            "q": "¿Qué estructura celular proporciona soporte y protección en plantas?",
+            "options": [
+                "Membrana plasmática",
+                "Pared celular",
+                "Citoesqueleto",
+                "Núcleo"
+            ],
+            "correct": 1,
+            "rationale": "La pared celular es una estructura rígida que proporciona soporte y protección a las células vegetales."
+        },
+        {
+            "q": "¿Qué proceso implica el movimiento de agua a través de una membrana semipermeable?",
+            "options": [
+                "Difusión",
+                "Ósmosis",
+                "Transporte activo",
+                "Exocitosis"
+            ],
+            "correct": 1,
+            "rationale": "La ósmosis es el movimiento de agua a través de una membrana semipermeable desde una zona de alta concentración de agua a una de baja."
+        },
+        {
+            "q": "¿Qué orgánulo está involucrado en la división celular?",
+            "options": [
+                "Mitocondria",
+                "Centriolos",
+                "Retículo endoplásmico",
+                "Aparato de Golgi"
+            ],
+            "correct": 1,
+            "rationale": "Los centriolos participan en la formación del huso mitótico durante la división celular."
+        },
+        {
+            "q": "¿Qué tipo de transporte celular requiere energía?",
+            "options": [
+                "Difusión",
+                "Ósmosis",
+                "Transporte activo",
+                "Difusión facilitada"
+            ],
+            "correct": 2,
+            "rationale": "El transporte activo requiere energía (ATP) para mover sustancias contra su gradiente de concentración."
+        },
+        {
+            "q": "¿Qué orgánulo modifica y empaqueta proteínas para su exportación?",
+            "options": [
+                "Retículo endoplásmico rugoso",
+                "Aparato de Golgi",
+                "Mitocondria",
+                "Núcleo"
+            ],
+            "correct": 1,
+            "rationale": "El aparato de Golgi modifica, clasifica y empaqueta proteínas para su distribución dentro o fuera de la célula."
+        },
+        {
+            "q": "¿Qué proceso produce dos células hijas idénticas?",
+            "options": [
+                "Meiosis",
+                "Mitosis",
+                "Fotosíntesis",
+                "Respiración celular"
+            ],
+            "correct": 1,
+            "rationale": "La mitosis es el proceso de división celular que produce dos células hijas genéticamente idénticas."
+        },
+        {
+            "q": "¿Qué orgánulo contiene su propio ADN?",
+            "options": [
+                "Ribosoma",
+                "Mitocondria",
+                "Aparato de Golgi",
+                "Retículo endoplásmico"
+            ],
+            "correct": 1,
+            "rationale": "Las mitocondrias contienen su propio ADN mitocondrial, diferente del ADN nuclear."
+        },
+        {
+            "q": "¿Qué proceso convierte la glucosa en ATP?",
+            "options": [
+                "Fotosíntesis",
+                "Respiración celular",
+                "Fermentación",
+                "Digestión"
+            ],
+            "correct": 1,
+            "rationale": "La respiración celular convierte la glucosa en ATP, la moneda energética de la célula."
+        },
+        {
+            "q": "¿Qué orgánulo está involucrado en la síntesis de lípidos?",
+            "options": [
+                "Retículo endoplásmico rugoso",
+                "Retículo endoplásmico liso",
+                "Aparato de Golgi",
+                "Ribosoma"
+            ],
+            "correct": 1,
+            "rationale": "El retículo endoplásmico liso está involucrado en la síntesis de lípidos y detoxificación."
+        }
+    ],
+    "fisica": [],
+    "quimica": [],
+    "historia": [],
+    "geografia": [],
+    "espanol": [],
+    "civica": [],
+    "hab_verb": [
+        {
+            "q": "¿Cuál es el antónimo de 'efímero'?",
+            "options": [
+                "Duradero",
+                "Fugaz",
+                "Transitorio",
+                "Momentáneo"
+            ],
+            "correct": 0,
+            "rationale": "'Efímero' significa que dura poco tiempo, por lo que su antónimo es 'duradero'."
+        },
+        {
+            "q": "¿Qué palabra es sinónimo de 'sagaz'?",
+            "options": [
+                "Tonto",
+                "Astuto",
+                "Ingenuo",
+                "Torpe"
+            ],
+            "correct": 1,
+            "rationale": "'Sagaz' significa perspicaz, inteligente, por lo que su sinónimo es 'astuto'."
+        },
+        {
+            "q": "Completa la analogía: LIBRO es a BIBLIOTECA como CUADRO es a...",
+            "options": [
+                "PINTURA",
+                "GALERÍA",
+                "MARCO",
+                "ARTISTA"
+            ],
+            "correct": 1,
+            "rationale": "La relación es de contenido a contenedor: los libros se guardan en una biblioteca, los cuadros se exhiben en una galería."
+        },
+        {
+            "q": "Lee el siguiente texto y responde: 'La globalización ha permitido que las culturas se interconecten, pero también ha generado preocupación por la pérdida de identidades locales.' ¿Cuál es la idea principal?",
+            "options": [
+                "La globalización es un proceso negativo",
+                "La globalización tiene aspectos positivos y negativos",
+                "Las culturas locales están desapareciendo",
+                "La interconexión cultural es beneficiosa"
+            ],
+            "correct": 1,
+            "rationale": "La idea principal es que la globalización tiene tanto aspectos positivos (interconexión cultural) como negativos (pérdida de identidades locales)."
+        },
+        {
+            "q": "Completa la oración: 'A pesar de la lluvia, el equipo decidió _______ el partido.'",
+            "options": [
+                "cancelar",
+                "suspender",
+                "continuar",
+                "posponer"
+            ],
+            "correct": 2,
+            "rationale": "La expresión 'a pesar de' indica contraste, por lo que la opción lógica es 'continuar'."
+        }
+    ],
+    "hab_mat": [],
+    "matematicas": []
+}

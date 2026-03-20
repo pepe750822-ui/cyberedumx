@@ -1,0 +1,122 @@
+<!-- Chatbot Anime Widget Component -->
+<div id="chatbot-anime-container" style="position: fixed; bottom: 90px; right: 20px; z-index: 9999;">
+    <!-- Botón flotante anime -->
+    <button id="chatbot-toggle-btn" style="background: linear-gradient(45deg, #FF6B8B, #EF476F);
+                   color: white; border: none; border-radius: 50%;
+                   width: 60px; height: 60px; font-size: 24px;
+                   cursor: pointer; box-shadow: 0 8px 25px rgba(255, 107, 139, 0.5);
+                   transition: all 0.3s; display: flex; align-items: center;
+                   justify-content: center; position: relative;" class="focus-visible" aria-label="Abrir chatbot anime"
+        aria-expanded="false">
+        <i class="fas fa-robot"></i>
+        <span id="chatbot-notification" style="position: absolute; top: -5px; right: -5px;
+               background: #06D6A0; color: white; border-radius: 50%;
+               width: 20px; height: 20px; font-size: 10px; display: none;
+               align-items: center; justify-content: center; border: 2px solid white;">
+            1
+        </span>
+    </button>
+
+    <!-- Ventana del chat -->
+    <div id="chatbot-window" style="display: none; width: 350px; height: 500px;
+                background: rgba(26, 26, 46, 0.98); border-radius: 20px;
+                border: 3px solid #FF6B8B; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                backdrop-filter: blur(10px); overflow: hidden; position: absolute;
+                bottom: 80px; right: 0; flex-direction: column;">
+
+        <!-- Header -->
+        <div
+            style="background: linear-gradient(45deg, #1A1A2E, #16213E);
+                    padding: 15px; border-bottom: 2px solid #FF6B8B; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-robot" style="color: #4ECDC4;"></i>
+                <span style="color: white; font-weight: bold; font-family: 'Comic Neue', cursive;">CyberBot Anime</span>
+            </div>
+            <button id="chatbot-close-btn" style="background: none; border: none; color: white; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Mensajes -->
+        <div id="chatbot-messages"
+            style="flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px;">
+            <div class="bot-msg"
+                style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; border-left: 3px solid #4ECDC4; align-self: flex-start; max-width: 85%;">
+                🎌 ¡Konnichiwa! Soy CyberBot. ¿En qué puedo ayudarte con el ECOEMS 2026?
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div style="padding: 15px; background: rgba(0,0,0,0.2); display: flex; gap: 10px;">
+            <input type="text" id="chatbot-input" placeholder="Pregúntame algo..."
+                style="flex: 1; background: rgba(255,255,255,0.1); border: 2px solid #9D4EDD; border-radius: 20px; padding: 8px 15px; color: white; outline: none;">
+            <button id="chatbot-send-btn"
+                style="background: #EF476F; border: none; border-radius: 50%; width: 40px; height: 40px; color: white; cursor: pointer;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const chatToggle = document.getElementById('chatbot-toggle-btn');
+        const chatWindow = document.getElementById('chatbot-window');
+        const chatClose = document.getElementById('chatbot-close-btn');
+        const chatInput = document.getElementById('chatbot-input');
+        const chatSend = document.getElementById('chatbot-send-btn');
+        const chatMessages = document.getElementById('chatbot-messages');
+
+        chatToggle.onclick = () => {
+            const isVisible = chatWindow.style.display === 'flex';
+            chatWindow.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) chatInput.focus();
+        };
+
+        chatClose.onclick = () => chatWindow.style.display = 'none';
+
+        async function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Add User Message
+            const uMsg = document.createElement('div');
+            uMsg.style.cssText = 'background: rgba(255,107,139,0.1); padding: 10px; border-radius: 10px; border-right: 3px solid #FF6B8B; align-self: flex-end; max-width: 85%; color: white;';
+            uMsg.textContent = text;
+            chatMessages.appendChild(uMsg);
+            chatInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('https://cyberedumx.com/ecoems2026/chatbot/chatbot.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+
+                // Add Bot Message
+                const bMsg = document.createElement('div');
+                bMsg.style.cssText = 'background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; border-left: 3px solid #4ECDC4; align-self: flex-start; max-width: 85%; color: white; white-space: pre-wrap;';
+                bMsg.innerHTML = data.response.replace(/\n/g, '<br>');
+                chatMessages.appendChild(bMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                if (data.actions && data.actions.some(a => a.type === 'abrir_whatsapp')) {
+                    const waLink = document.createElement('a');
+                    waLink.href = "https://wa.me/525523269241?text=Hola! Vengo del chatbot de la web y tengo dudas.";
+                    waLink.target = "_blank";
+                    waLink.textContent = "👉 Hablar por WhatsApp";
+                    waLink.style.cssText = "display: block; margin-top: 10px; color: #06D6A0; font-weight: bold; text-decoration: underline;";
+                    bMsg.appendChild(waLink);
+                }
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        chatSend.onclick = sendMessage;
+        chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
+    })();
+</script>

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard ECOEMS 2026 - 81 Videos + Simulador Habilidad Verbal | CyberEduMX</title>
+    
+    <!-- METADATOS SEO COMPLETOS -->
+    <meta name="description" content="Dashboard completo ECOEMS 2026: 81 video-lecciones organizadas + 130 preguntas de Habilidad Verbal por subíndices. Preparación integral para IPN y UNAM.">
+    <meta name="keywords" content="ECOEMS 2026, IPN, UNAM, curso completo, video-lecciones, habilidad verbal, simulador, CyberEduMX, BioReto Academy">
+    <meta name="author" content="CyberEdu MX & BioReto Academy">
+    <meta name="robots" content="index, follow">
+    
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="Dashboard ECOEMS 2026 - Curso Completo con 81 Videos">
+    <meta property="og:description" content="81 video-lecciones + 130 preguntas organizadas por subíndices. Simulador interactivo con seguimiento de progreso.">
+    <meta property="og:image" content="https://cyberedumx.com/ecoems2026/images/dashboard-ecoems2026.jpg">
+    <meta property="og:url" content="https://cyberedumx.com/ecoems2026">
+    <meta property="og:type" content="website">
+    
+    <!-- TWITTER CARDS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dashboard ECOEMS 2026 - 81 Videos + Simulador">
+    <meta name="twitter:description" content="Preparación integral para examen de ingreso IPN/UNAM 2026">
+    
+    <!-- GOOGLE ANALYTICS -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-88JWPSS4QL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-88JWPSS4QL');
+    </script>
+    
+    <style>
+        /* ESTILOS PRINCIPALES */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* HEADER */
+        .main-header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            padding: 4rem 2rem;
+            background: white;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+        
+        /* CALL TO ACTION - MEJORADO */
+        .cta-section {
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .cta-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* BOTONES CTA - ESTRUCTURA MEJORADA */
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* BOTÓN PRINCIPAL - ECOEMS ESTRATEGIA INTELIGENTE */
+        .cta-button-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .cta-button-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+        }
+        
+        .cta-button-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        /* BOTÓN SECUNDARIO - UDEMY */
+        .cta-button-secondary {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.2);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .cta-button-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+        
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        /* VIDEO GRID */
+        .video-grid-section {
+            padding: 4rem 2rem;
+            background: var(--light-color);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--text-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .module-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .module-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        
+        .videos-list {
+            list-style: none;
+        }
+        
+        .video-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .video-item:last-child {
+            border-bottom: none;
+        }
+        
+        .video-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .video-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .video-number {
+            background: var(--light-color);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        /* SIMULATOR SECTION */
+        .simulator-section {
+            padding: 4rem 2rem;
+            background: white;
+        }
+        
+        .simulator-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .simulator-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .simulator-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .simulator-button {
+            background: white;
+            color: var(--primary-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .simulator-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        /* FOOTER */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 4rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .simulator-card {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+    
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Google Analytics noscript -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=G-88JWPSS4QL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="https://cyberedumx.com" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Cyber<span>Edu</span>MX
+            </a>
+            <nav class="nav-links">
+                <a href="#videos">Video-lecciones</a>
+                <a href="#simulador">Simulador</a>
+                <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" target="_blank">Curso Completo</a>
+                <a href="https://wa.me/5523269241" target="_blank">Contacto</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Dashboard ECOEMS 2026</h1>
+            <p>81 video-lecciones organizadas + Simulador de Habilidad Verbal con 130 preguntas especializadas</p>
+            <p><strong>Preparación integral para ingreso al IPN y UNAM</strong></p>
+        </div>
+    </section>
+    
+    <!-- CALL TO ACTION - ESTRUCTURA MEJORADA -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">¡Comienza tu preparación hoy!</h2>
+            <p class="cta-subtitle">Accede al curso completo con 81 video-lecciones organizadas por módulos y dominio total de Habilidad Verbal</p>
+            
+            <div class="cta-buttons">
+                <!-- BOTÓN PRINCIPAL - ECOEMS ESTRATEGIA INTELIGENTE -->
+                <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" 
+                   class="cta-button-primary"
+                   target="_blank"
+                   onclick="gtag('event', 'cta_click', {'event_category': 'Conversion', 'event_label': 'Ecoems_Estrategia_Inteligente'});">
+                    <i class="fas fa-play-circle"></i>
+                    <div style="text-align: left; flex: 1;">
+                        <div style="font-size: 1.1rem; font-weight: 800;">ECOEMS Estrategia Inteligente</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9; font-weight: 400;">Curso completo con 81 videos organizados</div>
+                    </div>
+                    <span class="badge">
+                        <i class="fas fa-crown"></i> PRINCIPAL
+                    </span>
+                </a>
+                
+                <!-- BOTÓN SECUNDARIO - UDEMY -->
+                <a href="https://www.udemy.com/course/ecoems2026conia/?referralCode=B2F05026985A2564FAAC" 
+                   class="cta-button-secondary"
+                   target="_blank"
+                   onclick="gtag('event', 'cta_click', {'event_category': 'Conversion', 'event_label': 'Udemy_Course'});">
+                    <i class="fab fa-udemy"></i>
+                    <div style="text-align: left; flex: 1;">
+                        <div style="font-size: 1rem; font-weight: 700;">Curso en Udemy</div>
+                        <div style="font-size: 0.85rem; opacity: 0.9; font-weight: 400;">Alternativa en plataforma Udemy</div>
+                    </div>
+                    <span class="badge">
+                        <i class="fas fa-external-link-alt"></i> ALTERNATIVA
+                    </span>
+                </a>
+            </div>
+            
+            <div style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                <p><i class="fas fa-shield-alt"></i> Acceso seguro | <i class="fas fa-clock"></i> Disponible 24/7 | <i class="fas fa-mobile-alt"></i> Compatible móvil</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- VIDEO LESSONS GRID -->
+    <section id="videos" class="video-grid-section">
+        <div class="section-title">
+            <h2>81 Video-lecciones Organizadas</h2>
+            <p>Contenido estructurado en 9 módulos para un aprendizaje progresivo</p>
+        </div>
+        
+        <div class="modules-grid">
+            <!-- Módulo 1 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M1</div>
+                    <h3 class="module-title">Introducción y Fundamentos</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">1</span> Estrategia de estudio ECOEMS 2026</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">2</span> Metodología de aprendizaje</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">3</span> Planificación del estudio</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">4</span> Técnicas de memorización</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">5</span> Manejo del tiempo</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">6</span> Control de ansiedad</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">7</span> Recursos necesarios</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">8</span> Evaluación inicial</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">9</span> Establecimiento de metas</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 2 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M2</div>
+                    <h3 class="module-title">Habilidad Verbal I</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">10</span> Comprensión de lectura básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">11</span> Identificación de ideas principales</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">12</span> Inferencia de información</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">13</span> Vocabulario contextual</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">14</span> Analogías verbales</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">15</span> Sinónimos y antónimos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">16</span> Coherencia textual</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">17</span> Cohesión gramatical</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">18</span> Ejercicios prácticos I</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 3 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M3</div>
+                    <h3 class="module-title">Habilidad Verbal II</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">19</span> Comprensión avanzada</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">20</span> Análisis crítico</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">21</span> Argumentación lógica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">22</span> Figuras literarias</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">23</span> Textos argumentativos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">24</span> Textos expositivos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">25</span> Textos narrativos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">26</span> Textos descriptivos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">27</span> Ejercicios prácticos II</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 4 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M4</div>
+                    <h3 class="module-title">Pensamiento Matemático I</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">28</span> Aritmética básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">29</span> Álgebra elemental</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">30</span> Ecuaciones lineales</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">31</span> Sistema de ecuaciones</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">32</span> Razones y proporciones</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">33</span> Porcentajes</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">34</span> Geometría básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">35</span> Perímetros y áreas</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">36</span> Ejercicios prácticos</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 5 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M5</div>
+                    <h3 class="module-title">Pensamiento Matemático II</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">37</span> Geometría analítica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">38</span> Trigonometría básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">39</span> Probabilidad</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">40</span> Estadística</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">41</span> Funciones matemáticas</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">42</span> Sucesiones</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">43</span> Series numéricas</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">44</span> Problemas de aplicación</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">45</span> Ejercicios avanzados</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 6 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M6</div>
+                    <h3 class="module-title">Pensamiento Analítico</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">46</span> Razonamiento lógico</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">47</span> Silogismos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">48</span> Problemas de lógica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">49</span> Series espaciales</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">50</span> Analogías figurales</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">51</span> Matrices lógicas</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">52</span> Cubos y figuras 3D</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">53</span> Orientación espacial</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">54</span> Ejercicios integradores</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 7 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M7</div>
+                    <h3 class="module-title">Ciencias Experimentales</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">55</span> Biología celular</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">56</span> Genética básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">57</span> Ecología y ambiente</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">58</span> Química básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">59</span> Enlaces químicos</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">60</span> Reacciones químicas</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">61</span> Física mecánica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">62</span> Termodinámica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">63</span> Ejercicios aplicados</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 8 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M8</div>
+                    <h3 class="module-title">Ciencias Sociales</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">64</span> Historia de México I</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">65</span> Historia de México II</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">66</span> Historia Universal</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">67</span> Geografía física</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">68</span> Geografía humana</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">69</span> Economía básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">70</span> Civismo y ética</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">71</span> Filosofía básica</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">72</span> Análisis social</a></li>
+                </ul>
+            </div>
+            
+            <!-- Módulo 9 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">M9</div>
+                    <h3 class="module-title">Simuladores y Exámenes</h3>
+                </div>
+                <ul class="videos-list">
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">73</span> Estrategias para examen</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">74</span> Manejo del tiempo en examen</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">75</span> Técnicas de adivinación</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">76</span> Simulador completo I</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">77</span> Simulador completo II</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">78</span> Análisis de resultados</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">79</span> Corrección de errores</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">80</span> Repaso final</a></li>
+                    <li class="video-item"><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" class="video-link" target="_blank"><span class="video-number">81</span> Consejos finales</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SIMULATOR SECTION -->
+    <section id="simulador" class="simulator-section">
+        <div class="simulator-card">
+            <div class="simulator-content">
+                <h3>Simulador de Habilidad Verbal</h3>
+                <p>130 preguntas especializadas organizadas por 13 subíndices específicos</p>
+                
+                <div class="simulator-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">13</div>
+                        <p>Subíndices</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">130</div>
+                        <p>Preguntas</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <p>Interactivo</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <p>Disponible</p>
+                    </div>
+                </div>
+                
+                <a href="habilidad-verbal.html" class="simulator-button">
+                    <i class="fas fa-gamepad"></i> Ir al Simulador Completo
+                </a>
+                
+                <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                    Incluye seguimiento de progreso, estadísticas detalladas y explicaciones por pregunta
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>CyberEduMX</h4>
+                <p>Plataforma de preparación para exámenes de ingreso a nivel medio superior.</p>
+                <p>© 2026 CyberEdu MX & BioReto Academy</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <ul class="footer-links">
+                    <li><a href="#videos">Video-lecciones</a></li>
+                    <li><a href="#simulador">Simulador</a></li>
+                    <li><a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" target="_blank">Curso Completo</a></li>
+                    <li><a href="https://www.udemy.com/course/ecoems2026conia/?referralCode=B2F05026985A2564FAAC" target="_blank">Curso Udemy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <ul class="footer-links">
+                    <li><a href="https://wa.me/5523269241" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp: 55 2326 9241</a></li>
+                    <li><a href="mailto:JoseLuisGlez@cyberedumx.com"><i class="fas fa-envelope"></i> Email</a></li>
+                    <li><a href="https://cyberedumx.com" target="_blank"><i class="fas fa-globe"></i> Sitio Web</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Recursos Adicionales</h4>
+                <ul class="footer-links">
+                    <li><a href="https://cyberedumx.com/ecoems2026" target="_blank">Dashboard ECOEMS 2026</a></li>
+                    <li><a href="https://cyberedumx.com/blog" target="_blank">Blog Educativo</a></li>
+                    <li><a href="https://cyberedumx.com/recursos" target="_blank">Recursos Gratuitos</a></li>
+                    <li><a href="https://cyberedumx.com/privacidad" target="_blank">Política de Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>Google Analytics ID: G-88JWPSS4QL | Versión 2.0 | Fecha del examen: 15 de Junio 2026</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Función para scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Función para contar visualizaciones
+        document.addEventListener('DOMContentLoaded', function() {
+            // Enviar evento a Google Analytics cuando se carga la página
+            if(typeof gtag !== 'undefined') {
+                gtag('event', 'page_view', {
+                    'page_title': 'Dashboard ECOEMS 2026',
+                    'page_location': window.location.href
+                });
+            }
+            
+            // Mostrar contador de videos
+            const videoCount = document.querySelectorAll('.video-item').length;
+            console.log(`Total de video-lecciones disponibles: ${videoCount}`);
+        });
+    </script>
+</body>
+</html>

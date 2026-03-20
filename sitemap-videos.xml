@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Videos del 0 al 90 -->
+    <url>
+        <loc>https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente#video-0</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <video:video>
+            <video:thumbnail_loc>https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg</video:thumbnail_loc>
+            <video:title>Video 0: Estrategia Inteligente ECOEMS 2026</video:title>
+            <video:description>Introducción a la estrategia de dos fases para dominar el examen ECOEMS 2026</video:description>
+            <video:content_loc>https://www.youtube.com/watch?v=dQw4w9WgXcQ</video:content_loc>
+            <video:duration>275</video:duration>
+            <video:publication_date>2024-01-15T00:00:00+00:00</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:tag>ECOEMS 2026</video:tag>
+            <video:tag>estrategia</video:tag>
+            <video:tag>preparación</video:tag>
+            <video:category>Educación</video:category>
+        </video:video>
+    </url>
+    
+    <!-- Video 1 -->
+    <url>
+        <loc>https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente#video-1</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <video:video>
+            <video:thumbnail_loc>https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg</video:thumbnail_loc>
+            <video:title>Video 1: Habilidad Verbal - Comprensión Lectora</video:title>
+            <video:description>Desarrollo de habilidades de comprensión lectora para el ECOEMS 2026</video:description>
+            <video:content_loc>https://www.youtube.com/watch?v=dQw4w9WgXcQ</video:content_loc>
+            <video:duration>310</video:duration>
+            <video:publication_date>2024-01-15T00:00:00+00:00</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:tag>habilidad verbal</video:tag>
+            <video:tag>comprensión lectora</video:tag>
+        </video:video>
+    </url>
+    
+    <!-- Video 2 -->
+    <url>
+        <loc>https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente#video-2</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <video:video>
+            <video:thumbnail_loc>https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg</video:thumbnail_loc>
+            <video:title>Video 2: Habilidad Verbal - Vocabulario y Sinónimos</video:title>
+            <video:description>Aprende a identificar sinónimos y amplía tu vocabulario para el ECOEMS</video:description>
+            <video:content_loc>https://www.youtube.com/watch?v=dQw4w9WgXcQ</video:content_loc>
+            <video:duration>315</video:duration>
+            <video:publication_date>2024-01-15T00:00:00+00:00</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:tag>vocabulario</video:tag>
+            <video:tag>sinónimos</video:tag>
+        </video:video>
+    </url>
+    
+    <!-- Video 3 -->
+    <url>
+        <loc>https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente#video-3</loc>
+        <lastmod>2024-01-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+        <video:video>
+            <video:thumbnail_loc>https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg</video:thumbnail_loc>
+            <video:title>Video 3: Habilidad Verbal - Analogías Verbales</video:title>
+            <video:description>Domina las analogías verbales para el examen ECOEMS 2026</video:description>
+            <video:content_loc>https://www.youtube.com/watch?v=dQw4w9WgXcQ</video:content_loc>
+            <video:duration>320</video:duration>
+            <video:publication_date>2024-01-15T00:00:00+00:00</video:publication_date>
+            <video:family_friendly>yes</video:family_friendly>
+            <video:tag>analogías</video:tag>
+            <video:tag>razonamiento verbal</video:tag>
+        </video:video>
+    </url>
+    
+    <!-- Puedes continuar con los 91 videos -->
+    <!-- Para ahorrar espacio, aquí solo incluí 4 ejemplos -->
+    <!-- En producción, deberías generar esto dinámicamente con PHP -->
+    
+</urlset>

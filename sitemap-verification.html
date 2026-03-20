@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificación Sitemap - CyberEdu MX</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>Verificación de Sitemaps</h1>
+    
+    <div id="verificationResults"></div>
+    
+    <script>
+        const sitemaps = [
+            { name: 'Sitemap Principal', url: '/sitemap.xml' },
+            { name: 'Sitemap Videos', url: '/sitemap-videos.xml' },
+            { name: 'Sitemap Dinámico', url: '/sitemap-generator.php' }
+        ];
+        
+        async function verifySitemap(sitemap) {
+            try {
+                const response = await fetch(sitemap.url);
+                const status = response.status;
+                
+                if (status === 200) {
+                    return `<div class="status success">✅ ${sitemap.name}: OK (${status})</div>`;
+                } else {
+                    return `<div class="status error">❌ ${sitemap.name}: Error ${status}</div>`;
+                }
+            } catch (error) {
+                return `<div class="status error">❌ ${sitemap.name}: ${error.message}</div>`;
+            }
+        }
+        
+        async function verifyAll() {
+            const resultsDiv = document.getElementById('verificationResults');
+            resultsDiv.innerHTML = '<p>Verificando sitemaps...</p>';
+            
+            let results = '';
+            for (const sitemap of sitemaps) {
+                results += await verifySitemap(sitemap);
+            }
+            
+            resultsDiv.innerHTML = results;
+        }
+        
+        // Verificar al cargar la página
+        document.addEventListener('DOMContentLoaded', verifyAll);
+    </script>
+</body>
+</html>

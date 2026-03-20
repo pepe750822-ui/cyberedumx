@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberEdu: n8n & Agentes IA | De Usuario a Arquitecto sin Programar</title>
+    <meta name="description" content="Domina n8n y crea tus propios agentes de IA con la metodología CyberEdu probada. Videos de menos de 5 minutos. Proyectos reales. Sin programación.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF3B5C;
+            --primary-dark: #D81C42;
+            --secondary: #00D4AA;
+            --accent: #FFD166;
+            --cyber-blue: #00C2FF;
+            --cyber-purple: #9D4EDD;
+            --dark: #0A0A14;
+            --darker: #05050A;
+            --light: #F5F7FA;
+            --gray: #8A8F9C;
+            --light-gray: #E2E5EB;
+            --success: #00D68F;
+            --warning: #FFAA00;
+            --danger: #FF3D71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--light);
+            background-color: var(--darker);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(157, 78, 221, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 194, 255, 0.1) 0%, transparent 20%);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        
+        .cyber-font {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: rgba(10, 10, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 59, 92, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--cyber-purple));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary), var(--cyber-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.7rem;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 59, 92, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 59, 92, 0.6);
+        }
+        
+        .cta-button-secondary {
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            box-shadow: 0 4px 15px rgba(0, 194, 255, 0.4);
+        }
+        
+        .cta-button-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 194, 255, 0.6);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--light);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 59, 92, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 70% 70%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+        
+        .hero-text {
+            flex: 1;
+        }
+        
+        .hero-video {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        
+        .hero-video::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 59, 92, 0.1), transparent);
+            z-index: 1;
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--darker), #151525);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 59, 92, 0.5);
+            z-index: 2;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(255, 59, 92, 0.7);
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--cyber-purple));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(255, 59, 92, 0.4);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--cyber-blue), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .hero-counter {
+            background: rgba(10, 10, 20, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            max-width: 500px;
+        }
+        
+        .counter-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .counter-progress {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .counter-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--cyber-blue));
+            width: 87%;
+            border-radius: 10px;
+            position: relative;
+            transition: width 2s ease;
+        }
+        
+        .counter-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .counter-highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Timer de Oferta */
+        .offer-timer {
+            background: linear-gradient(135deg, rgba(255, 59, 92, 0.2), rgba(157, 78, 221, 0.2));
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .timer-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+        
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .timer-unit {
+            background: rgba(10, 10, 20, 0.8);
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 70px;
+        }
+        
+        .timer-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .timer-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+        
+        /* Sección Mapa RPG */
+        .rpg-map {
+            padding: 100px 0;
+            background-color: rgba(5, 5, 10, 0.9);
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-size: 1.2rem;
+        }
+        
+        .rpg-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+        }
+        
+        .rpg-path {
+            position: relative;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--cyber-blue), var(--secondary));
+            border-radius: 5px;
+            margin: 40px 0;
+        }
+        
+        .rpg-levels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            margin-top: 50px;
+        }
+        
+        .rpg-level {
+            width: 180px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .rpg-level:hover {
+            transform: translateY(-10px);
+        }
+        
+        .level-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--darker), #151525);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+            border: 3px solid;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .level-1 .level-icon { border-color: var(--primary); }
+        .level-2 .level-icon { border-color: var(--secondary); }
+        .level-3 .level-icon { border-color: var(--cyber-blue); }
+        .level-4 .level-icon { border-color: var(--cyber-purple); }
+        .level-5 .level-icon { border-color: var(--accent); }
+        .level-6 .level-icon { border-color: #FF3B5C; }
+        .level-7 .level-icon { border-color: #00D4AA; border-width: 5px; }
+        
+        .level-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .level-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .level-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+        
+        /* Sección Metodología */
+        .methodology {
+            padding: 100px 0;
+            background-color: var(--dark);
+        }
+        
+        .methodology-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .methodology-card {
+            background: linear-gradient(135deg, rgba(10, 10, 20, 0.8), rgba(20, 20, 40, 0.8));
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .methodology-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .methodology-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .methodology-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        /* Sección Badges */
+        .badges {
+            padding: 100px 0;
+            background-color: rgba(5, 5, 10, 0.9);
+        }
+        
+        .badges-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, rgba(10, 10, 20, 0.8), rgba(20, 20, 40, 0.8));
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .badge:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+        
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .badge-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .badge-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Sección Tribu */
+        .tribe {
+            padding: 100px 0;
+            background-color: var(--dark);
+        }
+        
+        .tribe-stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: 50px 0;
+        }
+        
+        .stat {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(10, 10, 20, 0.8), rgba(20, 20, 40, 0.8));
+            border-radius: 15px;
+            padding: 30px;
+            min-width: 200px;
+            border-top: 5px solid var(--primary);
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+        
+        /* Sección Precios */
+        .pricing {
+            padding: 100px 0;
+            background-color: rgba(5, 5, 10, 0.9);
+        }
+        
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(10, 10, 20, 0.9), rgba(20, 20, 40, 0.9));
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 59, 92, 0.3);
+        }
+        
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .pricing-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .pricing-period {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        .pricing-features {
+            margin: 30px 0;
+        }
+        
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .pricing-feature i {
+            color: var(--secondary);
+        }
+        
+        /* FAQ */
+        .faq {
+            padding: 100px 0;
+            background-color: var(--dark);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, rgba(10, 10, 20, 0.8), rgba(20, 20, 40, 0.8));
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--gray);
+        }
+        
+        .faq-answer.active {
+            padding: 20px;
+            max-height: 500px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: rgba(5, 5, 10, 0.95);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 59, 92, 0.2);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .rpg-levels {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .rpg-level {
+                width: 150px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .timer-display {
+                flex-wrap: wrap;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">CE</div>
+                    <div class="logo-text">
+                        <div class="logo-title">CyberEdu</div>
+                        <div class="logo-subtitle">n8n & AGENTES IA</div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#mapa">Mapa RPG</a></li>
+                        <li><a href="#metodologia">Metodología</a></li>
+                        <li><a href="#badges">Badges</a></li>
+                        <li><a href="#tribu">La Tribu</a></li>
+                        <li><a href="#precios">Precios</a></li>
+                    </ul>
+                </nav>
+                
+                <a href="#precios" class="cta-button">Acceso Inmediato</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">🔥 OFERTA DE LANZAMIENTO</div>
+                    <h1 class="hero-title">De Usuario a Arquitecto de IA</h1>
+                    <p class="hero-subtitle">Construye tu Asistente Virtual Personal sin programar. Metodología CyberEdu probada en ECOEMS2026.</p>
+                    
+                    <div class="hero-counter">
+                        <div class="counter-title">Primeros 100 cupos a $100 MXN</div>
+                        <div class="counter-progress">
+                            <div class="counter-bar" id="progressBar"></div>
+                        </div>
+                        <div class="counter-text">
+                            <span>87/100 disponibles</span>
+                            <span class="counter-highlight">¡SOLO 13 CUPOS!</span>
+                        </div>
+                    </div>
+                    
+                    <div class="offer-timer">
+                        <div class="timer-title">Oferta termina en:</div>
+                        <div class="timer-display">
+                            <div class="timer-unit">
+                                <div class="timer-value" id="days">04</div>
+                                <div class="timer-label">Días</div>
+                            </div>
+                            <div class="timer-unit">
+                                <div class="timer-value" id="hours">12</div>
+                                <div class="timer-label">Horas</div>
+                            </div>
+                            <div class="timer-unit">
+                                <div class="timer-value" id="minutes">45</div>
+                                <div class="timer-label">Minutos</div>
+                            </div>
+                            <div class="timer-unit">
+                                <div class="timer-value" id="seconds">22</div>
+                                <div class="timer-label">Segundos</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#precios" class="cta-button" style="font-size: 1.2rem; padding: 15px 40px;">Iniciar Transformación - $100 MXN</a>
+                </div>
+                
+                <div class="hero-video">
+                    <div class="video-placeholder">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mapa RPG -->
+    <section class="rpg-map" id="mapa">
+        <div class="container">
+            <h2 class="section-title">Los 7 Niveles del Arquitecto de IA</h2>
+            <p class="section-subtitle">Mapa interactivo estilo videojuego que te guía de principiante a experto</p>
+            
+            <div class="rpg-container">
+                <div class="rpg-path"></div>
+                
+                <div class="rpg-levels">
+                    <div class="rpg-level level-1">
+                        <div class="level-icon">🧩</div>
+                        <h3 class="level-title">Tierras Bajas</h3>
+                        <p class="level-desc">Fundamentos n8n</p>
+                        <div class="level-badge">Módulo 1</div>
+                    </div>
+                    
+                    <div class="rpg-level level-2">
+                        <div class="level-icon">🤖</div>
+                        <h3 class="level-title">Bosque Digital</h3>
+                        <p class="level-desc">Agentes de Texto</p>
+                        <div class="level-badge">Módulo 2</div>
+                    </div>
+                    
+                    <div class="rpg-level level-3">
+                        <div class="level-icon">👥</div>
+                        <h3 class="level-title">Montañas de Datos</h3>
+                        <p class="level-desc">Sistemas Multi-Agente</p>
+                        <div class="level-badge">Módulo 3</div>
+                    </div>
+                    
+                    <div class="rpg-level level-4">
+                        <div class="level-icon">🎙️</div>
+                        <h3 class="level-title">Cañones del Sonido</h3>
+                        <p class="level-desc">Agentes de Voz IA</p>
+                        <div class="level-badge">Módulo 4</div>
+                    </div>
+                    
+                    <div class="rpg-level level-5">
+                        <div class="level-icon">🎨</div>
+                        <h3 class="level-title">Llanura Creativa</h3>
+                        <p class="level-desc">Contenido Generativo</p>
+                        <div class="level-badge">Módulo 5</div>
+                    </div>
+                    
+                    <div class="rpg-level level-6">
+                        <div class="level-icon">⚙️</div>
+                        <h3 class="level-title">Ciudad Cyberpunk</h3>
+                        <p class="level-desc">Automatización Avanzada</p>
+                        <div class="level-badge">Módulo 6</div>
+                    </div>
+                    
+                    <div class="rpg-level level-7">
+                        <div class="level-icon">🚀</div>
+                        <h3 class="level-title">Cumbre del Arquitecto</h3>
+                        <p class="level-desc">Proyecto Final</p>
+                        <div class="level-badge">Módulo 7</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metodología -->
+    <section class="methodology" id="metodologia">
+        <div class="container">
+            <h2 class="section-title">Metodología CyberEdu</h2>
+            <p class="section-subtitle">Los 4 pilares que hacen único nuestro sistema de aprendizaje</p>
+            
+            <div class="methodology-cards">
+                <div class="methodology-card">
+                    <div class="methodology-icon">🕒</div>
+                    <h3>Micro-Mastery</h3>
+                    <p>Videos de 5 minutos, dominio concentrado. Aprende en pequeños bloques que puedes consumir en cualquier momento.</p>
+                </div>
+                
+                <div class="methodology-card">
+                    <div class="methodology-icon">🎯</div>
+                    <h3>Project-Based</h3>
+                    <p>No teoría, proyectos usables hoy. Cada módulo termina con un proyecto real que puedes implementar inmediatamente.</p>
+                </div>
+                
+                <div class="methodology-card">
+                    <div class="methodology-icon">🧠</div>
+                    <h3>Neuro-Friendly</h3>
+                    <p>Diseñado para cerebro mexicano. Contenido estructurado para nuestro contexto y formas de aprendizaje.</p>
+                </div>
+                
+                <div class="methodology-card">
+                    <div class="methodology-icon">🤝</div>
+                    <h3>Tribe-First</h3>
+                    <p>No estudias solo, asciendes en tribu. Comunidad activa donde compartes progresos y resuelves dudas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Badges -->
+    <section class="badges" id="badges">
+        <div class="container">
+            <h2 class="section-title">Sistema de Badges</h2>
+            <p class="section-subtitle">Reconoce tus logros y muestra tu progreso en la Tribu</p>
+            
+            <div class="badges-container">
+                <div class="badge">
+                    <div class="badge-icon">🧩</div>
+                    <h3 class="badge-title">Ninja de los Flujos</h3>
+                    <p class="badge-desc">Al completar Módulo 1</p>
+                </div>
+                
+                <div class="badge">
+                    <div class="badge-icon">🤖</div>
+                    <h3 class="badge-title">Sensei de los Agentes</h3>
+                    <p class="badge-desc">Al completar Módulo 2</p>
+                </div>
+                
+                <div class="badge">
+                    <div class="badge-icon">👥</div>
+                    <h3 class="badge-title">Maestro Multi-Agente</h3>
+                    <p class="badge-desc">Al completar Módulo 3</p>
+                </div>
+                
+                <div class="badge">
+                    <div class="badge-icon">🎙️</div>
+                    <h3 class="badge-title">Shogun de la Voz IA</h3>
+                    <p class="badge-desc">Al completar Módulo 4</p>
+                </div>
+                
+                <div class="badge">
+                    <div class="badge-icon">🎨</div>
+                    <h3 class="badge-title">Artista Generativo</h3>
+                    <p class="badge-desc">Al completar Módulo 5</p>
+                </div>
+                
+                <div class="badge">
+                    <div class="badge-icon">⚙️</div>
+                    <h3 class="badge-title">Ingeniero de Automatización</h3>
+                    <p class="badge-desc">Al completar Módulo 6</p>
+                </div>
+                
+                <div class="badge">
+                    <div class="badge-icon">🚀</div>
+                    <h3 class="badge-title">Arquitecto CyberEdu</h3>
+                    <p class="badge-desc">Solo 3% alcanza este nivel</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- La Tribu -->
+    <section class="tribe" id="tribu">
+        <div class="container">
+            <h2 class="section-title">La Tribu CyberEdu</h2>
+            <p class="section-subtitle">No estudias solo, asciendes en comunidad</p>
+            
+            <div class="tribe-stats">
+                <div class="stat">
+                    <div class="stat-value">247</div>
+                    <div class="stat-label">Miembros activos</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Proyectos compartidos</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-value">42</div>
+                    <div class="stat-label">Badges otorgados</div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Desafíos activos</div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--gray);">
+                Acceso a Discord/Telegram exclusivo con canales de #proyectos-epicos, #desafios-semanales, 
+                #pair-hacking y #logros. Comparte tus agentes creativos y resuelve errores junto a la comunidad.
+            </p>
+            
+            <div style="text-align: center;">
+                <a href="#precios" class="cta-button cta-button-secondary">Unirme a la Tribu</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Precios -->
+    <section class="pricing" id="precios">
+        <div class="container">
+            <h2 class="section-title">Invierte en Tu Futuro</h2>
+            <p class="section-subtitle">Acceso único, precio único, beneficio vitalicio</p>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card featured">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Arquitecto CyberEdu</h3>
+                        <div class="pricing-price">$100 <span style="font-size: 1.5rem;">MXN</span></div>
+                        <div class="pricing-period">Pago único • Acceso vitalicio</div>
+                    </div>
+                    
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Acceso a los 7 módulos completos</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>42 videos de <5 minutos cada uno</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Acceso a la Tribu CyberEdu</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Sistema de badges y progreso RPG</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Plantillas de workflows premium</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Biblioteca de nodos pre-configurados</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Desafíos semanales con recompensas</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>7 días de garantía sin preguntas</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="cta-button" style="width: 100%; text-align: center;">Obtener Acceso Inmediato</a>
+                    
+                    <p style="text-align: center; margin-top: 20px; color: var(--gray); font-size: 0.9rem;">
+                        <i class="fas fa-bolt"></i> Solo 13 cupos disponibles a este precio
+                    </p>
+                </div>
+            </div>
+            
+            <div style="max-width: 800px; margin: 40px auto 0; padding: 20px; background: rgba(255, 59, 92, 0.1); border-radius: 10px; text-align: center;">
+                <h3 style="color: white; margin-bottom: 15px;">Garantía CyberEdu</h3>
+                <p style="color: var(--gray);">
+                    "7 días sin preguntas. Si en una semana no has automatizado al menos 2 horas 
+                    de trabajo semanal con lo aprendido, te devolvemos el 100% de tu inversión."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <p class="section-subtitle">Todo lo que necesitas saber antes de unirte</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Necesito saber programar?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>CERO programación requerida.</strong> n8n funciona de manera visual arrastrando y soltando nodos. Todo el curso está diseñado para que personas sin experiencia técnica puedan crear agentes de IA avanzados.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Qué incluye exactamente el curso?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Incluye 7 módulos, 42 videos (todos menores a 5 minutos), acceso a la comunidad Tribu CyberEdu, sistema de badges, plantillas de workflows, biblioteca de nodos pre-configurados, desafíos semanales y soporte dentro de la comunidad.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Hay algún costo mensual?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>NO.</strong> Es un pago único con acceso vitalicio. Una vez que compras el curso, tienes acceso para siempre a todas las actualizaciones futuras sin costo adicional.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Puedo pagar en OXXO?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>¡SÍ!</strong> Al momento de pagar, selecciona la opción "OXXO" en MercadoPago. Generarás una referencia que puedes pagar en cualquier tienda OXXO. Recibirás tu acceso por email una vez confirmado el pago.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Cuándo empiezo y a qué hora son las clases?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>ACCESO INMEDIATO</strong> tras confirmarse tu pago. No hay horarios fijos: todos los videos están pregrabados y puedes avanzar a tu propio ritmo, en cualquier momento del día.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>¿Es para mi si nunca he usado n8n?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Absolutamente.</strong> El curso comienza desde CERO. El Módulo 1 te guía paso a paso en la instalación y primeros flujos. Si ya has usado ECOEMS2026, conocerás nuestra metodología y te resultará natural.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- SECCIÓN TUTOR IA -->
+    <section class="tutor-ia-section" style="padding: 100px 0; background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%); color: white; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
+        <div class="container">
+            <h2 class="cyber-font" style="font-size: 2.5rem; margin-bottom: 30px; font-weight: bold; background: linear-gradient(90deg, var(--secondary), var(--cyber-blue)); -webkit-background-clip: text; background-clip: text; color: transparent;">Tu Tutor con Inteligencia Artificial</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <p style="font-size: 1.2rem; margin-bottom: 40px; color: var(--gray);">Estudia con un tutor personalizado impulsado por Claude AI de Anthropic. Te explica cualquier tema del temario ECOEMS, te hace quizzes interactivos y adapta el estudio a tus áreas débiles. Disponible 24/7 por solo $25 pesos al mes.</p>
+                <a href="https://cyberedumx.lovable.app/" target="_blank" class="cta-button cta-button-secondary" style="padding: 18px 40px; font-size: 1.2rem;">Probar el Tutor IA Gratis</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CyberEdu MX</h3>
+                    <p>Transformando la educación con metodologías innovadoras y tecnología de vanguardia. Cursos diseñados para el cerebro mexicano.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#mapa">Mapa RPG</a></li>
+                        <li><a href="#metodologia">Metodología</a></li>
+                        <li><a href="#badges">Badges</a></li>
+                        <li><a href="#tribu">La Tribu</a></li>
+                        <li><a href="#precios">Precios</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hola@cyberedumx.com</li>
+                        <li><i class="fas fa-globe"></i> cyberedumx.com</li>
+                        <li><i class="fas fa-book"></i> ECOEMS2026</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 CyberEdu MX. Todos los derechos reservados. | Curso "n8n & Agentes IA: De Usuario a Arquitecto"</p>
+                <p style="margin-top: 10px;">Este sitio es parte de la estrategia 100% CyberEdu MX. Diseñado y desarrollado exclusivamente para cyberedumx.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menú móvil
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const nav = document.querySelector('nav ul');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Cerrar menú móvil si está abierto
+                    if(window.innerWidth <= 768) {
+                        document.querySelector('nav ul').style.display = 'none';
+                    }
+                }
+            });
+        });
+        
+        // Cambiar estilo del header al hacer scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if(window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+        
+        // Timer de oferta
+        function updateTimer() {
+            const now = new Date();
+            const targetDate = new Date();
+            targetDate.setDate(now.getDate() + 4); // 4 días desde ahora
+            targetDate.setHours(23, 59, 59, 999); // Fin del día
+            
+            const diff = targetDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // Actualizar barra de progreso
+            const progressBar = document.getElementById('progressBar');
+            const currentCupos = 87;
+            const totalCupos = 100;
+            const porcentaje = (currentCupos / totalCupos) * 100;
+            progressBar.style.width = `${porcentaje}%`;
+            
+            // Si el tiempo se acaba
+            if(diff < 0) {
+                clearInterval(timerInterval);
+                document.querySelector('.offer-timer').innerHTML = '<div class="timer-title">¡Oferta cerrada!</div>';
+            }
+        }
+        
+        // Iniciar timer
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+        
+        // FAQ interactivo
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                // Cerrar otras respuestas abiertas
+                document.querySelectorAll('.faq-answer').forEach(otherAnswer => {
+                    if(otherAnswer !== answer && otherAnswer.classList.contains('active')) {
+                        otherAnswer.classList.remove('active');
+                        otherAnswer.previousElementSibling.querySelector('i').style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Alternar respuesta actual
+                answer.classList.toggle('active');
+                icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+        
+        // Efecto de escritura para el título
+        const heroTitle = document.querySelector('.hero-title');
+        const originalText = heroTitle.textContent;
+        heroTitle.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if(i < originalText.length) {
+                heroTitle.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        
+        // Iniciar efecto de escritura cuando la página carga
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 500);
+            
+            // Animar barra de progreso
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '0%';
+            setTimeout(() => {
+                progressBar.style.width = '87%';
+            }, 1000);
+        });
+        
+        // Simular clic en video
+        document.querySelector('.play-button').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-pause"></i>';
+            this.style.backgroundColor = 'var(--secondary)';
+            
+            // Simular que se abre un video
+            const videoPlaceholder = document.querySelector('.video-placeholder');
+            videoPlaceholder.innerHTML = `
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #000;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                        <p style="color: white;">[VIDEO TRAILER DEL CURSO]</p>
+                        <p style="color: var(--gray); font-size: 0.9rem;">60 segundos • Automatización con IA</p>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

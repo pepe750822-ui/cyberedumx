@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador ENLACE EMS con Imágenes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #4a148c 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, #283593, #5e35b1);
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #ffd600;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .timer-container {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .timer-container i {
+            color: #ffd600;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            min-height: 700px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #f5f5f5;
+            border-right: 1px solid #e0e0e0;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            color: #283593;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #5e35b1;
+            font-size: 1.3rem;
+        }
+
+        .subject-list {
+            list-style: none;
+        }
+
+        .topic-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .topic-item:hover {
+            background: #e8eaf6;
+            transform: translateX(5px);
+        }
+
+        .topic-item.active {
+            background: #283593;
+            color: white;
+            border-left-color: #ffd600;
+        }
+
+        .progress-section {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+            border-radius: 6px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* Simulator Area */
+        .simulator-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .question-number {
+            font-size: 1.8rem;
+            color: #283593;
+            font-weight: 700;
+        }
+
+        .question-info {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .question-image {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option:hover {
+            background: #e8eaf6;
+            border-color: #9fa8da;
+        }
+
+        .option.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .option.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+        .option.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            background: #5e35b1;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        .option-image {
+            max-width: 150px;
+            max-height: 100px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            flex-shrink: 0;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: #5e35b1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn:hover {
+            background: #4527a0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn {
+            background: #4caf50;
+        }
+
+        .submit-btn:hover {
+            background: #388e3c;
+        }
+
+        /* Feedback */
+        .feedback {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.correct {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+        }
+
+        .feedback.incorrect {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+        }
+
+        .feedback-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feedback-text {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Results Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            animation: modalAppear 0.5s ease;
+        }
+
+        @keyframes modalAppear {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, #283593, #5e35b1);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .result-item {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #283593;
+            margin: 10px 0;
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Simulador ENLACE EMS con Imágenes</h1>
+            </div>
+            <div class="timer-container">
+                <i class="fas fa-clock"></i>
+                <span id="timer">60:00</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3><i class="fas fa-book-open"></i> Materias</h3>
+                <ul class="subject-list" id="subjectList">
+                    <!-- Las materias se cargarán aquí -->
+                </ul>
+                
+                <div class="progress-section">
+                    <h3><i class="fas fa-chart-line"></i> Progreso</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div id="progressText">0/0 preguntas</div>
+                </div>
+            </div>
+
+            <!-- Simulator Area -->
+            <div class="simulator-area" id="simulatorArea">
+                <!-- El contenido del simulador se cargará aquí -->
+                <div class="question-header">
+                    <div class="question-number">Pregunta <span id="currentQNumber">1</span></div>
+                    <div class="question-info" id="topicInfo">Habilidad Verbal - Comprensión de textos</div>
+                </div>
+                
+                <div class="question-text" id="questionText">
+                    Cargando pregunta...
+                </div>
+                
+                <img id="questionImage" class="question-image" src="" alt="" style="display: none;">
+                
+                <div class="options-container" id="optionsContainer">
+                    <!-- Las opciones se cargarán aquí -->
+                </div>
+                
+                <div class="feedback" id="feedback">
+                    <!-- Feedback se mostrará aquí -->
+                </div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" id="prevBtn" onclick="prevQuestion()">
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    
+                    <button class="nav-btn submit-btn" id="submitBtn" onclick="submitAnswer()">
+                        <i class="fas fa-check-circle"></i> Confirmar respuesta
+                    </button>
+                    
+                    <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">
+                        Siguiente <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="modal-overlay" id="resultsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-trophy"></i> Resultados del Simulador</h2>
+            </div>
+            <div class="modal-body">
+                <p style="text-align: center; margin-bottom: 20px;">¡Has completado el simulador!</p>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Preguntas contestadas</div>
+                        <div class="result-value" id="resultsAnswered">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Respuestas correctas</div>
+                        <div class="result-value" id="resultsCorrect">0</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Calificación</div>
+                        <div class="result-value" id="resultsScore">0%</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Tiempo utilizado</div>
+                        <div class="result-value" id="resultsTime">00:00</div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="nav-btn" onclick="closeResults()">
+                        <i class="fas fa-times"></i> Cerrar
+                    </button>
+                    <button class="nav-btn submit-btn" onclick="restartSimulator()">
+                        <i class="fas fa-redo"></i> Reiniciar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // BASE DE DATOS DE PREGUNTAS CON IMÁGENES
+        // =============================================
+
+        const subjectsData = {
+            hab_verb: {
+                title: "Habilidad Verbal",
+                topics: [
+                    {
+                        id: "comprension",
+                        title: "1. Comprensión de textos",
+                        subtopics: [
+                            {
+                                title: "1.1 Identificar la idea principal",
+                                quiz: [
+                                    {
+                                        q: "Lee el siguiente texto y elige la idea principal:\n\n'La fotosíntesis es el proceso mediante el cual las plantas, algas y algunas bacterias convierten la energía lumínica en energía química. Utilizan dióxido de carbono y agua para producir glucosa y liberar oxígeno. Este proceso es fundamental para la vida en la Tierra, ya que proporciona alimento y oxígeno para la mayoría de los seres vivos.'",
+                                        options: [
+                                            "La fotosíntesis produce glucosa y oxígeno",
+                                            "La fotosíntesis es fundamental para la vida en la Tierra",
+                                            "Las plantas convierten energía lumínica en química",
+                                            "La fotosíntesis usa dióxido de carbono y agua"
+                                        ],
+                                        correct: 1,
+                                        rationale: "La idea principal abarca todo el texto: la importancia fundamental del proceso para la vida."
+                                    },
+                                    {
+                                        q: "Texto: 'El cambio climático representa uno de los mayores desafíos para la humanidad en el siglo XXI. Sus efectos incluyen el aumento del nivel del mar, fenómenos meteorológicos extremos y pérdida de biodiversidad. La quema de combustibles fósiles y la deforestación son sus principales causas. Urgen medidas globales para mitigar sus impactos.'",
+                                        options: [
+                                            "El cambio climático tiene múltiples efectos negativos",
+                                            "El cambio climático es un desafío urgente que requiere acción global",
+                                            "La quema de combustibles fósiles causa cambio climático",
+                                            "El siglo XXI enfrenta graves problemas ambientales"
+                                        ],
+                                        correct: 1,
+                                        rationale: "La idea central engloba el problema, sus causas y la necesidad de solución."
+                                    },
+                                    {
+                                        q: "Texto: 'La Revolución Industrial, iniciada en Gran Bretaña en el siglo XVIII, transformó radicalmente la producción económica. Introdujo máquinas, fábricas y nuevas fuentes de energía. Esto generó crecimiento económico pero también problemas sociales como la explotación laboral y la contaminación.'",
+                                        options: [
+                                            "La Revolución Industrial comenzó en Gran Bretaña",
+                                            "La Revolución Industrial tuvo aspectos positivos y negativos",
+                                            "Las máquinas transformaron la producción económica",
+                                            "El siglo XVIII vio grandes cambios tecnológicos"
+                                        ],
+                                        correct: 1,
+                                        rationale: "La idea principal resume tanto los cambios como sus consecuencias duales."
+                                    },
+                                    {
+                                        q: "Texto: 'La biodiversidad se refiere a la variedad de vida en la Tierra, incluyendo especies, ecosistemas y diversidad genética. Proporciona servicios esenciales como polinización, purificación del agua y regulación climática. Su pérdida amenaza la estabilidad de los ecosistemas y el bienestar humano.'",
+                                        options: [
+                                            "La biodiversidad incluye especies, ecosistemas y genes",
+                                            "La biodiversidad proporciona servicios ecosistémicos cruciales",
+                                            "La pérdida de biodiversidad es una grave amenaza",
+                                            "La biodiversidad es esencial para la vida en la Tierra"
+                                        ],
+                                        correct: 3,
+                                        rationale: "Esta opción resume el concepto, su importancia y la amenaza."
+                                    },
+                                    {
+                                        q: "Texto: 'La democracia es un sistema de gobierno donde el poder reside en el pueblo, que lo ejerce mediante representantes electos. Requiere elecciones libres, estado de derecho y respeto a los derechos humanos. Aunque imperfecta, sigue siendo el sistema político más legítimo y justo.'",
+                                        options: [
+                                            "En democracia, el pueblo elige representantes",
+                                            "La democracia requiere elecciones libres y derechos humanos",
+                                            "La democracia es el sistema de gobierno más legítimo",
+                                            "La democracia es un sistema donde el pueblo tiene el poder"
+                                        ],
+                                        correct: 2,
+                                        rationale: "La idea principal es la conclusión del texto sobre su legitimidad."
+                                    },
+                                    {
+                                        q: "Imagen: Un gráfico de barras mostrando el aumento de temperatura global desde 1880 hasta 2020",
+                                        image: "https://via.placeholder.com/600x300/4CAF50/FFFFFF?text=Gráfico+de+Temperatura+Global\n(En una implementación real, aquí iría una imagen real)",
+                                        options: [
+                                            "La temperatura global ha aumentado consistentemente desde 1880",
+                                            "El año 2020 fue el más caliente registrado",
+                                            "Las fluctuaciones de temperatura son normales",
+                                            "No hay evidencia de calentamiento global"
+                                        ],
+                                        correct: 0,
+                                        rationale: "El gráfico muestra una tendencia clara de aumento a lo largo del tiempo."
+                                    },
+                                    {
+                                        q: "Imagen: Diagrama de un sistema solar con planetas orbitando alrededor del sol",
+                                        image: "https://via.placeholder.com/600x300/2196F3/FFFFFF?text=Diagrama+del+Sistema+Solar",
+                                        options: [
+                                            "El sol es el centro del sistema solar",
+                                            "Hay ocho planetas en el sistema solar",
+                                            "Los planetas tienen órbitas elípticas",
+                                            "La Tierra es el tercer planeta desde el sol"
+                                        ],
+                                        correct: 0,
+                                        rationale: "La imagen muestra claramente al sol en el centro con planetas orbitando."
+                                    },
+                                    {
+                                        q: "Texto con imagen: 'El ciclo del agua muestra cómo el agua se mueve entre la atmósfera, la tierra y los océanos.' (Acompañado de diagrama del ciclo hidrológico)",
+                                        image: "https://via.placeholder.com/600x300/00BCD4/FFFFFF?text=Ciclo+del+Agua",
+                                        options: [
+                                            "El agua se evapora, condensa y precipita",
+                                            "El ciclo del agua es un proceso continuo de recirculación",
+                                            "Los océanos son la principal fuente de evaporación",
+                                            "El agua existe en tres estados: sólido, líquido y gaseoso"
+                                        ],
+                                        correct: 1,
+                                        rationale: "La idea principal es la naturaleza cíclica y continua del proceso."
+                                    },
+                                    {
+                                        q: "Imagen: Mapa de México mostrando las regiones sísmicas en colores",
+                                        image: "https://via.placeholder.com/600x300/FF9800/FFFFFF?text=Mapa+Sísmico+de+México",
+                                        options: [
+                                            "México tiene alta actividad sísmica",
+                                            "La costa del Pacífico es la zona más sísmica",
+                                            "Los sismos son causados por placas tectónicas",
+                                            "El centro de México también es zona sísmica"
+                                        ],
+                                        correct: 0,
+                                        rationale: "El mapa en su conjunto muestra que México es un país con alta sismicidad."
+                                    },
+                                    {
+                                        q: "Texto: 'La nutrición balanceada es esencial para la salud. Incluye carbohidratos, proteínas, grasas, vitaminas y minerales en proporciones adecuadas. Una dieta variada previene enfermedades y promueve el desarrollo óptimo.'",
+                                        options: [
+                                            "Una dieta balanceada incluye todos los grupos de alimentos",
+                                            "La nutrición adecuada previene enfermedades",
+                                            "La nutrición balanceada es fundamental para la salud",
+                                            "Las vitaminas y minerales son esenciales"
+                                        ],
+                                        correct: 2,
+                                        rationale: "Resume todo el mensaje sobre la importancia de la nutrición equilibrada."
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            matematica: {
+                title: "Habilidad Matemática",
+                topics: [
+                    {
+                        id: "aritmetica",
+                        title: "1. Aritmética y álgebra",
+                        subtopics: [
+                            {
+                                title: "1.1 Operaciones con fracciones",
+                                quiz: [
+                                    {
+                                        q: "Calcula: 1/2 + 1/3",
+                                        options: ["5/6", "2/5", "3/5", "1/6"],
+                                        correct: 0,
+                                        rationale: "1/2 = 3/6, 1/3 = 2/6, suma = 5/6"
+                                    },
+                                    {
+                                        q: "Resuelve: 3/4 × 2/5",
+                                        image: "https://via.placeholder.com/400x200/9C27B0/FFFFFF?text=3/4+×+2/5",
+                                        options: ["3/10", "6/20", "5/9", "1/2"],
+                                        correct: 0,
+                                        rationale: "Multiplicación directa: (3×2)/(4×5) = 6/20 = 3/10"
+                                    },
+                                    {
+                                        q: "Imagen: Un círculo dividido en 8 partes iguales, con 3 partes sombreadas",
+                                        image: "https://via.placeholder.com/400x200/FF5722/FFFFFF?text=Círculo:+3/8+sombreado",
+                                        options: ["3/8", "5/8", "1/3", "3/5"],
+                                        correct: 0,
+                                        rationale: "3 partes sombreadas de 8 totales = 3/8"
+                                    },
+                                    {
+                                        q: "¿Cuál es mayor: 2/3 o 3/5?",
+                                        options: ["2/3", "3/5", "Son iguales", "No se puede comparar"],
+                                        correct: 0,
+                                        rationale: "2/3 ≈ 0.666, 3/5 = 0.600"
+                                    },
+                                    {
+                                        q: "Simplifica: 12/18",
+                                        options: ["2/3", "3/4", "4/6", "6/9"],
+                                        correct: 0,
+                                        rationale: "Divide numerador y denominador entre 6: 12÷6=2, 18÷6=3"
+                                    },
+                                    {
+                                        q: "Calcula: 2 1/4 + 1 1/2",
+                                        options: ["3 3/4", "3 1/2", "4", "3 1/4"],
+                                        correct: 0,
+                                        rationale: "2 1/4 = 9/4, 1 1/2 = 3/2 = 6/4, suma = 15/4 = 3 3/4"
+                                    },
+                                    {
+                                        q: "Imagen: Rectángulo dividido en 12 cuadrados, 4 sombreados en azul, 3 en rojo",
+                                        image: "https://via.placeholder.com/400x200/2196F3/FFFFFF?text=4/12+azul++3/12+rojo",
+                                        options: ["7/12", "1/3", "1/4", "5/12"],
+                                        correct: 0,
+                                        rationale: "Total sombreado: 4+3=7 de 12 = 7/12"
+                                    },
+                                    {
+                                        q: "Resuelve: 5/6 ÷ 2/3",
+                                        options: ["1 1/4", "5/4", "10/18", "15/12"],
+                                        correct: 1,
+                                        rationale: "5/6 ÷ 2/3 = 5/6 × 3/2 = 15/12 = 5/4"
+                                    },
+                                    {
+                                        q: "Convierte 0.75 a fracción",
+                                        options: ["3/4", "75/100", "7/10", "1/4"],
+                                        correct: 0,
+                                        rationale: "0.75 = 75/100 = 3/4 simplificado"
+                                    },
+                                    {
+                                        q: "¿Qué fracción representa 25%?",
+                                        options: ["1/4", "1/5", "1/3", "2/5"],
+                                        correct: 0,
+                                        rationale: "25% = 25/100 = 1/4"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            fisica: {
+                title: "Ciencias II (Física)",
+                topics: [
+                    {
+                        id: "movimiento",
+                        title: "1. El movimiento",
+                        subtopics: [
+                            {
+                                title: "1.1 Gráficas de movimiento",
+                                quiz: [
+                                    {
+                                        q: "Imagen: Gráfica posición-tiempo con línea horizontal",
+                                        image: "https://via.placeholder.com/600x300/4CAF50/FFFFFF?text=Gráfica+Posición-Tiempo\nLínea+horizontal",
+                                        options: [
+                                            "El objeto está en reposo",
+                                            "Movimiento con velocidad constante",
+                                            "Aceleración positiva",
+                                            "Movimiento circular"
+                                        ],
+                                        correct: 0,
+                                        rationale: "Posición constante en el tiempo = objeto inmóvil"
+                                    },
+                                    {
+                                        q: "Imagen: Gráfica velocidad-tiempo con línea inclinada positiva",
+                                        image: "https://via.placeholder.com/600x300/2196F3/FFFFFF?text=Gráfica+Velocidad-Tiempo\nLínea+ascendente",
+                                        options: [
+                                            "Aceleración constante positiva",
+                                            "Velocidad constante",
+                                            "Reposo",
+                                            "Desaceleración"
+                                        ],
+                                        correct: 0,
+                                        rationale: "Velocidad aumenta linealmente = aceleración constante"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // =============================================
+        // VARIABLES GLOBALES DEL SIMULADOR
+        // =============================================
+
+        let currentSubject = 'hab_verb';
+        let currentTopic = 0;
+        let currentSubTopic = 0;
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let timerInterval;
+        let secondsLeft = 60 * 60; // 60 minutos
+
+        // =============================================
+        // FUNCIONES DEL SIMULADOR
+        // =============================================
+
+        // Inicializar la aplicación
+        function initApp() {
+            updateSubjectList();
+            showSimulator();
+            startTimer();
+        }
+
+        // Actualizar lista de materias en el sidebar
+        function updateSubjectList() {
+            const subjectList = document.getElementById('subjectList');
+            subjectList.innerHTML = '';
+            
+            for (const [key, subject] of Object.entries(subjectsData)) {
+                const li = document.createElement('li');
+                li.className = 'topic-item';
+                if (key === currentSubject) li.classList.add('active');
+                li.textContent = subject.title;
+                li.onclick = () => {
+                    currentSubject = key;
+                    currentTopic = 0;
+                    currentSubTopic = 0;
+                    currentQuestion = 0;
+                    updateSubjectList();
+                    showSimulator();
+                };
+                subjectList.appendChild(li);
+            }
+            
+            updateProgress();
+        }
+
+        // Mostrar el simulador con la pregunta actual
+        function showSimulator() {
+            const quiz = getCurrentQuiz();
+            if (!quiz || quiz.length === 0) return;
+            
+            const question = quiz[currentQuestion];
+            
+            // Actualizar número de pregunta
+            document.getElementById('currentQNumber').textContent = currentQuestion + 1;
+            
+            // Actualizar información del tema
+            const subject = subjectsData[currentSubject];
+            const topic = subject.topics[currentTopic];
+            const subtopic = topic.subtopics[currentSubTopic];
+            document.getElementById('topicInfo').textContent = `${subject.title} - ${subtopic.title}`;
+            
+            // Actualizar texto de la pregunta
+            document.getElementById('questionText').textContent = question.q;
+            
+            // Mostrar u ocultar imagen de la pregunta
+            const questionImage = document.getElementById('questionImage');
+            if (question.image) {
+                questionImage.src = question.image;
+                questionImage.style.display = 'block';
+                questionImage.alt = "Imagen de la pregunta";
+            } else {
+                questionImage.style.display = 'none';
+            }
+            
+            // Mostrar opciones
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            const letters = ['A', 'B', 'C', 'D'];
+            letters.forEach((letter, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                // Verificar si ya fue respondida
+                const questionKey = getQuestionKey();
+                if (userAnswers[questionKey] !== undefined) {
+                    if (index === question.correct) {
+                        optionDiv.classList.add('correct');
+                    } else if (index === userAnswers[questionKey]) {
+                        optionDiv.classList.add('incorrect');
+                    }
+                    if (index === userAnswers[questionKey]) {
+                        optionDiv.classList.add('selected');
+                    }
+                }
+                
+                optionDiv.onclick = () => selectOption(index);
+                
+                // Contenido de la opción
+                optionDiv.innerHTML = `
+                    <div class="option-letter">${letter}</div>
+                    <div class="option-text">${question.options[index]}</div>
+                    ${question.optionImages && question.optionImages[index] ? 
+                        `<img class="option-image" src="${question.optionImages[index]}" alt="Opción ${letter}">` : ''}
+                `;
+                
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            // Actualizar botones de navegación
+            updateNavigationButtons();
+            
+            // Mostrar feedback si ya se respondió
+            const feedbackDiv = document.getElementById('feedback');
+            if (userAnswers[questionKey] !== undefined) {
+                showFeedback();
+            } else {
+                feedbackDiv.classList.remove('show');
+            }
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Obtener el quiz actual
+        function getCurrentQuiz() {
+            try {
+                return subjectsData[currentSubject].topics[currentTopic].subtopics[currentSubTopic].quiz;
+            } catch {
+                return [];
+            }
+        }
+
+        // Obtener clave única para la pregunta actual
+        function getQuestionKey() {
+            return `${currentSubject}-${currentTopic}-${currentSubTopic}-${currentQuestion}`;
+        }
+
+        // Seleccionar una opción
+        function selectOption(optionIndex) {
+            const questionKey = getQuestionKey();
+            
+            // Solo permitir seleccionar si no se ha respondido
+            if (userAnswers[questionKey] === undefined) {
+                userAnswers[questionKey] = optionIndex;
+                
+                // Actualizar visualmente la selección
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt, idx) => {
+                    opt.classList.remove('selected');
+                    if (idx === optionIndex) {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                // Habilitar el botón de confirmar
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+
+        // Enviar respuesta
+        function submitAnswer() {
+            const questionKey = getQuestionKey();
+            const quiz = getCurrentQuiz();
+            const question = quiz[currentQuestion];
+            
+            // Si no se ha seleccionado nada, no hacer nada
+            if (userAnswers[questionKey] === undefined) return;
+            
+            // Mostrar feedback
+            showFeedback();
+            
+            // Deshabilitar el botón de confirmar
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+
+        // Mostrar feedback de la respuesta
+        function showFeedback() {
+            const questionKey = getQuestionKey();
+            const quiz = getCurrentQuiz();
+            const question = quiz[currentQuestion];
+            const userAnswer = userAnswers[questionKey];
+            
+            const feedbackDiv = document.getElementById('feedback');
+            const isCorrect = userAnswer === question.correct;
+            
+            feedbackDiv.className = `feedback ${isCorrect ? 'correct' : 'incorrect'} show`;
+            
+            feedbackDiv.innerHTML = `
+                <div class="feedback-title">
+                    <i class="fas fa-${isCorrect ? 'check-circle' : 'times-circle'}"></i>
+                    ${isCorrect ? '¡Respuesta correcta!' : 'Respuesta incorrecta'}
+                </div>
+                <div class="feedback-text">
+                    <strong>Explicación:</strong> ${question.rationale}
+                </div>
+            `;
+        }
+
+        // Actualizar botones de navegación
+        function updateNavigationButtons() {
+            const quiz = getCurrentQuiz();
+            
+            // Botón anterior
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            
+            // Botón siguiente
+            const questionKey = getQuestionKey();
+            const hasAnswer = userAnswers[questionKey] !== undefined;
+            const isLastQuestion = currentQuestion === quiz.length - 1;
+            
+            document.getElementById('nextBtn').disabled = !hasAnswer && !isLastQuestion;
+            
+            // Botón de confirmar
+            document.getElementById('submitBtn').disabled = 
+                userAnswers[questionKey] !== undefined || 
+                userAnswers[questionKey] === undefined;
+        }
+
+        // Pregunta anterior
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showSimulator();
+            }
+        }
+
+        // Siguiente pregunta
+        function nextQuestion() {
+            const quiz = getCurrentQuiz();
+            
+            // Solo avanzar si se ha respondido o es la última pregunta
+            const questionKey = getQuestionKey();
+            const hasAnswer = userAnswers[questionKey] !== undefined;
+            
+            if (hasAnswer || currentQuestion === quiz.length - 1) {
+                if (currentQuestion < quiz.length - 1) {
+                    currentQuestion++;
+                    showSimulator();
+                } else {
+                    // Intentar ir al siguiente subtópico
+                    goToNextSubtopic();
+                }
+            }
+        }
+
+        // Ir al siguiente subtópico
+        function goToNextSubtopic() {
+            const subject = subjectsData[currentSubject];
+            const topic = subject.topics[currentTopic];
+            
+            if (currentSubTopic < topic.subtopics.length - 1) {
+                currentSubTopic++;
+                currentQuestion = 0;
+                showSimulator();
+            } else if (currentTopic < subject.topics.length - 1) {
+                currentTopic++;
+                currentSubTopic = 0;
+                currentQuestion = 0;
+                showSimulator();
+            } else {
+                // Si no hay más preguntas, mostrar resultados
+                showResults();
+            }
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const quiz = getCurrentQuiz();
+            const totalQuestions = quiz.length;
+            const answeredQuestions = Object.keys(userAnswers).filter(key => 
+                key.startsWith(`${currentSubject}-${currentTopic}-${currentSubTopic}`)
+            ).length;
+            
+            const progressPercent = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+            
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+            document.getElementById('progressText').textContent = 
+                `${answeredQuestions}/${totalQuestions} preguntas`;
+        }
+
+        // Temporizador
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                secondsLeft--;
+                updateTimerDisplay();
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(timerInterval);
+                    showResults();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(secondsLeft / 60);
+            const seconds = secondsLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            clearInterval(timerInterval);
+            
+            // Calcular estadísticas
+            const totalQuestions = Object.keys(subjectsData).reduce((total, subjectKey) => {
+                const subject = subjectsData[subjectKey];
+                return total + subject.topics.reduce((topicTotal, topic) => {
+                    return topicTotal + topic.subtopics.reduce((subTotal, subtopic) => {
+                        return subTotal + subtopic.quiz.length;
+                    }, 0);
+                }, 0);
+            }, 0);
+            
+            const answeredQuestions = Object.keys(userAnswers).length;
+            const correctAnswers = Object.keys(userAnswers).filter(key => {
+                const [subject, topic, subtopic, question] = key.split('-').map(Number);
+                const quiz = subjectsData[Object.keys(subjectsData)[subject]].topics[topic].subtopics[subtopic].quiz;
+                return userAnswers[key] === quiz[question].correct;
+            }).length;
+            
+            const score = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+            
+            // Tiempo utilizado
+            const timeUsed = 60 * 60 - secondsLeft;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            
+            // Actualizar modal
+            document.getElementById('resultsAnswered').textContent = answeredQuestions;
+            document.getElementById('resultsCorrect').textContent = correctAnswers;
+            document.getElementById('resultsScore').textContent = `${score}%`;
+            document.getElementById('resultsTime').textContent = 
+                `${minutesUsed.toString().padStart(2, '0')}:${secondsUsed.toString().padStart(2, '0')}`;
+            
+            // Mostrar modal
+            document.getElementById('resultsModal').classList.add('show');
+        }
+
+        function closeResults() {
+            document.getElementById('resultsModal').classList.remove('show');
+        }
+
+        function restartSimulator() {
+            // Reiniciar variables
+            currentSubject = 'hab_verb';
+            currentTopic = 0;
+            currentSubTopic = 0;
+            currentQuestion = 0;
+            userAnswers = {};
+            secondsLeft = 60 * 60;
+            
+            // Cerrar modal
+            closeResults();
+            
+            // Reiniciar aplicación
+            updateSubjectList();
+            showSimulator();
+            startTimer();
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

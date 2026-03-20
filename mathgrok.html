@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUÍA CYBERPUNK HABILIDAD MATEMÁTICA - CyberEduMX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; padding: 0; font-family: 'Orbitron', sans-serif; background: #0d0d1f url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat fixed; color: #00ffff; min-height: 100vh; }
+    .container { max-width: 1100px; margin: 40px auto; padding: 40px; background: rgba(10, 10, 30, 0.85); border: 3px solid #ff00ff; border-radius: 20px; box-shadow: 0 0 40px #ff00ff, inset 0 0 30px rgba(0, 255, 255, 0.2); }
+    h1 { text-align: center; font-size: 48px; color: #ff00ff; text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; letter-spacing: 6px; margin-bottom: 10px; }
+    h2 { text-align: center; font-size: 28px; color: #00ffff; text-shadow: 0 0 15px #00ffff; }
+    .creditos { text-align: center; background: rgba(255, 0, 255, 0.2); padding: 25px; border-radius: 15px; margin: 30px 0; border: 2px dashed #00ffff; }
+    .creditos a { color: #ff00ff; font-weight: bold; text-decoration: underline; text-shadow: 0 0 10px #ff00ff; }
+    select { width: 100%; padding: 20px; font-size: 22px; background: #000; color: #00ffff; border: 4px solid #ff00ff; border-radius: 15px; margin: 30px 0; box-shadow: 0 0 25px #ff00ff; }
+    .pregunta { background: rgba(0, 0, 0, 0.7); padding: 30px; margin: 40px 0; border-radius: 15px; border: 2px solid #00ffff; box-shadow: 0 0 20px #00ffff; }
+    .opciones label { display: block; margin: 18px 0; font-size: 20px; padding: 15px; background: rgba(255, 0, 255, 0.1); border-radius: 10px; cursor: pointer; transition: 0.4s; }
+    .opciones label:hover { background: rgba(0, 255, 255, 0.3); transform: translateX(10px); box-shadow: 0 0 20px #00ffff; }
+    button { display: block; margin: 60px auto; padding: 20px 80px; font-size: 28px; background: linear-gradient(45deg, #ff00ff, #00ffff); color: #000; border: none; border-radius: 20px; cursor: pointer; box-shadow: 0 0 40px #ff00ff; animation: neonPulse 2s infinite; }
+    @keyframes neonPulse { 0% { box-shadow: 0 0 20px #ff00ff; } 50% { box-shadow: 0 0 60px #00ffff; } 100% { box-shadow: 0 0 20px #ff00ff; } }
+    button:hover { transform: scale(1.1); }
+    .resultado { margin-top: 25px; padding: 20px; border-radius: 15px; display: none; font-size: 18px; }
+    .correcta { background: rgba(0, 255, 0, 0.3); border: 3px solid #00ff00; color: #00ff00; }
+    .incorrecta { background: rgba(255, 0, 0, 0.3); border: 3px solid #ff0000; color: #ff00ff; }
+    .retro { margin-top: 15px; font-style: italic; color: #00ffff; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; }
+    .puntaje-final { text-align: center; font-size: 40px; margin: 50px 0; padding: 30px; background: rgba(255, 0, 255, 0.3); border-radius: 20px; color: #ff00ff; text-shadow: 0 0 30px #00ffff; }
+    img { max-width: 100%; height: auto; border: 3px solid #ff00ff; border-radius: 15px; box-shadow: 0 0 30px #00ffff; margin: 20px 0; display: block; margin-left: auto; margin-right: auto; }
+    footer { text-align: center; padding: 40px; color: #00ffff; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GUÍA CYBERPUNK 2026</h1>
+    <h2>HABILIDAD MATEMÁTICA - DOMINA EL EXAMEN</h2>
+
+    <div class="creditos">
+      <p><strong>Desarrollado por CyberEduMX</strong></p>
+      <p>Curso completo: <a href="https://cyberedumx.com/curso/ecoems-2026-estrategia-inteligente" target="_blank">ECOEMS 2026 - Estrategia Inteligente</a></p>
+      <p>Visita: <a href="https://cyberedumx.com" target="_blank">cyberedumx.com</a></p>
+      <p>Contacto: JoseLuisGlez@cyberedumx.com | WhatsApp: <a href="https://wa.me/5523269241">55 2326 9241</a></p>
+      <p>¡Hackea tu futuro. Ingreso garantizado!</p>
+    </div>
+
+    <p style="text-align:center; font-size:22px;">Selecciona un subíndice → Practica → Verifica → Mejora</p>
+
+    <select id="subindice">
+      <option value="">-- ELIGE SUBÍNDICE --</option>
+      <option value="1">1. Sucesiones numéricas</option>
+      <option value="2">2. Series espaciales</option>
+      <option value="3">3. Imaginación espacial</option>
+      <option value="4">4. Problemas de razonamiento</option>
+    </select>
+
+    <div id="quiz"></div>
+    <div id="puntaje-final"></div>
+    <button id="enviar" style="display:none;">VERIFICAR RESPUESTAS</button>
+  </div>
+
+  <footer>
+    <p>© 2026 CyberEduMX • All Systems Operational • Powered by Neon Knowledge</p>
+  </footer>
+
+  <script>
+    const preguntas = {
+      "1": [
+        {p: "¿Cuál es el siguiente número en la sucesión 4, 8, 12, 16, …?", o: ["18", "20", "22", "24"], r: 1, ret: "Sucesión aritmética con diferencia +4; 16 + 4 = 20."},
+        {p: "En la sucesión 3, 6, 12, 24, … el siguiente término es:", o: ["36", "48", "50", "60"], r: 1, ret: "Sucesión geométrica multiplicando por 2; 24 × 2 = 48."},
+        {p: "¿Qué número continúa la sucesión 1, 4, 9, 16, 25, …?", o: ["36", "49", "30", "64"], r: 0, ret: "Cuadrados perfectos: 1², 2², 3², 4², 5² → siguiente 6² = 36."},
+        {p: "El siguiente término de 1, 5, 9, 13, … es:", o: ["15", "17", "18", "20"], r: 1, ret: "Diferencia constante +4; 13 + 4 = 17."},
+        {p: "En la sucesión 100, 81, 64, 49, … el siguiente es:", o: ["36", "25", "30", "40"], r: 0, ret: "Cuadrados descendentes: 10², 9², 8², 7² → 6² = 36."},
+        {p: "Sucesión 2, 5, 10, 17, … siguiente:", o: ["25", "26", "27", "28"], r: 1, ret: "Diferencias +3, +5, +7 → +9 = 26."},
+        {p: "¿Cuál sigue en 50, 45, 40, 35, …?", o: ["25", "30", "32", "35"], r: 1, ret: "Diferencia -5 constante; 35 - 5 = 30."},
+        {p: "En 1, 8, 27, 64, … el siguiente es:", o: ["100", "125", "81", "150"], r: 1, ret: "Cubos perfectos: 1³, 2³, 3³, 4³ → 5³ = 125."},
+        {p: "Sucesión 10, 20, 40, 70, … siguiente:", o: ["100", "110", "120", "90"], r: 1, ret: "Diferencias +10, +20, +30 → +40 = 110."},
+        {p: "¿Qué número falta en 7, 14, 28, 56, …?", o: ["84", "112", "100", "120"], r: 1, ret: "Multiplicando por 2 cada vez; 56 × 2 = 112."}
+      ],
+      "2": [
+        {p: "Observa la serie de figuras en la imagen. ¿Cuál es la siguiente figura?", o: ["Cuadrado", "Triángulo", "Círculo", "Pentágono"], r: 1, ret: "La serie se repite cada 3 figuras (ciclo de 3).", img: "https://i.imgur.com/8fK2pLq.png"},
+        {p: "En la imagen, la serie de flechas apunta: derecha → abajo → izquierda. ¿Cuál dirección sigue?", o: ["Derecha", "Arriba", "Abajo", "Izquierda"], r: 1, ret: "Rotación de 90° en sentido horario, ciclo de 4 direcciones.", img: "https://i.imgur.com/J5vR9kM.png"},
+        {p: "En la imagen, la serie de colores es: rojo → azul → verde → rojo → azul. ¿Cuál es el siguiente color?", o: ["Rojo", "Verde", "Azul", "Amarillo"], r: 1, ret: "Ciclo de 3 colores repetido.", img: "https://i.imgur.com/3qX7vYh.png"},
+        {p: "En la imagen, la serie muestra triángulo lleno → vacío → lleno → vacío. ¿Cuál sigue?", o: ["Lleno", "Vacío", "Mitad", "Rayado"], r: 1, ret: "Alternancia simple lleno-vacío.", img: "https://i.imgur.com/ZpL4mNc.png"},
+        {p: "En la imagen, la serie de figuras tiene 3 lados → 4 lados → 5 lados → 6 lados. ¿Cuál sigue?", o: ["7 lados (heptágono)", "Círculo", "3 lados", "8 lados"], r: 0, ret: "Aumento secuencial de un lado por figura.", img: "https://i.imgur.com/6rT8vWp.png"},
+        {p: "En la imagen, la figura se traslada: derecha → abajo → izquierda. ¿Cuál movimiento sigue?", o: ["Derecha", "Arriba", "Abajo", "Izquierda"], r: 1, ret: "Ciclo direccional completo.", img: "https://i.imgur.com/H9kP2vX.png"},
+        {p: "En la imagen, la serie muestra 1 capa → 2 capas → 3 capas superpuestas. ¿Cuál sigue?", o: ["1 capa", "4 capas", "2 capas", "Ninguna"], r: 1, ret: "Incremento progresivo de capas.", img: "https://i.imgur.com/4mN7bRt.png"},
+        {p: "En la imagen, la serie alterna figura normal → reflejada horizontalmente → normal. ¿Cuál sigue?", o: ["Normal", "Reflejada horizontal", "Reflejada vertical", "Rotada"], r: 1, ret: "Alternancia normal-reflejada.", img: "https://i.imgur.com/kL2pQ9s.png"},
+        {p: "En la imagen, la serie de tamaño es: pequeña → mediana → grande → pequeña → mediana. ¿Cuál tamaño sigue?", o: ["Pequeña", "Grande", "Mediana", "Extra grande"], r: 1, ret: "Ciclo de 3 tamaños repetido.", img: "https://i.imgur.com/1vF6gHj.png"},
+        {p: "En la imagen, la serie de puntos en cuadrado es: 1 punto → 4 puntos → 9 puntos → 16 puntos. ¿Cuántos puntos sigue?", o: ["20 puntos", "25 puntos", "30 puntos", "36 puntos"], r: 1, ret: "Cuadrados perfectos (1², 2², 3², 4² → 5² = 25).", img: "https://i.imgur.com/5tY8uZm.png"}
+      ],
+      "3": [
+        {p: "En la imagen del cubo visto desde tres ángulos, ¿cuántas caras son visibles en la vista estándar?", o: ["1", "2", "3", "6"], r: 2, ret: "En posición normal, se observan 3 caras de un cubo.", img: "https://i.imgur.com/9xR3vKp.png"},
+        {p: "En la imagen del desplegado de tetraedro (4 triángulos), al doblarlo forma:", o: ["Cubo", "Pirámide triangular (tetraedro)", "Prisma", "Octaedro"], r: 1, ret: "4 triángulos forman tetraedro regular.", img: "https://i.imgur.com/7pL4mNc.png"},
+        {p: "En la imagen del cubo con todas las caras pintadas y cortado en 27 cubitos, ¿cuántos tienen 3 caras pintadas?", o: ["4", "6", "8", "12"], r: 2, ret: "Las 8 esquinas tienen 3 caras pintadas.", img: "https://i.imgur.com/2vB6gHj.png"},
+        {p: "En la imagen del cono con base abajo rotado 180°, la base queda:", o: ["Abajo", "Arriba", "Lateral", "Desaparece"], r: 1, ret: "Rotación completa invierte la orientación.", img: "https://i.imgur.com/8kM5rTq.png"},
+        {p: "En la imagen de la cruz de 6 cuadrados (desplegado), al doblarla forma:", o: ["Prisma hexagonal", "Cubo", "Pirámide cuadrada", "Cilindro"], r: 1, ret: "Desplegado estándar en forma de cruz forma cubo.", img: "https://i.imgur.com/3qX7vYh.png"},
+        {p: "En la imagen del cilindro cortado oblicuamente, la sección transversal es:", o: ["Círculo", "Elipse", "Rectángulo", "Triángulo"], r: 1, ret: "Corte no perpendicular genera elipse.", img: "https://i.imgur.com/ZpL4mNc.png"},
+        {p: "En la imagen del cubo visto desde arriba, la proyección muestra:", o: ["Hexágono", "Cuadrado", "Triángulo", "Círculo"], r: 1, ret: "Vista superior ortogonal es un cuadrado.", img: "https://i.imgur.com/6rT8vWp.png"},
+        {p: "En la imagen del triángulo equilátero rotado 120°, queda:", o: ["En posición diferente", "Superpuesto al original", "Invertido", "Más grande"], r: 1, ret: "Simetría rotacional de orden 3.", img: "https://i.imgur.com/H9kP2vX.png"},
+        {p: "En la imagen de dos pirámides cuadrangulares unidas por sus bases, forma:", o: ["Cubo", "Octaedro regular", "Prisma", "Dodecaedro"], r: 1, ret: "Unión base con base genera octaedro regular.", img: "https://i.imgur.com/4mN7bRt.png"},
+        {p: "En la imagen del cubo cortado por plano paralelo a una cara, la sección es:", o: ["Triángulo", "Hexágono", "Cuadrado", "Círculo"], r: 2, ret: "Plano paralelo a cara genera sección cuadrada.", img: "https://i.imgur.com/kL2pQ9s.png"}
+      ],
+      "4": [
+        {p: "Si todos los gatos maúllan y Luna es gato, entonces Luna:", o: ["Puede maullar", "Maúlla", "No maúlla", "Es perro"], r: 1, ret: "Silogismo deductivo válido."},
+        {p: "5 personas se dan la mano, ¿cuántos apretones en total?", o: ["5", "10", "15", "20"], r: 1, ret: "Combinatoria C(5,2) = 10."},
+        {p: "Si A > B y B > C, entonces:", o: ["A = C", "A < C", "A > C", "No se sabe"], r: 2, ret: "Propiedad transitiva del orden."},
+        {p: "3 manzanas = 2 naranjas, 4 naranjas = 5 plátanos. ¿Cuántas manzanas = 10 plátanos?", o: ["5", "6", "8", "10"], r: 1, ret: "Proporciones encadenadas: 6 manzanas = 10 plátanos."},
+        {p: "Hoy es martes, ¿qué día será dentro de 10 días?", o: ["Jueves", "Viernes", "Sábado", "Domingo"], r: 1, ret: "10 mod 7 = 3 → martes + 3 = viernes."},
+        {p: "En una caja hay 5 autos y motos. Total 18 ruedas. ¿Cuántos autos?", o: ["1", "2", "3", "4"], r: 3, ret: "4A + 2M = 18, A + M = 5 → A = 4."},
+        {p: "Padre tiene el triple de edad del hijo. En 10 años tendrá el doble. Edades actuales:", o: ["Padre 30, hijo 10", "Padre 40, hijo 20", "Padre 60, hijo 20", "Padre 45, hijo 15"], r: 0, ret: "P = 3H; P + 10 = 2(H + 10) → H = 10, P = 30."},
+        {p: "Tres interruptores, uno enciende bombilla (etiquetas falsas). Solución clásica:", o: ["Encender 1, esperar, apagar y encender 2", "Probar uno solo", "Todos apagados", "Encender los tres"], r: 0, ret: "Clásico problema lógico (caliente = encendido antes, tibia = encendido ahora)."},
+        {p: "A supera a B, B a C, C a D. ¿Quién es más rápido?", o: ["A", "D", "C", "No determinado"], r: 0, ret: "Orden transitivo completo."},
+        {p: "Si 8 máquinas producen 8 piezas en 8 minutos, ¿cuántas máquinas para 100 piezas en 100 minutos?", o: ["8", "10", "100", "1"], r: 0, ret: "Relación inversa; misma proporción, misma cantidad de máquinas."}
+      ]
+    };
+
+    const select = document.getElementById('subindice');
+    const quiz = document.getElementById('quiz');
+    const enviar = document.getElementById('enviar');
+    const puntajeDiv = document.getElementById('puntaje-final');
+
+    select.addEventListener('change', () => {
+      const codigo = select.value;
+      puntajeDiv.innerHTML = '';
+      if (!codigo || !preguntas[codigo]) {
+        quiz.innerHTML = '';
+        enviar.style.display = 'none';
+        return;
+      }
+
+      let html = `<h2 style="text-align:center; color:#ff00ff; text-shadow:0 0 20px #00ffff;">${select.options[select.selectedIndex].text}</h2>`;
+      preguntas[codigo].forEach((preg, i) => {
+        let imgHtml = preg.img ? `<img src="${preg.img}" alt="Imagen de la pregunta ${i+1}">` : '';
+        html += `<div class="pregunta">
+          <p><strong>${i+1}.</strong> ${preg.p}</p>
+          ${imgHtml}
+          <div class="opciones">
+            <label><input type="radio" name="p${i}" value="0"> A) ${preg.o[0]}</label>
+            <label><input type="radio" name="p${i}" value="1"> B) ${preg.o[1]}</label>
+            <label><input type="radio" name="p${i}" value="2"> C) ${preg.o[2]}</label>
+            <label><input type="radio" name="p${i}" value="3"> D) ${preg.o[3]}</label>
+          </div>
+          <div class="resultado" id="r${i}"></div>
+        </div>`;
+      });
+      quiz.innerHTML = html;
+      enviar.style.display = 'block';
+    });
+
+    enviar.addEventListener('click', () => {
+      const codigo = select.value;
+      let correctas = 0;
+      preguntas[codigo].forEach((preg, i) => {
+        const seleccion = document.querySelector(`input[name="p${i}"]:checked`);
+        const resDiv = document.getElementById(`r${i}`);
+        const letras = ['A', 'B', 'C', 'D'];
+        if (!seleccion) {
+          resDiv.innerHTML = '<strong>No respondiste esta pregunta.</strong>';
+          resDiv.className = 'resultado incorrecta';
+          resDiv.style.display = 'block';
+          return;
+        }
+        const valor = parseInt(seleccion.value);
+        if (valor === preg.r) {
+          correctas++;
+          resDiv.innerHTML = '<strong>¡CORRECTA!</strong><div class="retro">' + preg.ret + '</div>';
+          resDiv.className = 'resultado correcta';
+        } else {
+          resDiv.innerHTML = '<strong>¡INCORRECTA!</strong> La respuesta correcta es <strong>' + letras[preg.r] + ') ' + preg.o[preg.r] + '</strong><div class="retro">' + preg.ret + '</div>';
+          resDiv.className = 'resultado incorrecta';
+        }
+        resDiv.style.display = 'block';
+      });
+
+      puntajeDiv.innerHTML = `<div class="puntaje-final">PUNTUACIÓN: ${correctas} / 10</div>`;
+    });
+  </script>
+</body>
+</html>

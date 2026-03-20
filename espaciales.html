@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioReto Academy - Simulador Series Espaciales (20 Niveles)</title>
+    <style>
+        :root {
+            --bg-color: #0a0e17;
+            --card-bg: #151a25;
+            --primary: #00f2ff; /* Cian Neón */
+            --secondary: #bd00ff; /* Morado Neón */
+            --text: #e0e6ed;
+            --success: #00ff9d;
+            --error: #ff0055;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin-top: 1rem;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 242, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #2a3140;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .question-area {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .visual-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+            min-height: 120px;
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .shape-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #8899ac;
+            margin: 5px;
+        }
+
+        svg {
+            overflow: visible;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .option-btn {
+            background-color: #232b38;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: var(--text);
+            font-size: 1.2rem;
+            min-height: 100px;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background-color: rgba(0, 255, 157, 0.1);
+            border-color: var(--success);
+        }
+
+        .option-btn.wrong {
+            background-color: rgba(255, 0, 85, 0.1);
+            border-color: var(--error);
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .feedback.success {
+            background-color: rgba(0, 255, 157, 0.2);
+            border-left: 5px solid var(--success);
+        }
+
+        .feedback.error {
+            background-color: rgba(255, 0, 85, 0.2);
+            border-left: 5px solid var(--error);
+        }
+
+        .next-btn {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border: none;
+            padding: 10px 25px;
+            color: white;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.4);
+        }
+
+        .next-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos SVG específicos */
+        .neon-stroke { stroke: var(--primary); stroke-width: 2; fill: none; }
+        .neon-fill { fill: var(--primary); }
+        .purple-stroke { stroke: var(--secondary); stroke-width: 2; fill: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BIORETO ACADEMY</h1>
+        <p style="margin:0; font-size: 0.8rem; opacity: 0.8;">Simulador Intensivo: 20 Reactivos</p>
+    </header>
+
+    <div class="container">
+        <div class="info-bar">
+            <span id="q-counter">Pregunta 1/20</span>
+            <span id="score-display">Aciertos: 0</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <div id="game-area">
+            <div class="question-area">
+                <h2 id="q-title" style="color: var(--primary); font-size: 1.2rem;">Título</h2>
+                <p id="q-text">Texto...</p>
+                <div class="visual-display" id="visual-sequence"></div>
+            </div>
+
+            <div class="options-grid" id="options-area"></div>
+
+            <div class="feedback" id="feedback-area">
+                <h3 id="feedback-title" style="margin:0 0 5px 0;"></h3>
+                <p id="feedback-text" style="margin:0;"></p>
+                <button class="next-btn" id="next-btn" onclick="nextQuestion()">Siguiente</button>
+            </div>
+        </div>
+        
+        <div id="end-screen" style="display: none; text-align: center;">
+            <h2 style="font-size: 2.5rem; color: var(--success);">¡ENTRENAMIENTO COMPLETADO!</h2>
+            <div style="font-size: 4rem; margin: 1rem;">🎓</div>
+            <p>Puntaje Final: <span id="final-score" style="color: var(--primary); font-weight: bold; font-size: 1.5rem;"></span></p>
+            <p id="final-message" style="color: #8899ac;"></p>
+            <button class="next-btn" style="display: inline-block;" onclick="location.reload()">Reiniciar Simulador</button>
+        </div>
+    </div>
+
+    <script>
+        // --- MOTORES DE DIBUJO (Engines) ---
+
+        function createSVG(content) {
+            return `<svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${content}</svg>`;
+        }
+
+        // Engine 1: Cuadrados / Números
+        function drawSquares(count) {
+            // Dibuja cuadritos o muestra número grande si son muchos
+            if(count > 20) return createSVG(`<text x="50" y="60" text-anchor="middle" fill="#00f2ff" font-size="40" font-weight="bold">${count}</text>`);
+            
+            let content = '';
+            let size = 15;
+            let rows = Math.ceil(Math.sqrt(count));
+            let x = 10, y = 10;
+            for(let i=0; i<count; i++) {
+                content += `<rect x="${x}" y="${y}" width="${size}" height="${size}" stroke="#00f2ff" stroke-width="2" fill="none" />`;
+                x += size + 2;
+                if(x > 80) { x = 10; y += size + 2; }
+            }
+            return createSVG(content);
+        }
+
+        // Engine 2: Flecha (Rotación)
+        function drawArrow(angle) {
+            const arrow = `<path d="M50 15 L50 85 M50 15 L20 45 M50 15 L80 45" stroke="#00f2ff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+            return `<svg width="70" height="70" viewBox="0 0 100 100" style="transform: rotate(${angle}deg); transition: transform 0.5s;">${arrow}</svg>`;
+        }
+
+        // Engine 3: L-Shape (Reflexión/Rotación)
+        function drawLShape(state) {
+            let transform = "";
+            if(state.includes("rot90")) transform += "rotate(90, 50, 50) ";
+            if(state.includes("rot180")) transform += "rotate(180, 50, 50) ";
+            if(state.includes("rot270")) transform += "rotate(270, 50, 50) ";
+            if(state.includes("flipH")) transform += "scale(-1, 1) translate(-100, 0) ";
+            if(state.includes("flipV")) transform += "scale(1, -1) translate(0, -100) ";
+
+            const shape = `<path d="M30 20 L30 80 L80 80 L80 60 L50 60 L50 20 Z" stroke="#bd00ff" stroke-width="3" fill="rgba(189,0,255,0.2)" />`;
+            return `<svg width="70" height="70" viewBox="0 0 100 100"><g transform="${transform}">${shape}</g></svg>`;
+        }
+
+        // Engine 4: Boss Shape (Lados, Puntos, Sombreado)
+        function drawBossShape(props) {
+            const radius = 35; const cx = 50, cy = 50;
+            let points = [];
+            for (let i = 0; i < props.sides; i++) {
+                let angle = (i * 2 * Math.PI / props.sides) - Math.PI/2;
+                points.push((cx + radius * Math.cos(angle)) + "," + (cy + radius * Math.sin(angle)));
+            }
+            
+            let fill = "none";
+            let pattern = "";
+            let patternId = `p-${Math.random().toString(36).substr(2, 9)}`;
+
+            if(props.shade === 1) fill = "var(--primary)";
+            if(props.shade === 2) {
+                pattern = `<defs><pattern id="${patternId}" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)"><line x1="0" y="0" x2="0" y2="4" stroke="#00f2ff" stroke-width="2" /></pattern></defs>`;
+                fill = `url(#${patternId})`;
+            }
+
+            let dotX = cx + (radius-10) * Math.cos((props.rot - 90) * Math.PI/180);
+            let dotY = cy + (radius-10) * Math.sin((props.rot - 90) * Math.PI/180);
+            
+            return `<svg width="70" height="70" viewBox="0 0 100 100">
+                ${pattern}
+                <polygon points="${points.join(' ')}" stroke="var(--primary)" stroke-width="2" fill="${fill}" fill-opacity="0.3" />
+                <circle cx="${dotX}" cy="${dotY}" r="4" fill="#fff" />
+            </svg>`;
+        }
+
+
+        // --- BASE DE DATOS: 20 PREGUNTAS ---
+        const questions = [
+            // NIVEL 1: NUMÉRICOS Y SUCESIONES SIMPLES
+            {
+                id: 1, title: "1. Sucesión Aritmética", text: "¿Cuántos cuadrados siguen?", type: "number",
+                sequence: [2, 4, 6], correct: 8, options: [7, 8, 9, 10], explanation: "Aumenta de 2 en 2."
+            },
+            {
+                id: 2, title: "2. Rotación Simple", text: "¿Hacia dónde apunta la flecha?", type: "svg_rotation",
+                sequence: [0, 90, 180], correct: 270, options: [0, 90, 270, 180], explanation: "Gira 90° horario."
+            },
+            {
+                id: 3, title: "3. Polígono Creciente", text: "¿Qué figura sigue?", type: "svg_boss",
+                sequence: [{sides:3,rot:0,shade:0}, {sides:4,rot:0,shade:0}, {sides:5,rot:0,shade:0}], 
+                correct: {sides:6,rot:0,shade:0}, options: [{sides:5,rot:0,shade:0}, {sides:6,rot:0,shade:0}, {sides:7,rot:0,shade:0}, {sides:6,rot:0,shade:1}], explanation: "Aumenta un lado cada vez: Triángulo -> Cuadrado -> Pentágono -> Hexágono."
+            },
+            {
+                id: 4, title: "4. Serie de Sombreado", text: "Identifica el patrón de relleno.", type: "svg_boss",
+                sequence: [{sides:4,rot:0,shade:0}, {sides:4,rot:0,shade:1}, {sides:4,rot:0,shade:0}], 
+                correct: {sides:4,rot:0,shade:1}, options: [{sides:4,rot:0,shade:0}, {sides:4,rot:0,shade:1}, {sides:3,rot:0,shade:1}, {sides:4,rot:0,shade:2}], explanation: "El sombreado alterna: Vacío, Lleno, Vacío, Lleno."
+            },
+            {
+                id: 5, title: "5. Rotación Anti-Horaria", text: "La flecha gira al revés.", type: "svg_rotation",
+                sequence: [0, 270, 180], correct: 90, options: [90, 45, 0, 135], explanation: "Gira 90° contra reloj (o resta 90°)."
+            },
+
+            // NIVEL 2: TRANSFORMACIONES MEDIAS
+            {
+                id: 6, title: "6. L-Shape Flip", text: "Reflexión Horizontal.", type: "svg_complex_1",
+                sequence: ["normal", "flipH", "normal"], correct: "flipH", options: ["normal", "flipH", "flipV", "rot90"], explanation: "La figura se voltea horizontalmente en cada paso."
+            },
+            {
+                id: 7, title: "7. Ángulos de 45°", text: "Rotación más fina.", type: "svg_rotation",
+                sequence: [0, 45, 90], correct: 135, options: [180, 135, 120, 100], explanation: "Suma 45° cada vez."
+            },
+            {
+                id: 8, title: "8. Conteo Inverso", text: "¿Qué figura sigue?", type: "svg_boss",
+                sequence: [{sides:6,rot:0,shade:0}, {sides:5,rot:0,shade:0}, {sides:4,rot:0,shade:0}], 
+                correct: {sides:3,rot:0,shade:0}, options: [{sides:3,rot:0,shade:0}, {sides:4,rot:0,shade:0}, {sides:2,rot:0,shade:0}, {sides:5,rot:0,shade:0}], explanation: "Disminuye un lado: Hexágono -> Pentágono -> Cuadrado -> Triángulo."
+            },
+            {
+                id: 9, title: "9. Cuadrados (Potencias)", text: "Ojo con la cantidad.", type: "number",
+                sequence: [1, 4, 9], correct: 16, options: [12, 15, 16, 20], explanation: "Son cuadrados perfectos: 1², 2², 3², sigue 4²=16."
+            },
+            {
+                id: 10, title: "10. Punto Viajero", text: "Sigue el punto blanco.", type: "svg_boss",
+                sequence: [{sides:5,rot:0,shade:1}, {sides:5,rot:72,shade:1}, {sides:5,rot:144,shade:1}], 
+                correct: {sides:5,rot:216,shade:1}, options: [{sides:5,rot:0,shade:1}, {sides:5,rot:216,shade:1}, {sides:5,rot:180,shade:1}, {sides:6,rot:216,shade:1}], explanation: "El punto rota un vértice (72°) cada vez."
+            },
+
+            // NIVEL 3: COMBINADOS (GUION)
+            {
+                id: 11, title: "11. Números Triangulares", text: "(Del Guion) Figura 11", type: "number",
+                sequence: [1, 3, 6, 10], correct: 66, options: [55, 66, 78, 45], explanation: "Fórmula n(n+1)/2. Para n=11 es 66."
+            },
+            {
+                id: 12, title: "12. Combinación L", text: "(Del Guion) Rota, Espejo, Rota...", type: "svg_complex_1",
+                sequence: ["normal", "rot90", "flipV"], correct: "flipV_rot90", // Simplificado para logica visual: sigue rotar el espejado
+                options: ["flipV_rot90", "normal", "rot180", "flipH"], explanation: "Alternancia compleja: Rota, luego Espejo, luego Rota el resultado."
+            },
+            {
+                id: 13, title: "13. Salto Doble", text: "Sucesión de lados impar.", type: "svg_boss",
+                sequence: [{sides:3,rot:0,shade:0}, {sides:5,rot:0,shade:0}, {sides:7,rot:0,shade:0}], 
+                correct: {sides:9,rot:0,shade:0}, options: [{sides:8,rot:0,shade:0}, {sides:9,rot:0,shade:0}, {sides:10,rot:0,shade:0}, {sides:7,rot:0,shade:1}], explanation: "Aumenta 2 lados cada vez (3, 5, 7, 9)."
+            },
+            {
+                id: 14, title: "14. Flecha Loca", text: "Patrón: 0, 180, 0...", type: "svg_rotation",
+                sequence: [0, 180, 0], correct: 180, options: [90, 0, 180, 270], explanation: "Oscila 180 grados cada vez."
+            },
+            {
+                id: 15, title: "15. Sombreado Progresivo", text: "Ciclo de 3 estados.", type: "svg_boss",
+                sequence: [{sides:6,rot:0,shade:0}, {sides:6,rot:0,shade:1}, {sides:6,rot:0,shade:2}], 
+                correct: {sides:6,rot:0,shade:0}, options: [{sides:6,rot:0,shade:1}, {sides:6,rot:0,shade:2}, {sides:6,rot:0,shade:0}, {sides:5,rot:0,shade:0}], explanation: "Vacío -> Lleno -> Rayas -> (Se reinicia a Vacío)."
+            },
+
+            // NIVEL 4: BOSSES FINALES
+            {
+                id: 16, title: "16. Suma Anterior", text: "Tipo Fibonacci.", type: "number",
+                sequence: [1, 2, 3, 5], correct: 8, options: [7, 8, 9, 10], explanation: "Cada número es la suma de los dos anteriores: 3+5=8."
+            },
+            {
+                id: 17, title: "17. Doble Cambio", text: "Lados y Rotación.", type: "svg_boss",
+                sequence: [{sides:3,rot:0,shade:0}, {sides:4,rot:90,shade:0}, {sides:5,rot:180,shade:0}], 
+                correct: {sides:6,rot:270,shade:0}, options: [{sides:6,rot:270,shade:0}, {sides:6,rot:0,shade:0}, {sides:5,rot:270,shade:0}, {sides:7,rot:0,shade:0}], explanation: "+1 Lado y +90° rotación."
+            },
+            {
+                id: 18, title: "18. L Compleja", text: "Rotación acumulada.", type: "svg_complex_1",
+                sequence: ["normal", "rot90", "rot180"], correct: "rot270", options: ["normal", "rot270", "rot90", "flipH"], explanation: "Va sumando 90° cada vez (0, 90, 180, 270)."
+            },
+            {
+                id: 19, title: "19. El Boss (Del Guion)", text: "Lados + Puntos + Sombreado.", type: "svg_boss",
+                sequence: [{sides:3,rot:0,shade:0}, {sides:4,rot:60,shade:1}, {sides:5,rot:120,shade:2}], 
+                correct: {sides:6,rot:180,shade:0}, options: [{sides:6,rot:0,shade:1}, {sides:5,rot:180,shade:0}, {sides:6,rot:180,shade:0}, {sides:6,rot:90,shade:2}], explanation: "Lados+1, Puntos+60°, Sombreado cíclico."
+            },
+            {
+                id: 20, title: "20. FINAL BOSS", text: "¡El reto máximo!", type: "svg_boss",
+                sequence: [{sides:8,rot:0,shade:2}, {sides:7,rot:-45,shade:1}, {sides:6,rot:-90,shade:0}], 
+                correct: {sides:5,rot:-135,shade:2}, options: [{sides:5,rot:-135,shade:2}, {sides:5,rot:0,shade:0}, {sides:4,rot:-135,shade:2}, {sides:5,rot:-90,shade:1}], explanation: "Lados disminuyen (-1), Puntos rotan anti-horario (-45°), Sombreado inverso (Rayas, Lleno, Vacío... Rayas)."
+            }
+        ];
+
+        // --- ESTADO DEL JUEGO ---
+        let currentQ = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            if(currentQ >= questions.length) { showEndScreen(); return; }
+
+            const q = questions[currentQ];
+            document.getElementById('q-counter').innerText = `Pregunta ${currentQ + 1}/${questions.length}`;
+            document.getElementById('score-display').innerText = `Aciertos: ${score}`;
+            document.getElementById('q-title').innerText = q.title;
+            document.getElementById('q-text').innerText = q.text;
+            document.getElementById('feedback-area').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+            answered = false;
+
+            // Barra de progreso
+            const percent = (currentQ / questions.length) * 100;
+            document.getElementById('progress').style.width = `${percent}%`;
+
+            // 1. Renderizar Secuencia
+            const visualDiv = document.getElementById('visual-sequence');
+            visualDiv.innerHTML = '';
+            
+            q.sequence.forEach((item, index) => {
+                let html = '<div class="shape-container">';
+                if(q.type === 'number') html += drawSquares(item);
+                if(q.type === 'svg_rotation') html += drawArrow(item);
+                if(q.type === 'svg_complex_1') html += drawLShape(item);
+                if(q.type === 'svg_boss') html += drawBossShape(item);
+                
+                html += `<span>Fig ${index + 1}</span></div>`;
+                if(index < q.sequence.length - 1) html += '<div style="font-size:1.5rem; color:var(--secondary)">→</div>';
+                visualDiv.innerHTML += html;
+            });
+            visualDiv.innerHTML += '<div style="font-size:1.5rem; color:var(--secondary)">→</div>';
+            visualDiv.innerHTML += '<div class="shape-container"><div style="width:70px; height:70px; display:flex; justify-content:center; align-items:center; border:2px dashed var(--text); border-radius:10px; font-size:2rem;">?</div></div>';
+
+            // 2. Renderizar Opciones
+            const optsDiv = document.getElementById('options-area');
+            optsDiv.innerHTML = '';
+            // Mezclar opciones aleatoriamente para que no siempre sea la misma posición
+            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach((opt) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-btn';
+                
+                if(q.type === 'number') btn.innerHTML = `<span style="font-size:2rem; font-weight:bold;">${opt}</span>`;
+                else if(q.type === 'svg_rotation') btn.innerHTML = drawArrow(opt);
+                else if(q.type === 'svg_complex_1') btn.innerHTML = drawLShape(opt);
+                else if(q.type === 'svg_boss') btn.innerHTML = drawBossShape(opt);
+
+                btn.onclick = () => checkAnswer(opt, btn, q);
+                optsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btnElement, q) {
+            if(answered) return;
+            answered = true;
+            
+            // Comparación (JSON stringify para objetos)
+            let isCorrect = false;
+            if(typeof q.correct === 'object') isCorrect = JSON.stringify(selected) === JSON.stringify(q.correct);
+            else isCorrect = selected === q.correct;
+
+            const fbArea = document.getElementById('feedback-area');
+            const fbTitle = document.getElementById('feedback-title');
+            const fbText = document.getElementById('feedback-text');
+            
+            fbArea.style.display = 'block';
+            fbArea.className = 'feedback ' + (isCorrect ? 'success' : 'error');
+
+            if(isCorrect) {
+                btnElement.classList.add('correct');
+                fbTitle.innerText = "¡Correcto!";
+                score++;
+            } else {
+                btnElement.classList.add('wrong');
+                fbTitle.innerText = "Incorrecto";
+            }
+            fbText.innerText = q.explanation;
+            
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('score-display').innerText = `Aciertos: ${score}`;
+        }
+
+        function nextQuestion() {
+            currentQ++;
+            loadQuestion();
+        }
+
+        function showEndScreen() {
+            document.getElementById('game-area').style.display = 'none';
+            document.getElementById('end-screen').style.display = 'block';
+            document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+            document.getElementById('progress').style.width = '100%';
+            
+            let msg = "";
+            if(score === 20) msg = "¡ERES UN GENIO DE LA GEOMETRÍA!";
+            else if(score >= 15) msg = "¡Excelente nivel! Estás listo para el examen.";
+            else if(score >= 10) msg = "Buen trabajo, pero repasa los giros complejos.";
+            else msg = "Sigue practicando, observa bien los detalles.";
+            document.getElementById('final-message').innerText = msg;
+        }
+
+        // Iniciar
+        loadQuestion();
+
+    </script>
+</body>
+</html>

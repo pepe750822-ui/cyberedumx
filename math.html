@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberEdu MX | Simulador Élite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #bc13fe;
+            --neon-green: #0aff60;
+            --neon-red: #ff0a44;
+            --dark-bg: #050510;
+            --glass: rgba(20, 20, 40, 0.7);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--dark-bg);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- FONDO ANIMADO (GRID SYNTHWAVE) --- */
+        .cyber-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: 
+                linear-gradient(rgba(5, 5, 16, 0.9), rgba(5, 5, 16, 0.4)), 
+                repeating-linear-gradient(0deg, transparent 0, transparent 1px, var(--neon-pink) 1px, transparent 2px);
+            background-size: 100% 40px;
+            perspective: 500px;
+            transform: scaleY(1);
+            animation: moveGrid 2s linear infinite;
+            z-index: -2;
+            opacity: 0.2;
+        }
+        
+        @keyframes moveGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 40px; }
+        }
+
+        /* --- EFECTO MONITOR CRT --- */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .interface-container {
+            width: 95%;
+            max-width: 900px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Esquinas decorativas */
+        .corner {
+            position: absolute; width: 20px; height: 20px;
+            border: 2px solid var(--neon-blue);
+            transition: all 0.3s;
+        }
+        .tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--neon-pink);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 0 0 10px var(--neon-blue);
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hud-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            color: var(--neon-green);
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* --- VISOR HOLOGRÁFICO (SVG) --- */
+        .holo-display {
+            background: radial-gradient(circle at center, rgba(0, 243, 255, 0.1) 0%, rgba(0,0,0,0.8) 90%);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        
+        /* Línea de escaneo dentro del visor */
+        .holo-scan {
+            position: absolute; top:0; left:0; width: 100%; height: 5px;
+            background: rgba(0, 243, 255, 0.5);
+            box-shadow: 0 0 10px var(--neon-blue);
+            animation: scanDown 3s linear infinite;
+            opacity: 0.3;
+        }
+        @keyframes scanDown { 0% {top:0;} 100% {top:100%;} }
+
+        /* Estilos SVG Holográficos */
+        svg { width: 100%; height: 250px; overflow: visible; }
+        
+        /* Filtros SVG definidos en HTML pero usados aquí */
+        .holo-line { 
+            stroke: var(--neon-blue); 
+            stroke-width: 2; 
+            fill: rgba(0, 243, 255, 0.05);
+            filter: drop-shadow(0 0 3px var(--neon-blue));
+        }
+        .holo-accent {
+            stroke: var(--neon-pink);
+            stroke-width: 2;
+            fill: none;
+            filter: drop-shadow(0 0 3px var(--neon-pink));
+        }
+        .holo-text {
+            fill: white;
+            font-family: 'Orbitron';
+            font-size: 14px;
+        }
+
+        /* --- OPCIONES --- */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+
+        .btn-opt {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #ccc;
+            padding: 15px 20px;
+            font-family: 'Rajdhani';
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .btn-opt:hover:not(:disabled) {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: var(--neon-blue);
+            padding-left: 25px; /* Efecto deslizante */
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .btn-opt.correct {
+            background: rgba(10, 255, 96, 0.2);
+            border-color: var(--neon-green);
+            color: white;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        .btn-opt.wrong {
+            background: rgba(255, 10, 68, 0.2);
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+        }
+
+        /* --- FEEDBACK Y CONTROL --- */
+        .feedback-panel {
+            margin-top: 20px;
+            padding: 15px;
+            border-left: 5px solid var(--neon-blue);
+            background: rgba(0,0,0,0.5);
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .btn-main {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            background: var(--neon-pink);
+            border: none;
+            color: white;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px var(--neon-pink);
+            display: none; /* Se activa con JS */
+        }
+        .btn-main:hover { background: #d94dff; box-shadow: 0 0 25px var(--neon-pink); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESULTADOS --- */
+        #results-screen { display: none; text-align: center; }
+        .score-big {
+            font-size: 5rem;
+            font-family: 'Orbitron';
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+        }
+    </style>
+</head>
+<body>
+
+<div class="cyber-grid"></div>
+<div class="scanlines"></div>
+
+<div class="interface-container">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+
+    <header>
+        <h1>CYBEREDU <span style="color:var(--neon-pink)">MX</span></h1>
+        <div style="letter-spacing: 4px; font-size: 0.8rem; opacity: 0.8;">SISTEMA DE ENTRENAMIENTO ECOEMS v3.0</div>
+    </header>
+
+    <div id="quiz-screen">
+        <div class="hud-info">
+            <span id="q-counter">PREGUNTA 01/05</span>
+            <span id="score-counter">PUNTOS: 0</span>
+        </div>
+
+        <div id="q-text" style="font-size: 1.4rem; margin-bottom: 20px; min-height: 60px;">
+            Iniciando secuencia de carga...
+        </div>
+
+        <div class="holo-display" id="holo-container">
+            <div class="holo-scan"></div>
+            <div id="svg-injection-point" style="width:100%"></div>
+        </div>
+
+        <div class="options-grid" id="options-container">
+            </div>
+
+        <div class="feedback-panel" id="feedback-panel"></div>
+        <button class="btn-main" id="next-btn" onclick="nextQuestion()">SIGUIENTE FASE</button>
+    </div>
+
+    <div id="results-screen">
+        <h2>SIMULACIÓN FINALIZADA</h2>
+        <div class="score-big" id="final-score">0</div>
+        <p id="final-msg" style="font-size: 1.5rem;"></p>
+        <button class="btn-main" style="display:block" onclick="location.reload()">REINICIAR SISTEMA</button>
+    </div>
+</div>
+
+<script>
+    /* --- MOTOR DE AUDIO (Web Audio API) --- 
+       Genera sonidos sin archivos externos.
+    */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'hover') {
+            // Sonido "Blip" agudo y corto
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, now);
+            osc.frequency.exponentialRampToValueAtTime(1200, now + 0.05);
+            gainNode.gain.setValueAtTime(0.05, now);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+            osc.start(now);
+            osc.stop(now + 0.05);
+        } else if (type === 'click') {
+            // Sonido mecánico
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(300, now);
+            gainNode.gain.setValueAtTime(0.05, now);
+            gainNode.gain.linearRampToValueAtTime(0, now + 0.1);
+            osc.start(now);
+            osc.stop(now + 0.1);
+        } else if (type === 'correct') {
+            // Acorde de éxito (Arpegio rápido)
+            createNote(660, 0, 0.1, 'sine'); // E5
+            createNote(880, 0.1, 0.2, 'sine'); // A5
+            createNote(1100, 0.2, 0.4, 'sine'); // C#6
+        } else if (type === 'wrong') {
+            // Sonido de error grave
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, now);
+            osc.frequency.linearRampToValueAtTime(100, now + 0.3);
+            gainNode.gain.setValueAtTime(0.1, now);
+            gainNode.gain.linearRampToValueAtTime(0, now + 0.3);
+            osc.start(now);
+            osc.stop(now + 0.3);
+        }
+    }
+
+    function createNote(freq, startTime, duration, type) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime + startTime);
+        gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + startTime + duration);
+        osc.start(audioCtx.currentTime + startTime);
+        osc.stop(audioCtx.currentTime + startTime + duration);
+    }
+
+    /* --- BASE DE DATOS Y GENERADOR DE SVG --- */
+    const questions = [
+        // 1. Desplegado de Cubo (Holograma técnico)
+        {
+            q: "Analiza el esquema de despliegue. Al ensamblar esta estructura, ¿qué sólido se forma?",
+            type: "cube_net",
+            options: ["Cubo", "Prisma", "Pirámide", "Dodecaedro"],
+            ans: 0,
+            expl: "La disposición en cruz de 6 cuadrados idénticos es el patrón fundamental para un Cubo."
+        },
+        // 2. Rotación de Flechas
+        {
+            q: "Determine el vector siguiente basándose en la rotación horaria de 90 grados.",
+            type: "rotation",
+            options: ["Norte (Arriba)", "Este (Derecha)", "Sur (Abajo)", "Oeste (Izquierda)"],
+            ans: 0,
+            expl: "Secuencia: Derecha → Abajo → Izquierda. El siguiente paso en sentido horario es Arriba."
+        },
+        // 3. Vista Isométrica
+        {
+            q: "Identifique el número de superficies visibles en la proyección isométrica estándar de este objeto opaco.",
+            type: "iso_view",
+            options: ["1 Superficie", "2 Superficies", "3 Superficies", "6 Superficies"],
+            ans: 2,
+            expl: "El ojo humano percibe 3 caras (Superior, Frontal Izquierda, Frontal Derecha) en perspectiva isométrica."
+        },
+        // 4. Serie Lógica de Formas
+        {
+            q: "Complete la secuencia lógica de los bloques de datos.",
+            type: "shapes_series",
+            options: ["Cuadrado", "Triángulo", "Círculo", "Rombo"],
+            ans: 1,
+            expl: "Patrón cíclico: Cuadrado > Círculo > Triángulo. La secuencia se reinicia después del círculo."
+        },
+        // 5. Cubo Rubik
+        {
+            q: "En un cubo de 3x3x3, ¿cuántos sub-cubos poseen exactamente 3 caras expuestas al exterior?",
+            type: "rubik",
+            options: ["4 (Centros)", "6 (Caras)", "8 (Vértices)", "12 (Aristas)"],
+            ans: 2,
+            expl: "Solo los vértices (esquinas) del cubo tienen 3 caras expuestas. Un cubo tiene 8 vértices."
+        }
+    ];
+
+    function getSVG(type) {
+        const cBlue = "#00f3ff";
+        const cPink = "#bc13fe";
+        
+        // Filtros SVG para brillo (Glow)
+        const filters = `
+            <defs>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:${cBlue};stop-opacity:0.2" />
+                    <stop offset="100%" style="stop-color:${cPink};stop-opacity:0.1" />
+                </linearGradient>
+            </defs>
+        `;
+
+        switch(type) {
+            case "cube_net":
+                return `<svg viewBox="0 0 300 200">${filters}
+                    <g transform="translate(100,20)">
+                        <path d="M50 0 h50 v50 h-50 z M50 50 h50 v50 h-50 z M0 50 h50 v50 h-50 z M100 50 h50 v50 h-50 z M50 100 h50 v50 h-50 z M50 150 h50 v50 h-50 z" class="holo-line" fill="url(#grad1)"/>
+                        <circle cx="75" cy="25" r="5" fill="${cBlue}" opacity="0.5"/>
+                        <circle cx="75" cy="75" r="5" fill="${cBlue}" opacity="0.5"/>
+                        <text x="75" y="125" text-anchor="middle" fill="${cBlue}" font-size="10" opacity="0.7">DATA</text>
+                    </g>
+                </svg>`;
+
+            case "rotation":
+                return `<svg viewBox="0 0 400 120">${filters}
+                    <path d="M40 60 h40 M70 50 l10 10 l-10 10" class="holo-line" stroke-width="4"/>
+                    <circle cx="60" cy="60" r="30" class="holo-accent" stroke-dasharray="5,5"/>
+                    
+                    <g transform="translate(130,0)">
+                        <path d="M60 40 v40 M50 70 l10 10 l10 -10" class="holo-line" stroke-width="4"/>
+                        <circle cx="60" cy="60" r="30" class="holo-accent" stroke-dasharray="5,5"/>
+                    </g>
+
+                    <g transform="translate(260,0)">
+                        <path d="M80 60 h-40 M50 50 l-10 10 l10 10" class="holo-line" stroke-width="4"/>
+                        <circle cx="60" cy="60" r="30" class="holo-accent" stroke-dasharray="5,5"/>
+                    </g>
+
+                    <text x="360" y="75" fill="${cPink}" font-size="50" font-family="Orbitron">?</text>
+                </svg>`;
+
+            case "iso_view":
+                return `<svg viewBox="0 0 200 180">${filters}
+                    <g transform="translate(50,30) scale(1.4)">
+                        <path d="M50 0 L100 25 L50 50 L0 25 Z" fill="rgba(0,243,255,0.3)" stroke="${cBlue}" stroke-width="1.5" filter="url(#glow)"/>
+                        <path d="M0 25 L50 50 L50 100 L0 75 Z" fill="rgba(0,243,255,0.1)" stroke="${cBlue}" stroke-width="1.5"/>
+                        <path d="M50 50 L100 25 L100 75 L50 100 Z" fill="rgba(0,243,255,0.05)" stroke="${cBlue}" stroke-width="1.5"/>
+                        
+                        <path d="M50 50 v50" stroke="${cBlue}" stroke-dasharray="2,2" opacity="0.5"/>
+                    </g>
+                </svg>`;
+
+            case "shapes_series":
+                return `<svg viewBox="0 0 400 100">${filters}
+                    <rect x="20" y="30" width="40" height="40" class="holo-line" />
+                    <path d="M80 50 h20" stroke="#555"/>
+                    
+                    <circle cx="140" cy="50" r="22" class="holo-line" />
+                    <path d="M180 50 h20" stroke="#555"/>
+                    
+                    <polygon points="240,30 220,70 260,70" class="holo-line" />
+                    <path d="M280 50 h20" stroke="#555"/>
+                    
+                    <rect x="320" y="30" width="40" height="40" class="holo-line" opacity="0.5"/>
+                    <text x="340" y="55" text-anchor="middle" fill="white" font-size="10">REPEAT</text>
+                </svg>`;
+
+            case "rubik":
+                return `<svg viewBox="0 0 200 200">${filters}
+                    <g transform="translate(40,40)">
+                        <rect x="0" y="0" width="120" height="120" fill="none" stroke="${cBlue}" stroke-width="2"/>
+                        <line x1="40" y1="0" x2="40" y2="120" stroke="${cBlue}" opacity="0.5"/>
+                        <line x1="80" y1="0" x2="80" y2="120" stroke="${cBlue}" opacity="0.5"/>
+                        <line x1="0" y1="40" x2="120" y2="40" stroke="${cBlue}" opacity="0.5"/>
+                        <line x1="0" y1="80" x2="120" y2="80" stroke="${cBlue}" opacity="0.5"/>
+                        
+                        <circle cx="0" cy="0" r="5" fill="${cPink}" filter="url(#glow)"/>
+                        <circle cx="120" cy="0" r="5" fill="${cPink}" filter="url(#glow)"/>
+                        <circle cx="0" cy="120" r="5" fill="${cPink}" filter="url(#glow)"/>
+                        <circle cx="120" cy="120" r="5" fill="${cPink}" filter="url(#glow)"/>
+                    </g>
+                </svg>`;
+        }
+    }
+
+    /* --- LÓGICA DE JUEGO --- */
+    let currentIdx = 0;
+    let score = 0;
+
+    const dom = {
+        counter: document.getElementById('q-counter'),
+        score: document.getElementById('score-counter'),
+        text: document.getElementById('q-text'),
+        svgSpot: document.getElementById('svg-injection-point'),
+        opts: document.getElementById('options-container'),
+        feedback: document.getElementById('feedback-panel'),
+        next: document.getElementById('next-btn'),
+        quiz: document.getElementById('quiz-screen'),
+        results: document.getElementById('results-screen')
+    };
+
+    function loadQuestion() {
+        const q = questions[currentIdx];
+        
+        dom.counter.innerText = `PREGUNTA 0${currentIdx + 1}/0${questions.length}`;
+        dom.text.innerText = q.q;
+        dom.svgSpot.innerHTML = getSVG(q.type);
+        
+        dom.opts.innerHTML = '';
+        dom.feedback.style.display = 'none';
+        dom.next.style.display = 'none';
+
+        q.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-opt';
+            btn.innerHTML = `> ${opt}`;
+            btn.onmouseenter = () => playSound('hover');
+            btn.onclick = () => check(i, btn, q);
+            dom.opts.appendChild(btn);
+        });
+    }
+
+    function check(idx, btn, q) {
+        // Bloquear todos
+        Array.from(dom.opts.children).forEach(b => b.disabled = true);
+        
+        if (idx === q.ans) {
+            playSound('correct');
+            btn.classList.add('correct');
+            score += 100;
+            dom.score.innerText = `PUNTOS: ${score}`;
+            dom.feedback.innerHTML = `<strong style="color:var(--neon-green)">¡ACCESO CONCEDIDO!</strong><br>${q.expl}`;
+        } else {
+            playSound('wrong');
+            btn.classList.add('wrong');
+            // Marcar correcta
+            dom.opts.children[q.ans].classList.add('correct');
+            dom.feedback.innerHTML = `<strong style="color:var(--neon-red)">ERROR DE SISTEMA</strong><br>${q.expl}`;
+        }
+        dom.feedback.style.display = 'block';
+        dom.next.style.display = 'block';
+    }
+
+    function nextQuestion() {
+        playSound('click');
+        currentIdx++;
+        if (currentIdx < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        dom.quiz.style.display = 'none';
+        dom.results.style.display = 'block';
+        document.getElementById('final-score').innerText = score;
+        
+        const msg = score >= 400 ? "NIVEL: HACKER MAESTRO" : 
+                    score >= 300 ? "NIVEL: OPERADOR SENIOR" : "NIVEL: INICIADO";
+        document.getElementById('final-msg').innerText = msg;
+    }
+
+    // INICIO
+    loadQuestion();
+
+</script>
+
+</body>
+</html>
