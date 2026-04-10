@@ -90,27 +90,27 @@ Responda a las siguientes preguntas en 2-3 frases, basándose exclusivamente en 
 | Subíndices | Las habilidades específicas y medibles que componen la Habilidad Verbal. El módulo cubre 16 subíndices en total (del 1.1.1 al 1.2.6). |
 | Expresiones Idiomáticas | Frases cuyo significado no se deduce literalmente de las palabras que las componen. En el contexto del video, es una de las habilidades de vocabulario que se deben interpretar en su uso práctico. |
 | Analogías | Relaciones de semejanza entre cosas distintas. Dentro del video, se presentan como un ejercicio de vocabulario que debe resolverse dentro del contexto de un texto. |
-92: 
-93: \--------------------------------------------------------------------------------
-94: 
-95: ## Glosario Especializado: Estrategias de Integración Master
-96: 
-97: Para dominar la integración total de los 16 subíndices (1.1.1 al 1.2.6), utiliza estas estrategias avanzadas de resolución.
-98: 
-99: ### Matriz de Resolución de Preguntas Integradoras
-100: 
-101: | Estrategia | Cuándo Aplicar | Técnica Recomendada |
-102: | --- | --- | --- |
-103: | **Escaneo de Subíndices** | Al leer el texto por primera vez. | Identificar si la pregunta pide información explícita (1.1.1) o una analogía (1.2.1) simultáneamente. |
-104: | **Código de Colores Mental** | Durante el análisis del enunciado. | Separar visualmente la base gramatical (Comprensión) del reto léxico (Vocabulario). |
-105: | **Descarte por Contexto** | En preguntas de significados múltiples. | Eliminar opciones que no encajen con el tono o la intención del autor, aun si son gramaticalmente correctas. |
-106: | **Ancla de Analogía** | En lecturas densas. | Buscar la relación "A es a B" dentro del párrafo para validar inferencias. |
-107: 
-108: ### Checklist de Dominio Total (16 Subíndices)
-109: 
-110: | Área | Rango de Subíndices | Habilidad Clave a Verificar |
-111: | --- | --- | --- |
-112: | **Comprensión Directa** | 1.1.1 - 1.1.5 | ¿Puedo extraer datos, ideas principales y seguir secuencias sin dudar? |
-113: | **Comprensión Crítica** | 1.1.6 - 1.1.10 | ¿Distingo hechos de opiniones y entiendo las relaciones causa-efecto? |
-114: | **Vocabulario Analítico** | 1.2.1 - 1.2.3 | ¿Resuelvo analogías, sinónimos y antónimos con precisión? |
-115: | **Vocabulario Contextual**| 1.2.4 - 1.2.6 | ¿Entiendo palabras polisémicas y modismos según el entorno del texto? |
+
+---
+
+## Glosario Especializado: Estrategias de Integración Master
+
+Para dominar la integración total de los 16 subíndices (1.1.1 al 1.2.6), utiliza estas estrategias avanzadas de resolución.
+
+### Matriz de Resolución de Preguntas Integradoras
+
+| Estrategia | Cuándo Aplicar | Técnica Recomendada |
+| --- | --- | --- |
+| **Escaneo de Subíndices** | Al leer el texto por primera vez. | Identificar si la pregunta pide información explícita (1.1.1) o una analogía (1.2.1) simultáneamente. |
+| **Código de Colores Mental** | Durante el análisis del enunciado. | Separar visualmente la base gramatical (Comprensión) del reto léxico (Vocabulario). |
+| **Descarte por Contexto** | En preguntas de significados múltiples. | Eliminar opciones que no encajen con el tono o la intención del autor, aun si son gramaticalmente correctas. |
+| **Ancla de Analogía** | En lecturas densas. | Buscar la relación "A es a B" dentro del párrafo para validar inferencias. |
+
+### Checklist de Dominio Total (16 Subíndices)
+
+| Área | Rango de Subíndices | Habilidad Clave a Verificar |
+| --- | --- | --- |
+| **Comprensión Directa** | 1.1.1 - 1.1.5 | ¿Puedo extraer datos, ideas principales y seguir secuencias sin dudar? |
+| **Comprensión Crítica** | 1.1.6 - 1.1.10 | ¿Distingo hechos de opiniones y entiendo las relaciones causa-efecto? |
+| **Vocabulario Analítico** | 1.2.1 - 1.2.3 | ¿Resuelvo analogías, sinónimos y antónimos con precisión? |
+| **Vocabulario Contextual**| 1.2.4 - 1.2.6 | ¿Entiendo palabras polisémicas y modismos según el entorno del texto? |
