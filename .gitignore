@@ -17,6 +17,7 @@
 # Permitir solo archivos de despliegue para el servidor
 !*.html
 !*.php
+/config.php
 !*.js
 !*.css
 !*.png

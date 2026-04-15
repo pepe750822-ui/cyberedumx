@@ -1,26 +1,25 @@
 <?php
-// config.php CORREGIDO para Hostinger
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// config.example.php — Copia este archivo como config.php y llena tus valores reales.
+// NUNCA subas config.php a git.
 
-// Configuración de la base de datos
+error_reporting(0);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
 define('DB_HOST', 'localhost');
-define('DB_USER', 'u149467987_ecoemuser');
-define('DB_PASS', 'Gopl750822#');
-define('DB_NAME', 'u149467987_ecoems2026');
+define('DB_USER', 'tu_usuario_db');
+define('DB_PASS', 'tu_contraseña_db');
+define('DB_NAME', 'tu_nombre_db');
 
-// Intentar conexión
 try {
     $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch(PDOException $e) {
-    // Mostrar error detallado para diagnóstico
-    die("Error de conexión a la base de datos: " . $e->getMessage());
+    error_log("DB connection error: " . $e->getMessage());
+    die("Error de conexión. Por favor intenta más tarde.");
 }
 
-// Función para convertir color HEX a RGB
 function hex2rgb($hex) {
     $hex = str_replace("#", "", $hex);
     if(strlen($hex) == 3) {

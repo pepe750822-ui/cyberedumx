@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklist Assets Faltantes — CyberEdu MX</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f0f1a;
+      color: #e2e8f0;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #a78bfa;
+      margin-bottom: 0.3rem;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: #1e1e2e;
+      border: 1px solid #2d2d3f;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      min-width: 160px;
+    }
+    .stat-card .number {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .stat-card .label {
+      font-size: 0.75rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+    .red .number { color: #f87171; }
+    .yellow .number { color: #fbbf24; }
+    .green .number { color: #34d399; }
+
+    .section {
+      margin-bottom: 2.5rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      font-weight: 900;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section-header.red   { background: rgba(248,113,113,0.1); border-left: 4px solid #f87171; color: #f87171; }
+    .section-header.yellow { background: rgba(251,191,36,0.1); border-left: 4px solid #fbbf24; color: #fbbf24; }
+
+    .area-block {
+      background: #1a1a2e;
+      border: 1px solid #2d2d3f;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .area-title {
+      padding: 0.6rem 1rem;
+      background: #16213e;
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7c3aed;
+      border-bottom: 1px solid #2d2d3f;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      background: #12122a;
+      padding: 0.5rem 1rem;
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #475569;
+      border-bottom: 1px solid #2d2d3f;
+    }
+    td {
+      padding: 0.55rem 1rem;
+      font-size: 0.82rem;
+      border-bottom: 1px solid #1e1e2e;
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .folder {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      color: #7dd3fc;
+      font-weight: 700;
+    }
+    .video-id {
+      font-family: monospace;
+      font-size: 0.75rem;
+      background: #1e1e2e;
+      border: 1px solid #2d2d3f;
+      border-radius: 6px;
+      padding: 0.1rem 0.5rem;
+      color: #a78bfa;
+    }
+    .title-cell {
+      color: #cbd5e1;
+      font-size: 0.82rem;
+    }
+    .needs {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge.png  { background: rgba(167,139,250,0.15); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); }
+    .badge.pdf  { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+    .badge.audio{ background: rgba(52,211,153,0.12); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+
+    .check-col input[type="checkbox"] {
+      width: 16px; height: 16px; cursor: pointer; accent-color: #7c3aed;
+    }
+
+    .note {
+      background: #1e1e2e;
+      border: 1px solid #2d2d3f;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+    .note strong { color: #e2e8f0; }
+
+    .progress-bar-wrap {
+      background: #1e1e2e;
+      border-radius: 99px;
+      height: 8px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #7c3aed, #06b6d4);
+      transition: width 0.3s;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #475569;
+      margin-top: 0.3rem;
+    }
+
+    @media print {
+      body { background: white; color: black; }
+      .area-block { border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Checklist de Assets Faltantes</h1>
+  <p class="subtitle">CyberEdu MX — Auditoría generada el 14 de abril 2026</p>
+
+  <div class="stats">
+    <div class="stat-card green">
+      <div class="number">36</div>
+      <div class="label">Videos completos</div>
+    </div>
+    <div class="stat-card red">
+      <div class="number">27</div>
+      <div class="label">Vacíos totales</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="number">28</div>
+      <div class="label">Solo falta audio</div>
+    </div>
+    <div class="stat-card" style="min-width:220px;">
+      <div class="label" style="margin-bottom:0.5rem;">Progreso general</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" style="width: 39%"></div>
+      </div>
+      <div class="progress-label"><span>36 / 91 videos completos</span><span>39%</span></div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Nombres exactos de archivos requeridos:</strong><br>
+    Cada carpeta <code>public/videos/videoN/</code> debe contener exactamente:
+    <code>infografia.png</code> · <code>presentacion.pdf</code> · <code>podcast.mp3</code> · <code>podcast.m4a</code>
+    (todos en minúsculas)
+  </div>
+
+  <!-- ===== SECCIÓN ROJA: Vacíos totales ===== -->
+  <div class="section">
+    <div class="section-header red">🔴 Carpetas vacías — necesitan los 3 archivos (27 videos)</div>
+
+    <!-- Español -->
+    <div class="area-block">
+      <div class="area-title">📝 Español</div>
+      <table>
+        <thead><tr>
+          <th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video49/</td><td><span class="video-id">hu-5</span></td><td class="title-cell">Período de Entreguerras</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video61/</td><td><span class="video-id">esp-3</span></td><td class="title-cell">Coherencia y Cohesión II - Gramática</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video63/</td><td><span class="video-id">esp-5</span></td><td class="title-cell">Análisis de Textos Publicitarios</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video64/</td><td><span class="video-id">esp-6</span></td><td class="title-cell">Textos Literarios I: Narrativa</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video65/</td><td><span class="video-id">esp-7</span></td><td class="title-cell">Textos Literarios II: Lírica y Dramática</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video66/</td><td><span class="video-id">esp-8</span></td><td class="title-cell">Ortografía Estratégica</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video67/</td><td><span class="video-id">esp-9</span></td><td class="title-cell">Redacción Efectiva</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video68/</td><td><span class="video-id">esp-10</span></td><td class="title-cell">Integración Total Español</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FCE -->
+    <div class="area-block">
+      <div class="area-title">🏛️ Formación Cívica y Ética (FCE) — 8 videos</div>
+      <table>
+        <thead><tr>
+          <th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video69/</td><td><span class="video-id">fce-1</span></td><td class="title-cell">Fundamentos Personales e Interculturalidad</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video70/</td><td><span class="video-id">fce-2</span></td><td class="title-cell">Adolescencia y Sociedad</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video71/</td><td><span class="video-id">fce-3</span></td><td class="title-cell">El Estado Mexicano</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video72/</td><td><span class="video-id">fce-4</span></td><td class="title-cell">Democracia y Derechos Humanos</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video73/</td><td><span class="video-id">fce-5</span></td><td class="title-cell">Sistema de Partidos y Elecciones</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video74/</td><td><span class="video-id">fce-6</span></td><td class="title-cell">Organizaciones de la Sociedad Civil</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video75/</td><td><span class="video-id">fce-7</span></td><td class="title-cell">Medios de Comunicación y Opinión Pública</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video76/</td><td><span class="video-id">fce-8</span></td><td class="title-cell">Corrupción y Transparencia</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Geografía -->
+    <div class="area-block">
+      <div class="area-title">🌍 Geografía — 10 videos</div>
+      <table>
+        <thead><tr>
+          <th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video77/</td><td><span class="video-id">geo-1</span></td><td class="title-cell">El Espacio Geográfico y los Mapas</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video78/</td><td><span class="video-id">geo-2</span></td><td class="title-cell">Recursos Naturales y Preservación</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video79/</td><td><span class="video-id">geo-3</span></td><td class="title-cell">Biosfera y Biodiversidad</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video80/</td><td><span class="video-id">geo-4</span></td><td class="title-cell">Desarrollo Sustentable y Políticas Ambientales</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video81/</td><td><span class="video-id">geo-5</span></td><td class="title-cell">Población y Migración</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video82/</td><td><span class="video-id">geo-6</span></td><td class="title-cell">Vulnerabilidad y Resiliencia</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video83/</td><td><span class="video-id">geo-7</span></td><td class="title-cell">Economía Global: Producción y Comercio</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video84/</td><td><span class="video-id">geo-8</span></td><td class="title-cell">El Mundo Desigual: IDH y Ciudades Globales</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video85/</td><td><span class="video-id">geo-9</span></td><td class="title-cell">Cultura, Identidad y Fronteras</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video86/</td><td><span class="video-id">geo-10</span></td><td class="title-cell">Patrimonio y Soberanía</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Repaso -->
+    <div class="area-block">
+      <div class="area-title">🎯 Repaso Estratégico — 4 videos</div>
+      <table>
+        <thead><tr>
+          <th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video87/</td><td><span class="video-id">rep-1</span></td><td class="title-cell">Repaso Estratégico I - Ciencias y Matemáticas</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video88/</td><td><span class="video-id">rep-2</span></td><td class="title-cell">Repaso Estratégico II - Historia y Sociales</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video89/</td><td><span class="video-id">rep-3</span></td><td class="title-cell">Estrategias Finales - Examen en Línea ECOEMS</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video90/</td><td><span class="video-id">rep-4</span></td><td class="title-cell">Cierre Total - Tu Puente Hacia el Bachillerato</td><td><div class="needs"><span class="badge png">infografia.png</span><span class="badge pdf">presentacion.pdf</span><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== SECCIÓN AMARILLA: Solo falta audio ===== -->
+  <div class="section">
+    <div class="section-header yellow">🟡 Solo falta audio — ya tienen PNG y PDF (28 videos)</div>
+
+    <!-- Química -->
+    <div class="area-block">
+      <div class="area-title">🧪 Química</div>
+      <table>
+        <thead><tr><th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th></tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video29/</td><td><span class="video-id">qui-3</span></td><td class="title-cell">Tabla Periódica y Estructura de Lewis</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video30/</td><td><span class="video-id">qui-4</span></td><td class="title-cell">Enlaces Químicos</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Matemáticas -->
+    <div class="area-block">
+      <div class="area-title">📐 Matemáticas — 13 videos</div>
+      <table>
+        <thead><tr><th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th></tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video32/</td><td><span class="video-id">mat-2</span></td><td class="title-cell">Números Fraccionarios y Decimales</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video33/</td><td><span class="video-id">mat-3</span></td><td class="title-cell">Introducción al Álgebra</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video34/</td><td><span class="video-id">mat-4</span></td><td class="title-cell">Ecuaciones de Primer Grado</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video35/</td><td><span class="video-id">mat-5</span></td><td class="title-cell">Sistemas de Ecuaciones</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video36/</td><td><span class="video-id">mat-6</span></td><td class="title-cell">Ecuaciones Cuadráticas</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video37/</td><td><span class="video-id">mat-7</span></td><td class="title-cell">Proporcionalidad</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video38/</td><td><span class="video-id">mat-8</span></td><td class="title-cell">Estadística Descriptiva</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video39/</td><td><span class="video-id">mat-9</span></td><td class="title-cell">Probabilidad Básica</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video40/</td><td><span class="video-id">mat-10</span></td><td class="title-cell">Elementos Básicos de Geometría</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video41/</td><td><span class="video-id">mat-11</span></td><td class="title-cell">Semejanza y Teorema de Pitágoras</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video42/</td><td><span class="video-id">mat-12</span></td><td class="title-cell">Razones Trigonométricas</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video43/</td><td><span class="video-id">mat-13</span></td><td class="title-cell">Perímetros y Áreas</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video44/</td><td><span class="video-id">mat-14</span></td><td class="title-cell">Volúmenes</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Historia Universal -->
+    <div class="area-block">
+      <div class="area-title">🌐 Historia Universal — 6 videos</div>
+      <table>
+        <thead><tr><th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th></tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video45/</td><td><span class="video-id">hu-1</span></td><td class="title-cell">Renacimiento y Descubrimientos</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video46/</td><td><span class="video-id">hu-2</span></td><td class="title-cell">Ilustración y Revoluciones Políticas</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video47/</td><td><span class="video-id">hu-3</span></td><td class="title-cell">Revolución Industrial</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video48/</td><td><span class="video-id">hu-4</span></td><td class="title-cell">Imperialismo y Primera Guerra Mundial</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video50/</td><td><span class="video-id">hu-6</span></td><td class="title-cell">Segunda Guerra Mundial</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video51/</td><td><span class="video-id">hu-7</span></td><td class="title-cell">Guerra Fría y Globalización</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Historia México -->
+    <div class="area-block">
+      <div class="area-title">🇲🇽 Historia de México — 7 videos</div>
+      <table>
+        <thead><tr><th>✓</th><th>Carpeta</th><th>ID</th><th>Título</th><th>Archivos necesarios</th></tr></thead>
+        <tbody>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video52/</td><td><span class="video-id">hm-mx-1</span></td><td class="title-cell">Culturas Prehispánicas</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video53/</td><td><span class="video-id">hm-mx-2</span></td><td class="title-cell">Conquista de México</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video54/</td><td><span class="video-id">hm-mx-3</span></td><td class="title-cell">Virreinato de Nueva España</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video55/</td><td><span class="video-id">hm-mx-4</span></td><td class="title-cell">Independencia de México</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video56/</td><td><span class="video-id">hm-mx-5</span></td><td class="title-cell">México Siglo XIX</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video57/</td><td><span class="video-id">hm-mx-6</span></td><td class="title-cell">Revolución Mexicana</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+          <tr><td class="check-col"><input type="checkbox"></td><td class="folder">video58/</td><td><span class="video-id">hm-mx-7</span></td><td class="title-cell">México Contemporáneo</td><td><div class="needs"><span class="badge audio">podcast.mp3</span><span class="badge audio">podcast.m4a</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:2rem;">
+    <strong>Ruta base del proyecto:</strong> <code>cyberedu-mx/public/videos/</code><br>
+    Los checkboxes son interactivos — márcalos conforme vayas subiendo los archivos (solo en esta sesión del navegador).
+  </div>
+
+</body>
+</html>

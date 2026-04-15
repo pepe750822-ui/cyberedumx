@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /c/Users/pp_it/cyberedumx.com/*.php)",
+      "Bash(wc -l /c/Users/pp_it/cyberedumx.com/*.php)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}

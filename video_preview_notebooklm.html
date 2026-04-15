@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>Video Preview — NotebookLM × CyberEdu MX</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+  
+  .player{position:relative;width:100%;max-width:800px;aspect-ratio:16/9;background:#0f172a;border-radius:16px;overflow:hidden;box-shadow:0 0 80px rgba(99,102,241,0.3)}
+  
+  .scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.8s;flex-direction:column;text-align:center;padding:40px}
+  .scene.active{opacity:1}
+  
+  /* SCENE 1 - HOOK */
+  .s1{background:linear-gradient(135deg,#0f172a,#1e1b4b)}
+  .s1 .hook-text{font-size:clamp(16px,4vw,36px);font-weight:900;color:white;text-transform:uppercase;letter-spacing:-1px;line-height:1.1}
+  .s1 .hook-text span{color:#6366f1;display:block;font-size:clamp(12px,3vw,26px);margin-top:8px}
+  .s1 .url{margin-top:24px;font-size:clamp(9px,2vw,18px);color:#94a3b8;letter-spacing:0.3em;text-transform:uppercase}
+  .pulse{animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+  /* SCENE 2 - NOTEBOOKLM */
+  .s2{background:linear-gradient(135deg,#042f2e,#0f172a)}
+  .nb-card{background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.3);border-radius:16px;padding:28px 36px;max-width:480px}
+  .nb-logo{font-size:clamp(28px,5vw,48px);margin-bottom:12px}
+  .nb-title{font-size:clamp(12px,2.5vw,22px);font-weight:900;color:#5eead4;text-transform:uppercase;letter-spacing:-0.5px;margin-bottom:8px}
+  .nb-sub{font-size:clamp(9px,1.5vw,14px);color:#94a3b8;line-height:1.6}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;justify-content:center}
+  .badge{background:rgba(20,184,166,0.2);border:1px solid rgba(20,184,166,0.4);color:#5eead4;font-size:clamp(7px,1.2vw,11px);font-weight:700;text-transform:uppercase;letter-spacing:0.1em;padding:5px 12px;border-radius:100px}
+
+  /* SCENE 3 - FEATURES */
+  .s3{background:linear-gradient(135deg,#1e1b4b,#0f172a)}
+  .features{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;width:100%}
+  .feat{background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);border-radius:12px;padding:14px 16px;text-align:left}
+  .feat-icon{font-size:clamp(16px,3vw,26px);margin-bottom:6px}
+  .feat-title{font-size:clamp(8px,1.5vw,13px);font-weight:800;color:white;text-transform:uppercase;letter-spacing:0.05em}
+  .feat-desc{font-size:clamp(7px,1.2vw,11px);color:#94a3b8;margin-top:3px}
+
+  /* SCENE 4 - UDEMY */
+  .s4{background:linear-gradient(135deg,#052e16,#0f172a)}
+  .udemy-card{background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(5,150,105,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:32px 40px;max-width:500px;text-align:center}
+  .tag{display:inline-block;background:#ef4444;color:white;font-size:clamp(7px,1.2vw,11px);font-weight:900;text-transform:uppercase;letter-spacing:0.2em;padding:5px 14px;border-radius:100px;margin-bottom:16px}
+  .udemy-title{font-size:clamp(14px,3vw,28px);font-weight:900;color:white;text-transform:uppercase;letter-spacing:-1px;line-height:1.1;margin-bottom:8px}
+  .udemy-sub{font-size:clamp(9px,1.5vw,14px);color:#6ee7b7;margin-bottom:20px}
+  .price{font-size:clamp(20px,4vw,42px);font-weight:900;color:#10b981}
+  .price span{font-size:clamp(9px,1.5vw,14px);font-weight:400;color:#94a3b8;display:block}
+
+  /* SCENE 5 - CTA */
+  .s5{background:radial-gradient(ellipse at 50% 0%,#1e1b4b,#0f172a)}
+  .cta-main{font-size:clamp(24px,6vw,64px);font-weight:900;color:white;text-transform:uppercase;letter-spacing:-2px;animation:pulse 1.5s infinite}
+  .cta-url{font-size:clamp(14px,3vw,32px);font-weight:900;color:#6366f1;margin-top:8px}
+  .cta-sub{font-size:clamp(8px,1.5vw,14px);color:#94a3b8;margin-top:16px;text-transform:uppercase;letter-spacing:0.2em}
+
+  /* Confetti for CTA */
+  .confetti-container{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:fall linear infinite}
+  @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+  /* CONTROLS */
+  .controls{display:flex;align-items:center;gap:16px;margin-top:20px;width:100%;max-width:800px}
+  .progress{flex:1;height:4px;background:#1e293b;border-radius:100px;overflow:hidden}
+  .progress-bar{height:100%;background:linear-gradient(90deg,#6366f1,#10b981);border-radius:100px;transition:width 0.3s}
+  .btn{background:#1e293b;border:1px solid #334155;color:white;padding:10px 20px;border-radius:100px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s}
+  .btn:hover{background:#334155}
+  .btn-play{background:#6366f1;border-color:#6366f1}
+  .btn-play:hover{background:#4f46e5}
+  .timer{color:#64748b;font-size:11px;font-weight:700;min-width:50px;text-align:right}
+  .scene-label{color:#64748b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:8px}
+
+  /* Floating label */
+  .scene-tag{position:absolute;top:16px;left:16px;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);color:#94a3b8;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.15em;padding:5px 12px;border-radius:100px}
+  .time-tag{position:absolute;top:16px;right:16px;background:rgba(99,102,241,0.3);border:1px solid rgba(99,102,241,0.4);color:#a5b4fc;font-size:10px;font-weight:700;padding:5px 12px;border-radius:100px}
+
+  /* Animated elements */
+  .slide-in{animation:slideIn 0.6s ease-out forwards}
+  @keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .fade-in-delay-1{animation:fadeIn 0.5s 0.2s ease-out both}
+  .fade-in-delay-2{animation:fadeIn 0.5s 0.5s ease-out both}
+  .fade-in-delay-3{animation:fadeIn 0.5s 0.8s ease-out both}
+  .fade-in-delay-4{animation:fadeIn 0.5s 1.1s ease-out both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="player" id="player">
+
+  <!-- SCENE 1: HOOK -->
+  <div class="scene s1 active" id="s1">
+    <div class="scene-tag">Escena 1 — Hook</div>
+    <div class="time-tag">0:00 – 0:05</div>
+    <div class="hook-text pulse">
+      ¿Sabías que cada video<br/>tiene su propio
+      <span>cuaderno de IA? 🤖</span>
+    </div>
+    <div class="url">cyberedumx.com</div>
+  </div>
+
+  <!-- SCENE 2: NOTEBOOKLM -->
+  <div class="scene s2" id="s2">
+    <div class="scene-tag">Escena 2 — NotebookLM</div>
+    <div class="time-tag">0:05 – 0:20</div>
+    <div class="nb-card">
+      <div class="nb-logo">📒</div>
+      <div class="nb-title">Google NotebookLM</div>
+      <div class="nb-sub">
+        Cada video del ECOEMS conectado con un notebook de IA.<br/>
+        Pregúntale cualquier cosa al tema — con fuentes reales.
+      </div>
+      <div class="badges">
+        <div class="badge fade-in-delay-1">✅ Resúmenes IA</div>
+        <div class="badge fade-in-delay-2">✅ Q&amp;A con fuentes</div>
+        <div class="badge fade-in-delay-3">✅ Podcast IA</div>
+        <div class="badge fade-in-delay-4">✅ Mapa conceptual</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 3: FEATURES -->
+  <div class="scene s3" id="s3">
+    <div class="scene-tag">Escena 3 — Funciones</div>
+    <div class="time-tag">0:20 – 0:40</div>
+    <div class="features">
+      <div class="feat fade-in-delay-1">
+        <div class="feat-icon">🧠</div>
+        <div class="feat-title">Pregunta al AI</div>
+        <div class="feat-desc">Respuestas con fuentes del temario</div>
+      </div>
+      <div class="feat fade-in-delay-2">
+        <div class="feat-icon">🎙️</div>
+        <div class="feat-title">Podcast IA</div>
+        <div class="feat-desc">2 voces debatiendo el tema</div>
+      </div>
+      <div class="feat fade-in-delay-3">
+        <div class="feat-icon">📋</div>
+        <div class="feat-title">Guía de estudio</div>
+        <div class="feat-desc">Generada automáticamente</div>
+      </div>
+      <div class="feat fade-in-delay-4">
+        <div class="feat-icon">🗺️</div>
+        <div class="feat-title">Línea del tiempo</div>
+        <div class="feat-desc">Visualiza cronología de temas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 4: UDEMY -->
+  <div class="scene s4" id="s4">
+    <div class="scene-tag">Escena 4 — Curso Udemy</div>
+    <div class="time-tag">0:40 – 0:55</div>
+    <div class="udemy-card">
+      <div class="tag">🎓 Único recurso de pago</div>
+      <div class="udemy-title">ECOEMS 2026:<br/>128 Preguntas Resueltas</div>
+      <div class="udemy-sub">con Google NotebookLM</div>
+      <div class="price">
+        $199 MXN
+        <span>Acceso de por vida en Udemy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 5: CTA -->
+  <div class="scene s5" id="s5">
+    <div class="scene-tag">Escena 5 — CTA</div>
+    <div class="time-tag">0:55 – 1:00</div>
+    <div class="confetti-container" id="confetti"></div>
+    <div class="cta-main">¡GRATIS HOY!</div>
+    <div class="cta-url">cyberedumx.com</div>
+    <div class="cta-sub">Tu camino al ECOEMS empieza aquí</div>
+  </div>
+
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="btn btn-play" id="btnPlay" onclick="togglePlay()">▶ PLAY</button>
+  <div class="progress">
+    <div class="progress-bar" id="progressBar" style="width:20%"></div>
+  </div>
+  <div class="timer" id="timer">0:00</div>
+  <button class="btn" onclick="prevScene()">◀</button>
+  <button class="btn" onclick="nextScene()">▶</button>
+</div>
+<div class="scene-label" id="sceneLabel">Escena 1 de 5 — Hook (0:00 – 0:05)</div>
+
+<script>
+const scenes = [
+  { id:'s1', label:'Hook', time:'0:00 – 0:05', sec:0 },
+  { id:'s2', label:'NotebookLM', time:'0:05 – 0:20', sec:5 },
+  { id:'s3', label:'Funciones', time:'0:20 – 0:40', sec:20 },
+  { id:'s4', label:'Curso Udemy', time:'0:40 – 0:55', sec:40 },
+  { id:'s5', label:'CTA Final', time:'0:55 – 1:00', sec:55 },
+];
+let current = 0;
+let playing = false;
+let interval = null;
+let elapsed = 0;
+
+function showScene(idx){
+  scenes.forEach((s,i)=>{
+    const el = document.getElementById(s.id);
+    el.classList.toggle('active', i===idx);
+    // Re-trigger animations
+    if(i===idx){
+      el.querySelectorAll('[class*="fade-in"]').forEach(e=>{
+        e.style.animation='none';
+        setTimeout(()=>e.style.animation='',10);
+      });
+    }
+  });
+  current = idx;
+  const pct = ((idx+1)/scenes.length)*100;
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('sceneLabel').textContent=
+    `Escena ${idx+1} de ${scenes.length} — ${scenes[idx].label} (${scenes[idx].time})`;
+  document.getElementById('timer').textContent=
+    '0:'+String(scenes[idx].sec).padStart(2,'0');
+  if(idx===4) generateConfetti();
+}
+
+function nextScene(){
+  if(current < scenes.length-1) showScene(current+1);
+  else { showScene(0); stopPlay(); }
+}
+function prevScene(){
+  if(current > 0) showScene(current-1);
+}
+
+function togglePlay(){
+  if(playing) stopPlay(); else startPlay();
+}
+function startPlay(){
+  playing=true;
+  document.getElementById('btnPlay').textContent='⏸ PAUSE';
+  const durations=[5,15,20,15,5]; // seconds per scene
+  let sceneElapsed=0;
+  let sceneDuration=durations[current];
+  interval=setInterval(()=>{
+    sceneElapsed++;
+    elapsed++;
+    document.getElementById('timer').textContent=
+      '0:'+String(scenes[current].sec+sceneElapsed).padStart(2,'0');
+    if(sceneElapsed>=sceneDuration){
+      sceneElapsed=0;
+      if(current<scenes.length-1){
+        showScene(current+1);
+        sceneDuration=durations[current];
+      } else {
+        stopPlay();
+        showScene(0);
+      }
+    }
+  },200); // 5x speed for demo
+}
+function stopPlay(){
+  playing=false;
+  clearInterval(interval);
+  document.getElementById('btnPlay').textContent='▶ PLAY';
+}
+
+function generateConfetti(){
+  const c=document.getElementById('confetti');
+  c.innerHTML='';
+  const colors=['#6366f1','#10b981','#f59e0b','#ec4899','#3b82f6'];
+  for(let i=0;i<40;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText=`
+      left:${Math.random()*100}%;
+      top:${-Math.random()*20}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${1.5+Math.random()*2}s;
+      animation-delay:${Math.random()*1}s;
+    `;
+    c.appendChild(p);
+  }
+}
+</script>
+</body>
+</html>
