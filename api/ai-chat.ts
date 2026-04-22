@@ -440,8 +440,8 @@ export default async function handler(req: Request) {
       }
     }
 
-    const SYSTEM_PROMPT = `${context ? `## CONTEXTO REAL (SITUACION ACTUAL): ${JSON.stringify(context)}` : ''}
-    ${memory ? `## MEMORIA RECIENTE: ${JSON.stringify(memory)}` : ''}
+    const SYSTEM_PROMPT = `${context ? '## CONTEXTO REAL (SITUACION ACTUAL): ' + JSON.stringify(context) : ''}
+    ${memory ? '## MEMORIA RECIENTE: ' + JSON.stringify(memory) : ''}
     0. REGLA SUPREMA DE QUÍMICA (PRIORIDAD MÁXIMA):
     - Cuando el usuario diga "tabla periódica", "elementos", o pregunte por un elemento químico (ej: Oro, H, Carbono), ES OBLIGATORIO usar el tag <chemistry>.
     - ¡PROHIBICIÓN ABSOLUTA!: Está TOTALMENTE PROHIBIDO usar diagramas Mermaid o tablas Markdown (| Elemento |) para hablar de la tabla periódica o elementos. Si ignoras esto, la interfaz del usuario se romperá.
