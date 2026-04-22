@@ -1,0 +1,7 @@
+project_id = "lruwnuldlltwktdfrwho"
+
+[functions.send-marketing-email]
+verify_jwt = false
+
+[functions.agent-chat]
+verify_jwt = false
