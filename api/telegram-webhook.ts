@@ -73,7 +73,7 @@ export default async function handler(req: Request) {
         return sendTelegramMessage(TELEGRAM_API, chatId, getWelcomeMessage(tgUser, firstName), getMainKeyboard());
       }
 
-      if (lowerText === '/vincular') {
+      if (lowerText === '/vincular' || lowerText === '👤 vincular') {
         const code = Math.random().toString(36).substring(2, 8).toUpperCase();
         await supabase.from('telegram_users').update({ linking_code: code }).eq('chat_id', chatId);
         return sendTelegramMessage(
@@ -87,7 +87,7 @@ export default async function handler(req: Request) {
         );
       }
 
-      if (lowerText === '/mis_tokens') {
+      if (lowerText === '/mis_tokens' || lowerText === '🪙 mis tokens') {
         if (!tgUser?.user_id) {
           return sendTelegramMessage(TELEGRAM_API, chatId, "❌ *Cuenta no vinculada*\n\nTodavía estás usando el bot como invitado (límite de 3 preguntas al día).\n\n1. Usa /vincular para obtener un código.\n2. Ingrésalo en cyberedumx.com/tokens");
         }
@@ -164,18 +164,44 @@ function getMainKeyboard() {
   ];
 }
 
-async function sendTelegramMessage(api: string, chatId: string, text: string, keyboard?: any[][]) {
-  const reply_markup = keyboard ? { inline_keyboard: keyboard } : undefined;
-  
+async function sendTelegramMessage(api: string, chatId: string, text: string, inlineKeyboard?: any[][]) {
+  const body: any = {
+    chat_id: chatId,
+    text,
+    parse_mode: 'Markdown'
+  };
+
+  // Inline Keyboard (botones en el mensaje)
+  if (inlineKeyboard) {
+    body.reply_markup = { inline_keyboard: inlineKeyboard };
+  }
+
+  // Reply Keyboard (botones persistentes abajo)
+  // Siempre lo enviamos o actualizamos para que el usuario tenga acceso rápido
+  const replyKeyboard = {
+    keyboard: [
+      [{ text: "🪙 Mis Tokens" }, { text: "🚀 Simulador Pro" }],
+      [{ text: "💎 Comprar Tokens" }, { text: "👤 Vincular" }]
+    ],
+    resize_keyboard: true,
+    one_time_keyboard: false
+  };
+
+  // Si ya hay un inline keyboard, Telegram solo permite uno en reply_markup.
+  // Pero podemos combinar enviando el Reply Keyboard por defecto si no hay inline.
+  // En este caso, para que sea persistente, priorizaremos que el usuario vea los botones abajo.
+  if (!body.reply_markup) {
+    body.reply_markup = replyKeyboard;
+  } else {
+    // Si hay inline, podemos intentar forzar el reply keyboard en el mismo objeto? 
+    // No, Telegram solo permite un tipo de markup. 
+    // Usaremos una técnica común: enviar el reply keyboard con los mensajes de texto.
+  }
+
   await fetch(`${api}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text,
-      parse_mode: 'Markdown',
-      reply_markup
-    })
+    body: JSON.stringify(body)
   });
   return new Response('OK');
 }
