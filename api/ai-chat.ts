@@ -293,122 +293,111 @@ export default async function handler(req: Request) {
 
   const today = new Date().toISOString().split('T')[0];
 
-  // 1. Fetch profile and check rate limit
-  const profileUrl = `profiles?id=eq.${userId}&select=*`;
-  const [profileResult, rateLimit] = await Promise.all([
-    supabaseRequest(profileUrl),
-    checkRateLimit(userId)
-  ]);
+  let profile = null;
+  let rateLimit = { allowed: true, remaining: 999 };
 
-  const profile = profileResult.data?.[0];
-  const profileErr = profileResult.error;
+  // 1. Fetch profile and check rate limit (Solo si hay userId)
+  if (userId) {
+    const profileUrl = `profiles?id=eq.${userId}&select=*`;
+    const [profileResult, rateLimitRes] = await Promise.all([
+      supabaseRequest(profileUrl),
+      checkRateLimit(userId)
+    ]);
+    profile = profileResult.data?.[0];
+    rateLimit = rateLimitRes;
 
-  console.log(`[AI-CHAT] User: ${userId} | Tokens: ${profile?.tokens} | Premium: ${profile?.is_premium} | Status: ${profile?.subscription_status}`);
-
-  if (profileErr || !profile) {
-    console.error(`[AI-CHAT] Profile Error:`, profileErr);
-    return new Response(JSON.stringify({ error: 'Perfil no encontrado' }), {
-      status: 404,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-  }
-
-  // Safety check: Global Daily Limit (Redis)
-  if (!rateLimit.allowed) {
-    return new Response(JSON.stringify({
-      error: '⚠️ Límite de seguridad diario excedido (200 consultas). Por favor contacta a soporte si crees que es un error.',
-      isAccessDenied: true,
-      reason: 'global_rate_limit'
-    }), {
-      status: 429,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-  }
-
-  // 2. Determine access & Consume resource
-  const todayInMexico = new Date().toLocaleString("en-US", { timeZone: "America/Mexico_City" });
-  const tzDate = new Date(todayInMexico);
-  const localToday = tzDate.getFullYear() + "-" + String(tzDate.getMonth() + 1).padStart(2, '0') + "-" + String(tzDate.getDate()).padStart(2, '0');
-
-  const currentTokens = Number(profile.tokens || 0);
-
-  // Rule 1: Subscriber -> pasa sin límite (pero actualizamos timestamp + tracking)
-  if (profile.subscription_status === 'active' || profile.is_premium === true) {
-    console.log(`[AI-CHAT] Access GRANTED (Subscriber/Premium). skipping token deduction.`);
-    await supabaseRequest(`profiles?id=eq.${userId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        updated_at: new Date().toISOString()
-      })
-    });
-    // Registrar interacción en daily_usage para monitoreo
-    const { data: premUsage } = await supabaseRequest(`daily_usage?user_id=eq.${userId}&date=eq.${localToday}&select=count`);
-    const premCount = premUsage?.[0]?.count || 0;
-    await supabaseRequest(`daily_usage`, {
-      method: 'POST',
-      headers: { 'Prefer': 'resolution=merge-duplicates' },
-      body: JSON.stringify({ user_id: userId, date: localToday, count: premCount + 1 })
-    });
-  }
-  // Rule 2: hasTokens -> descuenta 1 token y pasa
-  else if (currentTokens > 0) {
-    const newTokenBalance = Math.max(0, currentTokens - 1);
-    console.log(`[AI-CHAT] Deducting token: ${currentTokens} -> ${newTokenBalance}`);
-    
-    const { error: patchError } = await supabaseRequest(`profiles?id=eq.${userId}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        tokens: newTokenBalance,
-        updated_at: new Date().toISOString()
-      })
-    });
-
-    if (patchError) {
-      console.error(`[AI-CHAT] Token deduction FAILED:`, patchError);
-    } else {
-      console.log(`[AI-CHAT] Token deduction SUCCESS.`);
-      // Registrar interacción en daily_usage para monitoreo
-      const { data: tokUsage } = await supabaseRequest(`daily_usage?user_id=eq.${userId}&date=eq.${localToday}&select=count`);
-      const tokCount = tokUsage?.[0]?.count || 0;
-      await supabaseRequest(`daily_usage`, {
-        method: 'POST',
-        headers: { 'Prefer': 'resolution=merge-duplicates' },
-        body: JSON.stringify({ user_id: userId, date: localToday, count: tokCount + 1 })
-      });
-    }
-  }
-  // Rule 3: Límite diario (5 max)
-  else {
-    console.log(`[AI-CHAT] Check daily limit for free user.`);
-    const { data: usageData } = await supabaseRequest(`daily_usage?user_id=eq.${userId}&date=eq.${localToday}&select=count`);
-
-    const currentCount = usageData?.[0]?.count || 0;
-    const dailyLimit = 5;
-
-    if (currentCount < dailyLimit) {
-      console.log(`[AI-CHAT] Daily usage: ${currentCount} / ${dailyLimit}. Incrementing.`);
-      await supabaseRequest(`daily_usage`, {
-        method: 'POST',
-        headers: { 'Prefer': 'resolution=merge-duplicates' },
-        body: JSON.stringify({
-          user_id: userId,
-          date: localToday,
-          count: currentCount + 1
-        })
-      });
-    } else {
-      console.log(`[AI-CHAT] Daily limit REACHED.`);
-      const msg = `¡Alcanzaste tus ${dailyLimit} preguntas gratuitas de hoy! 🎓 Regresa mañana para seguir estudiando, o consigue tokens para continuar ahora — desde $20 pesos. ¡Tu esfuerzo vale la pena!`;
-
-      return new Response(JSON.stringify({
-        error: msg,
-        isAccessDenied: true,
-        reason: "daily_limit",
-        message: msg
-      }), {
-        status: 403,
+    if (profileResult.error || !profile) {
+      console.error(`[AI-CHAT] Profile Error:`, profileResult.error);
+      return new Response(JSON.stringify({ error: 'Perfil no encontrado' }), {
+        status: 404,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
+    }
+
+    // Safety check: Global Daily Limit (Redis)
+    if (!rateLimit.allowed) {
+      return new Response(JSON.stringify({
+        error: '⚠️ Límite de seguridad diario excedido.',
+        isAccessDenied: true,
+        reason: 'global_rate_limit'
+      }), {
+        status: 429,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+  } else {
+    console.log("[AI-CHAT] Telegram Guest. Skipping profile check.");
+  }
+
+  // 2. Determine access & Consume resource (Solo si el usuario está registrado/vinculado)
+  if (userId && profile) {
+    const todayInMexico = new Date().toLocaleString("en-US", { timeZone: "America/Mexico_City" });
+    const tzDate = new Date(todayInMexico);
+    const localToday = tzDate.getFullYear() + "-" + String(tzDate.getMonth() + 1).padStart(2, '0') + "-" + String(tzDate.getDate()).padStart(2, '0');
+
+    const currentTokens = Number(profile.tokens || 0);
+
+    // Rule 1: Subscriber -> pasa sin límite (pero actualizamos timestamp + tracking)
+    if (profile.subscription_status === 'active' || profile.is_premium === true) {
+      console.log(`[AI-CHAT] Access GRANTED (Subscriber/Premium). skipping token deduction.`);
+      await supabaseRequest(`profiles?id=eq.${userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ updated_at: new Date().toISOString() })
+      });
+      // Registrar interacción en daily_usage para monitoreo
+      const { data: premUsage } = await supabaseRequest(`daily_usage?user_id=eq.${userId}&date=eq.${localToday}&select=count`);
+      const premCount = premUsage?.[0]?.count || 0;
+      await supabaseRequest(`daily_usage`, {
+        method: 'POST',
+        headers: { 'Prefer': 'resolution=merge-duplicates' },
+        body: JSON.stringify({ user_id: userId, date: localToday, count: premCount + 1 })
+      });
+    }
+    // Rule 2: hasTokens -> descuenta 1 token y pasa
+    else if (currentTokens > 0) {
+      const newTokenBalance = Math.max(0, currentTokens - 1);
+      console.log(`[AI-CHAT] Deducting token: ${currentTokens} -> ${newTokenBalance}`);
+      
+      const { error: patchError } = await supabaseRequest(`profiles?id=eq.${userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          tokens: newTokenBalance,
+          updated_at: new Date().toISOString()
+        })
+      });
+
+      if (!patchError) {
+        // Registrar interacción en daily_usage para monitoreo
+        const { data: tokUsage } = await supabaseRequest(`daily_usage?user_id=eq.${userId}&date=eq.${localToday}&select=count`);
+        const tokCount = tokUsage?.[0]?.count || 0;
+        await supabaseRequest(`daily_usage`, {
+          method: 'POST',
+          headers: { 'Prefer': 'resolution=merge-duplicates' },
+          body: JSON.stringify({ user_id: userId, date: localToday, count: tokCount + 1 })
+        });
+      }
+    }
+    // Rule 3: Límite diario (5 max) para usuarios registrados sin tokens
+    else {
+      console.log(`[AI-CHAT] Check daily limit for free user.`);
+      const { data: usageData } = await supabaseRequest(`daily_usage?user_id=eq.${userId}&date=eq.${localToday}&select=count`);
+
+      const currentCount = usageData?.[0]?.count || 0;
+      const dailyLimit = 5;
+
+      if (currentCount < dailyLimit) {
+        await supabaseRequest(`daily_usage`, {
+          method: 'POST',
+          headers: { 'Prefer': 'resolution=merge-duplicates' },
+          body: JSON.stringify({ user_id: userId, date: localToday, count: currentCount + 1 })
+        });
+      } else {
+        const msg = `¡Alcanzaste tus ${dailyLimit} preguntas gratuitas de hoy! 🎓 Regresa mañana para seguir estudiando, o consigue tokens para continuar ahora.`;
+        return new Response(JSON.stringify({ error: msg, isAccessDenied: true, reason: "daily_limit" }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
     }
   }
 
