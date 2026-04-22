@@ -3,7 +3,26 @@
     "allow": [
       "Bash(ls -la /c/Users/pp_it/cyberedumx.com/*.php)",
       "Bash(wc -l /c/Users/pp_it/cyberedumx.com/*.php)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(node -e ' *)",
+      "Bash(git push *)",
+      "Bash(npx supabase *)",
+      "Bash(curl *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(supabase --version)",
+      "Bash(npx supabase@1.207.9 functions logs send-marketing-email --project-ref lruwnuldlltwktdfrwho)",
+      "Bash(npm run *)",
+      "Bash(grep -n \"^  return \\($\\\\|^  return \\(\" C:/Users/pp_it/cyberedumx.com/cyberedu-mx/src/components/AITutor.tsx)",
+      "WebFetch(domain:upload.wikimedia.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "WebFetch(domain:data.humdata.org)",
+      "Bash(node *)",
+      "Bash(python3 *)",
+      "Bash(git revert *)"
     ]
   }
 }
