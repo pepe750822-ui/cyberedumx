@@ -5,21 +5,41 @@ export const config = {
 };
 
 export default async function handler(req: Request) {
+  const jsonResponse = (data: any, status = 200) => {
+    return new Response(JSON.stringify(data), {
+      status,
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
+    });
+  };
+
+  if (req.method === 'OPTIONS') {
+    return jsonResponse({ ok: true });
+  }
+
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Método no permitido' }), { status: 405 });
+    return jsonResponse({ error: 'Método no permitido' }, 405);
   }
 
   try {
     const { userId, linkingCode } = await req.json();
 
     if (!userId || !linkingCode) {
-      return new Response(JSON.stringify({ error: 'Faltan datos requeridos' }), { status: 400 });
+      return jsonResponse({ error: 'Faltan datos requeridos' }, 400);
     }
 
-    const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+    const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
     const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    const supabase = createClient(SUPABASE_URL!, SUPABASE_KEY!, {
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+      return jsonResponse({ error: 'Configuración de base de datos incompleta' }, 500);
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
       auth: { persistSession: false }
     });
 
@@ -31,7 +51,7 @@ export default async function handler(req: Request) {
       .single();
 
     if (findError || !telegramUser) {
-      return new Response(JSON.stringify({ error: 'Código de vinculación inválido o expirado' }), { status: 404 });
+      return jsonResponse({ error: 'Código de vinculación inválido o expirado' }, 404);
     }
 
     // 2. Vincular el chat_id con el user_id de la web
@@ -48,17 +68,14 @@ export default async function handler(req: Request) {
       throw updateError;
     }
 
-    return new Response(JSON.stringify({ 
+    return jsonResponse({ 
       success: true, 
       message: '¡Bot de Telegram vinculado con éxito!',
       chat_id: telegramUser.chat_id
-    }), { 
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error: any) {
     console.error('Error en vinculación Telegram:', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return jsonResponse({ error: error.message || 'Error interno del servidor' }, 500);
   }
 }
