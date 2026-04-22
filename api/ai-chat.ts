@@ -220,17 +220,38 @@ export default async function handler(req: Request) {
 
   // ─── Token/Trial Monitoring (Access Control) ───────────────────────
   const authHeader = req.headers.get('Authorization');
-  const userId = getUserIdFromToken(authHeader);
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    body = {};
+  }
+  
+  // Si viene de Telegram, el userId viene en el body y confiamos en él
+  const isTelegram = body.isTelegram === true;
+  const userId = isTelegram ? body.userId : getUserIdFromToken(authHeader);
+  
   // @ts-ignore
   const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
   // @ts-ignore
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!userId || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  // Si no es Telegram y no hay userId, es un invitado de la web (o sesión expirada)
+  if (!isTelegram && !userId) {
+    // Permitir flujo de invitado web (3 preguntas gratis)
+    // Pero necesitamos un identificador de sesión o IP para invitados web.
+    // Para simplificar esta integración, si no hay userId y no es Telegram, devolvemos 401
     return new Response(JSON.stringify({ error: 'Sesión inválida o configuración faltante' }), {
       status: 401,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
+  }
+
+  // Para invitados de Telegram que no tienen userId aún
+  if (isTelegram && !userId) {
+    // El límite de invitados de Telegram se maneja en el webhook.ts
+    // Aquí solo generamos la respuesta sin descontar tokens de un perfil inexistente.
+    console.log("[AI-CHAT] Telegram Guest Query. Proceeding without profile.");
   }
 
   // Helper instead of SDK for Edge compatibility
@@ -392,7 +413,7 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const { messages, context, memory, file } = await req.json();
+    const { messages, context, memory, file } = body;
 
     // ── Cache check ──────────────────────────────────────────
     const lastUserMsg = [...(messages || [])].reverse().find((m: any) => m.role === 'user')?.content || '';
