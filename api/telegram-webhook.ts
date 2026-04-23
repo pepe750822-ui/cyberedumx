@@ -135,8 +135,8 @@ export default async function handler(req: Request) {
             return sendTelegramMessage(TELEGRAM_API, chatId, "⚠️ No tienes tokens disponibles. Compra más en cyberedumx.com/tokens", getMainKeyboard());
           }
 
-          // Llamar a la IA
-          return handleAICall(TELEGRAM_API, chatId, query, tgUser.user_id, url.host, true);
+          // Llamar a la IA — registrados siempre ven el mensaje de compartir
+          return handleAICall(TELEGRAM_API, chatId, query, tgUser.user_id, url.host, true, true);
         } 
         
         // B. Caso Usuario Invitado
@@ -161,7 +161,9 @@ export default async function handler(req: Request) {
             await supabase.from('telegram_guest_usage').insert({ chat_id: chatId, usage_date: today, questions_count: 1 });
           }
 
-          return handleAICall(TELEGRAM_API, chatId, query, null, url.host, false);
+          // Mostrar share en la pregunta 3, 6, 9... (cada 3 interacciones)
+          const showShare = (count + 1) % 3 === 0;
+          return handleAICall(TELEGRAM_API, chatId, query, null, url.host, false, showShare);
         }
       }
 
@@ -214,7 +216,20 @@ function getWelcomeMessage(tgUser: any, profile: any, firstName: string) {
   return `¡Hola ${firstName}! Bienvenido a CyberEdu MX 🚀.\n\nComo invitado, tienes *3 preguntas gratis al día* para resolver tus dudas académicas con nuestro Tutor IA.\n\n👉 Para usar tus tokens de la web (y tener derecho a más preguntas), usa /vincular o el botón de abajo.`;
 }
 
-async function handleAICall(api: string, chatId: string, question: string, userId: string | null, host: string, isRegistered: boolean) {
+// ─── Share message ───────────────────────────────────────────
+function getShareMessage(): string {
+  return [
+    "",
+    "---",
+    "💡 *¿Te está ayudando CyberEdu MX?*",
+    "Comparte el bot con tus compañeros que también van al ECOEMS 2026 👇",
+    "",
+    "📲 *Compartir bot:* https://t.me/CyberEduMXBot",
+    "🌐 *Plataforma completa:* https://cyberedumx.com",
+  ].join("\n");
+}
+
+async function handleAICall(api: string, chatId: string, question: string, userId: string | null, host: string, isRegistered: boolean, showShare = false) {
   // Notificar que estamos pensando
   await fetch(`${api}/sendChatAction`, {
     method: 'POST',
@@ -248,7 +263,10 @@ async function handleAICall(api: string, chatId: string, question: string, userI
     // Limpiar tags XML para que no se vean en Telegram
     const cleanText = stripXmlTags(rawText);
 
-    return sendTelegramMessage(api, chatId, cleanText, getMainKeyboard());
+    // Agregar mensaje de compartir si corresponde
+    const finalText = showShare ? `${cleanText}${getShareMessage()}` : cleanText;
+
+    return sendTelegramMessage(api, chatId, finalText, getMainKeyboard());
   } catch (err) {
     return sendTelegramMessage(api, chatId, "Lo siento, tuve un problema conectando con mi cerebro artificial. Reintenta en un momento. 🧠❌");
   }
