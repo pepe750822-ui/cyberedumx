@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, BookMarked, Target, Trophy, Calendar,
@@ -8,16 +8,55 @@ import {
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { LandingPage } from '@/sections/LandingPage';
-import { Dashboard } from '@/sections/Dashboard';
-import { SubjectsView } from '@/sections/SubjectsView';
-import { MockExam } from '@/sections/MockExam';
-import { AchievementsView } from '@/sections/AchievementsView';
-import { ConvocatoriaView } from '@/sections/ConvocatoriaView';
-import { ProgressView } from '@/sections/ProgressView';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import type { ViewType, MockExamResult } from '@/types/ecoems';
 import { Toaster, toast } from 'sonner';
+
+const retryFetch = (fn: () => Promise<any>, retries = 3, delay = 1000) => {
+  return new Promise((resolve, reject) => {
+    fn()
+      .then(resolve)
+      .catch((error) => {
+        if (retries === 0) {
+          reject(error);
+          return;
+        }
+        console.log(`Reintentando en ${delay}ms... (${retries} intentos restantes)`);
+        setTimeout(() => {
+          retryFetch(fn, retries - 1, delay).then(resolve, reject);
+        }, delay);
+      });
+  });
+};
+
+const LandingPage = lazy(() => retryFetch(() => import('@/sections/LandingPage').then(m => ({ default: m.LandingPage }))));
+const Dashboard = lazy(() => retryFetch(() => import('@/sections/Dashboard').then(m => ({ default: m.Dashboard }))));
+const SubjectsView = lazy(() => retryFetch(() => import('@/sections/SubjectsView').then(m => ({ default: m.SubjectsView }))));
+const MockExam = lazy(() => retryFetch(() => import('@/sections/MockExam').then(m => ({ default: m.MockExam }))));
+const AchievementsView = lazy(() => retryFetch(() => import('@/sections/AchievementsView').then(m => ({ default: m.AchievementsView }))));
+const ConvocatoriaView = lazy(() => retryFetch(() => import('@/sections/ConvocatoriaView').then(m => ({ default: m.ConvocatoriaView }))));
+const ProgressView = lazy(() => retryFetch(() => import('@/sections/ProgressView').then(m => ({ default: m.ProgressView }))));
+
+function LoadingFallback() {
+  const [isSlow, setIsSlow] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsSlow(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center justify-center p-8 text-center h-full w-full text-slate-300">
+      <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p>Cargando módulo...</p>
+      {isSlow && (
+        <p className="mt-4 text-amber-400 text-sm max-w-xs">
+          La conexión parece ser lenta. Si tarda demasiado, recarga la página.
+        </p>
+      )}
+    </div>
+  );
+}
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -190,7 +229,11 @@ function AppContent() {
 
   // Landing page
   if (currentView === 'landing') {
-    return <LandingPage onStart={() => setCurrentView('dashboard')} />;
+    return (
+      <Suspense fallback={<LoadingFallback />}>
+        <LandingPage onStart={() => setCurrentView('dashboard')} />
+      </Suspense>
+    );
   }
 
   const overallProgress = getOverallProgress();
@@ -229,15 +272,16 @@ function AppContent() {
 
         {/* Content Area */}
         <main className="flex-1 overflow-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentView}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="h-full"
-            >
+          <Suspense fallback={<LoadingFallback />}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentView}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="h-full"
+              >
               {currentView === 'dashboard' && (
                 <Dashboard
                   user={user}
@@ -283,7 +327,8 @@ function AppContent() {
                 />
               )}
             </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </Suspense>
         </main>
 
         {/* Mobile Bottom Nav */}
