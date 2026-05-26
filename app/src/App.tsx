@@ -12,7 +12,7 @@ import { useUserProgress } from '@/hooks/useUserProgress';
 import type { ViewType, MockExamResult } from '@/types/ecoems';
 import { Toaster, toast } from 'sonner';
 
-const retryFetch = (fn: () => Promise<any>, retries = 3, delay = 1000) => {
+const retryFetch = (fn: () => Promise<any>, retries = 3, delay = 1000): Promise<any> => {
   return new Promise((resolve, reject) => {
     fn()
       .then(resolve)
