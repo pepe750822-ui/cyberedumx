@@ -4,10 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ECOEMS Pro 2026</title>
-    <script type="module" crossorigin src="./assets/index-V4EbBFwF.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DNbFPs78.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      /* Skeleton loader styles for initial paint */
+      #root:empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #020617; /* slate-950 */
+      }
+      .loader {
+        width: 32px;
+        height: 32px;
+        border: 4px solid #3b82f6;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-BtOTlJxx.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CL9qdIY_.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div class="loader"></div></div>
   </body>
 </html>

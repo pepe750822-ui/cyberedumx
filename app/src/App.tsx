@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useUserProgress } from '@/hooks/useUserProgress';
 import type { ViewType, MockExamResult } from '@/types/ecoems';
 import { Toaster, toast } from 'sonner';
+import { useTransition } from 'react';
 
 const retryFetch = (fn: () => Promise<any>, retries = 3, delay = 1000): Promise<any> => {
   return new Promise((resolve, reject) => {
@@ -29,7 +30,7 @@ const retryFetch = (fn: () => Promise<any>, retries = 3, delay = 1000): Promise<
   });
 };
 
-const LandingPage = lazy(() => retryFetch(() => import('@/sections/LandingPage').then(m => ({ default: m.LandingPage }))));
+import { LandingPage } from '@/sections/LandingPage';
 const Dashboard = lazy(() => retryFetch(() => import('@/sections/Dashboard').then(m => ({ default: m.Dashboard }))));
 const SubjectsView = lazy(() => retryFetch(() => import('@/sections/SubjectsView').then(m => ({ default: m.SubjectsView }))));
 const MockExam = lazy(() => retryFetch(() => import('@/sections/MockExam').then(m => ({ default: m.MockExam }))));
@@ -205,6 +206,7 @@ function MobileNav({
 function AppContent() {
   const [currentView, setCurrentView] = useState<ViewType>('landing');
   const [, setViewParams] = useState<any>(null);
+  const [, startTransition] = useTransition();
   
   const { 
     user, 
@@ -216,8 +218,10 @@ function AppContent() {
   } = useUserProgress();
 
   const handleNavigate = (view: ViewType, params?: any) => {
-    setCurrentView(view);
-    setViewParams(params);
+    startTransition(() => {
+      setCurrentView(view);
+      setViewParams(params);
+    });
   };
 
   const handleMockExamComplete = (result: MockExamResult) => {
@@ -229,11 +233,7 @@ function AppContent() {
 
   // Landing page
   if (currentView === 'landing') {
-    return (
-      <Suspense fallback={<LoadingFallback />}>
-        <LandingPage onStart={() => setCurrentView('dashboard')} />
-      </Suspense>
-    );
+    return <LandingPage onStart={() => handleNavigate('dashboard')} />;
   }
 
   const overallProgress = getOverallProgress();
